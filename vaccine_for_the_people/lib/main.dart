@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/core/theme/theme.dart';
 import 'package:vaccine_for_the_people/app/modules/home/binding/home_binding.dart';
 import 'package:vaccine_for_the_people/app/routes/app_pages.dart';
 import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
@@ -16,13 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: defaultAppThemeData,
       initialRoute: Routes.HOMESCREEN,
-      initialBinding:HomeBinding(),
+      initialBinding: HomeBinding(),
       getPages: AppPages.routes,
     );
   }
 }
-
