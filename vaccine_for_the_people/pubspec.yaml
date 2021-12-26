@@ -19,23 +19,15 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
-
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   get: ^4.6.1
   auto_size_text: ^3.0.0
+  dartz: ^0.10.0
+  flutter_form_builder: ^7.0.0
+  form_builder_validators: ^7.2.0
   http: ^0.13.4
   intl: ^0.17.0
   syncfusion_flutter_charts: ^19.4.38
@@ -44,25 +36,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   assets:
     - vietnam1.json
@@ -84,28 +61,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Montserrat
+    - family: hiragino-kaku-gothic-pro
       fonts:
-        - asset: assets/font/Montserrat-Bold.ttf
-        - asset: assets/font/Montserrat-Medium.ttf
-        - asset: assets/font/Montserrat-Regular.ttf
-    - family: Poppins
+        - asset: fonts/hiragino-kaku-gothic-pro-w3.otf
+          style: normal
+          weight: 300
+        - asset: fonts/hiragino-kaku-gothic-pro-w6.otf
+          style: normal
+          weight: 600
+    - family: impact
       fonts:
-        - asset: assets/font/Poppins-Light.ttf
-        - asset: assets/font/Poppins-Regular.ttf
-        - asset: assets/font/Poppins-Medium.ttf
-        - asset: assets/font/Poppins-Bold.ttf
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+        - asset: fonts/impact.ttf
+          weight: 600

@@ -79,4 +79,13 @@ class HomeController extends GetxController{
       }
     });
   }
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    getDataCovidSevenDayCase();
+    getDataCovidCase();
+    getDataCaseCovidProvince();
+    getDataVaccineRate();
+  }
 }
+
