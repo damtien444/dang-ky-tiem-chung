@@ -16,7 +16,7 @@ class HomeController extends GetxController{
   final RxInt totalRecovered=0.obs;
   final listCaseSevenDay=<CovidCaseSevenDay>[].obs;
   final dataRateVaccineDistribution=<Model>[].obs;
-  final dataRateCaseCovid=<Model1>[].obs;
+  final dataRateCaseCovid=<Model>[].obs;
 
   final mapSource = MapShapeSource.asset(
     'assets/vietnam1.json',
@@ -68,23 +68,15 @@ class HomeController extends GetxController{
   }
   void getDataCaseCovidProvince()async{
     Repository.getVnCovidProvince().then((data){
-      data.forEach((value) {
+      for (var value in data) {
         value.tongCaNhiem>100000 ?
-        dataRateCaseCovid.add(new Model1(value.diaDiem, CustomeColor.rateCovid1)) :
+        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid1)) :
         (value.tongCaNhiem>10000 && value.tongCaNhiem<100000) ?
-        dataRateCaseCovid.add(new Model1(value.diaDiem, CustomeColor.rateCovid2)):
+        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid2)):
         (value.tongCaNhiem>1000 && value.tongCaNhiem<10000) ?
-        dataRateCaseCovid.add(new Model1(value.diaDiem, CustomeColor.rateCovid3)):
-        dataRateCaseCovid.add(new Model1(value.diaDiem, CustomeColor.rateCovid4));
-      });
+        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid3)):
+        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid4));
+      }
     });
-  }
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    getDataCovidSevenDayCase();
-    getDataCovidCase();
-    getDataCaseCovidProvince();
-    getDataVaccineRate();
   }
 }
