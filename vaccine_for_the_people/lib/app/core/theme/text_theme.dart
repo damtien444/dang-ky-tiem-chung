@@ -16,7 +16,7 @@ const kDefaultTextStyle = TextStyle(
 final defaultTextTheme = TextTheme(
   headline6: kDefaultTextStyle,
   headline5: kDefaultTextStyle.copyWith(
-    fontSize: 16.2,
+    fontSize: 22,
     fontWeight: kFontWeightBold,
   ),
   bodyText2: kDefaultTextStyle.copyWith(
@@ -37,10 +37,4 @@ final defaultTextTheme = TextTheme(
     color: kOnPrimaryColor,
     fontWeight: kFontWeightBold,
   ),
-);
-
-const kRankTextStyle = TextStyle(
-  fontFamily: 'impact',
-  fontSize: 30,
-  color: kPrimaryColor,
 );

@@ -1,24 +1,17 @@
 import 'package:flutter/cupertino.dart';
 
-const kPrimaryColor = Color(0xFF2199E0);
+const kPrimaryColor = Color(0xFF171a88);
 const kTextThemeActionSheet = Color(0xff006AFF);
 const kSecondaryButtonColor = Color(0xffCAEBFF);
 const kOnPrimaryColor = Color(0xFFFFFFFF);
 const kSecondaryColor = Color(0xFFEAF7FF);
 const kOnSecondaryColor = Color(0xFF333333);
-const kDividerColor = Color(0xFF888888);
-const kBackGround = Color(0xFFEEEEEE);
 const kOnBackGround = kOnSecondaryColor;
 const kSurface = kOnPrimaryColor;
 const kOnSurface = kOnSecondaryColor;
 const kDefaultTextColor = kOnSecondaryColor;
 const kError = Color(0xFFE50012);
 const kOnError = kOnPrimaryColor;
-const kStrokeColor = Color(0xFFADADAD);
-const kThirdButtonBackground = Color(0xFFDEDEDE);
-const kThirdButtonForeground = Color(0xFF707070);
-const kLoginFooterColor = Color(0xFFDFE9EE);
-const kStatusRoomColor = Color(0xFFF08B00);
-const kShimmerBaseColor = Color(0xFFE0E0E0);
-const kShimmerHighlightColor = Color(0xFFF5F5F5);
-const kTextWalkthrough = Color(0xFFEAF7FF);
+const kStrokeColor = Color(0xFFCED4DA);
+const kHeaderPage = Color(0xFFF8F8F8);
+const kWarning =Color(0xFFF46A6A);

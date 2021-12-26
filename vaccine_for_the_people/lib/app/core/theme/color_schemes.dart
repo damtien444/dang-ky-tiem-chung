@@ -8,7 +8,7 @@ const kDefaultColorScheme = ColorScheme(
   secondary: kSecondaryColor,
   secondaryVariant: kSecondaryColor,
   surface: kSurface,
-  background: kBackGround,
+  background: kPrimaryColor,
   error: kError,
   onPrimary: kOnPrimaryColor,
   onSecondary: kOnSecondaryColor,

@@ -15,36 +15,13 @@ final defaultAppThemeData = ThemeData(
     iconTheme: IconThemeData(color: kPrimaryColor),
     titleTextStyle: kDefaultTextStyle,
   ),
-  snackBarTheme: SnackBarThemeData(
-    behavior: SnackBarBehavior.floating,
-    backgroundColor: Color.alphaBlend(
-      kOnSurface.withOpacity(0.80),
-      kSurface,
-    ),
-  ),
   textTheme: defaultTextTheme,
-  scaffoldBackgroundColor: kBackGround,
+  scaffoldBackgroundColor: kOnPrimaryColor,
   cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
     primaryColor: kOnPrimaryColor,
     barBackgroundColor: kPrimaryColor,
   ),
   elevatedButtonTheme: kElevatedButtonTheme,
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: kPrimaryColor,
-    elevation: 0,
-    selectedLabelStyle: kDefaultTextStyle.copyWith(
-      fontSize: 10,
-      color: kOnPrimaryColor,
-    ),
-    unselectedLabelStyle: kDefaultTextStyle.copyWith(
-      fontSize: 10,
-      color: kOnPrimaryColor,
-    ),
-    type: BottomNavigationBarType.fixed,
-    enableFeedback: false,
-    selectedItemColor: kOnPrimaryColor,
-    unselectedItemColor: kOnPrimaryColor,
-  ),
   inputDecorationTheme: InputDecorationTheme(
     border: const OutlineInputBorder(
       borderSide: BorderSide(color: kStrokeColor),
@@ -52,13 +29,9 @@ final defaultAppThemeData = ThemeData(
     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
     hintStyle: defaultTextTheme.headline6!.copyWith(color: kStrokeColor),
     errorStyle: const TextStyle(
-      fontSize: 14,
+      fontSize: 12,
       color: kError,
       overflow: TextOverflow.ellipsis,
     ),
-  ),
-  dividerTheme: const DividerThemeData(
-    color: kDividerColor,
-    thickness: 1,
   ),
 );
