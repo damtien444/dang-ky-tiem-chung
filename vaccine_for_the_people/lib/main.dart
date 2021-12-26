@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: defaultAppThemeData,
       initialRoute: Routes.REGISTER_INJECTION,
       initialBinding: RegisterInjectionBinding(),
       getPages: AppPages.routes,
-      debugShowCheckedModeBanner: false,
     );
   }
 }

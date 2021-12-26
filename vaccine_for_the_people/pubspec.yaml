@@ -28,7 +28,10 @@ dependencies:
   dartz: ^0.10.0
   flutter_form_builder: ^7.0.0
   form_builder_validators: ^7.2.0
+  http: ^0.13.4
   intl: ^0.17.0
+  syncfusion_flutter_charts: ^19.4.38
+  syncfusion_flutter_maps: ^19.2.57-beta
 
 dev_dependencies:
   flutter_test:
@@ -37,8 +40,26 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  # To add assets to your application, add an assets section, like this:
   assets:
+    - vietnam1.json
+    - vietnam2.json
+    - assets/vietnam2.json
+    - assets/vietnam1.json
     - assets/images/
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
   fonts:
     - family: hiragino-kaku-gothic-pro
       fonts:

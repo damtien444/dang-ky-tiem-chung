@@ -9,6 +9,7 @@ import 'package:vaccine_for_the_people/app/core/components/icons.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
 
 import '../controllers/feedback_controller.dart';
 
@@ -18,9 +19,9 @@ class FeedbackView extends GetView<FeedbackController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('FeedbackView'),
-        centerTitle: true,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: CustomeAppBar(),
       ),
       body: SingleChildScrollView(
         child: Column(

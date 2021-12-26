@@ -1,14 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
-import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/components/form_builder_options.dart';
 
 import '../controllers/register_injection_controller.dart';
@@ -19,9 +17,9 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Reg'),
-        centerTitle: true,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: CustomeAppBar(),
       ),
       body: SingleChildScrollView(
         child: Column(
