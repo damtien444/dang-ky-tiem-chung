@@ -47,20 +47,20 @@ class HomeController extends GetxController{
           MapEntry(
               key,
                   value.distributedRate<50 ?
-                    value.name=="Hồ Chí Minh" ? dataRateVaccineDistribution.add(new Model("TP. Hồ Chí Minh", CustomeColor.rateVaccine1)):
-                    value.name=="Đắk L��k" ? dataRateVaccineDistribution.add(new Model("Đắk Lắk", CustomeColor.rateVaccine1))
-                      : value.name == "Cao B���ng" ? dataRateVaccineDistribution.add(new Model("Cao Bằng", CustomeColor.rateVaccine1))
-                      : dataRateVaccineDistribution.add(new Model(value.name, CustomeColor.rateVaccine1)):
+                    value.name=="Hồ Chí Minh" ? dataRateVaccineDistribution.add(Model("TP. Hồ Chí Minh", CustomeColor.rateVaccine1)):
+                    value.name=="Đắk L��k" ? dataRateVaccineDistribution.add(Model("Đắk Lắk", CustomeColor.rateVaccine1))
+                      : value.name == "Cao B���ng" ? dataRateVaccineDistribution.add(Model("Cao Bằng", CustomeColor.rateVaccine1))
+                      : dataRateVaccineDistribution.add(Model(value.name, CustomeColor.rateVaccine1)):
                   value.distributedRate<80 ?
-                  value.name=="Hồ Chí Minh" ? dataRateVaccineDistribution.add(new Model("TP. Hồ Chí Minh", CustomeColor.rateVaccine2)):
-                  value.name=="Đắk L��k" ? dataRateVaccineDistribution.add(new Model("Đắk Lắk",  CustomeColor.rateVaccine2))
-                      : value.name == "Cao B���ng" ? dataRateVaccineDistribution.add(new Model("Cao Bằng",  CustomeColor.rateVaccine2))
-                      : dataRateVaccineDistribution.add(new Model(value.name,  CustomeColor.rateVaccine2)):
+                  value.name=="Hồ Chí Minh" ? dataRateVaccineDistribution.add(Model("TP. Hồ Chí Minh", CustomeColor.rateVaccine2)):
+                  value.name=="Đắk L��k" ? dataRateVaccineDistribution.add(Model("Đắk Lắk",  CustomeColor.rateVaccine2))
+                      : value.name == "Cao B���ng" ? dataRateVaccineDistribution.add(Model("Cao Bằng",  CustomeColor.rateVaccine2))
+                      : dataRateVaccineDistribution.add(Model(value.name,  CustomeColor.rateVaccine2)):
 
-                  value.name=="Hồ Chí Minh" ? dataRateVaccineDistribution.add(new Model("TP. Hồ Chí Minh",  CustomeColor.rateVaccine3)):
-                  value.name=="Đắk L��k" ? dataRateVaccineDistribution.add(new Model("Đắk Lắk", CustomeColor.rateVaccine3))
-                      : value.name == "Cao B���ng" ? dataRateVaccineDistribution.add(new Model("Cao Bằng", CustomeColor.rateVaccine3))
-                      : dataRateVaccineDistribution.add(new Model(value.name, CustomeColor.rateVaccine3))
+                  value.name=="Hồ Chí Minh" ? dataRateVaccineDistribution.add(Model("TP. Hồ Chí Minh",  CustomeColor.rateVaccine3)):
+                  value.name=="Đắk L��k" ? dataRateVaccineDistribution.add(Model("Đắk Lắk", CustomeColor.rateVaccine3))
+                      : value.name == "Cao B���ng" ? dataRateVaccineDistribution.add(Model("Cao Bằng", CustomeColor.rateVaccine3))
+                      : dataRateVaccineDistribution.add(Model(value.name, CustomeColor.rateVaccine3))
 
           ));
       }
@@ -70,12 +70,12 @@ class HomeController extends GetxController{
     Repository.getVnCovidProvince().then((data){
       for (var value in data) {
         value.tongCaNhiem>100000 ?
-        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid1)) :
+        dataRateCaseCovid.add(Model(value.diaDiem, CustomeColor.rateCovid1)) :
         (value.tongCaNhiem>10000 && value.tongCaNhiem<100000) ?
-        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid2)):
+        dataRateCaseCovid.add(Model(value.diaDiem, CustomeColor.rateCovid2)):
         (value.tongCaNhiem>1000 && value.tongCaNhiem<10000) ?
-        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid3)):
-        dataRateCaseCovid.add(new Model(value.diaDiem, CustomeColor.rateCovid4));
+        dataRateCaseCovid.add(Model(value.diaDiem, CustomeColor.rateCovid3)):
+        dataRateCaseCovid.add(Model(value.diaDiem, CustomeColor.rateCovid4));
       }
     });
   }

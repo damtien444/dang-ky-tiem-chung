@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
+import 'package:vaccine_for_the_people/app/modules/login/views/login_view.dart';
 import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class CustomeAppBar extends StatefulWidget {
@@ -10,10 +11,15 @@ class CustomeAppBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomeAppBar> createState() => _CustomeAppBarState();
+  State<CustomeAppBar> createState() => CustomeAppBarState();
 }
 
-class _CustomeAppBarState extends State<CustomeAppBar> {
+class CustomeAppBarState extends State<CustomeAppBar> {
+  bool clickTrangChu = false;
+  bool clickGuiPhanHoi = false;
+  bool clickDKTiem = false;
+  bool clickDangNhap = false;
+
   @override
   Widget build(BuildContext context) {
     var size=MediaQuery.of(context).size;
@@ -40,7 +46,8 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
           child: Container(
             child: Row(
               children: [
-                GestureDetector(
+                InkWell(
+                  hoverColor: Colors.grey,
                   onTap: (){
                     Get.offAndToNamed(Routes.HOMESCREEN);
                   },
@@ -55,17 +62,24 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                   ),
                 ),
                 SizedBox(width: 20,),
-                Container(
-                  width: size.width*0.07,
-                  child: AutoSizeText(
-                    'Gửi phản hồi',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
-                    minFontSize: 10,
+                InkWell(
+                  hoverColor: Colors.grey,
+                  onTap: (){
+                      Get.offAndToNamed(Routes.FEEDBACK);
+                },
+                  child: Container(
+                    width: size.width*0.07,
+                    child: AutoSizeText(
+                      'Gửi phản hồi',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                      minFontSize: 10,
+                    ),
                   ),
                 ),
                 SizedBox(width: 20,),
-                GestureDetector(
+                InkWell(
+                  hoverColor: Colors.grey,
                   onTap: (){
                     Get.offAndToNamed(Routes.REGISTER_INJECTION);
                   },
@@ -80,7 +94,8 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                   ),
                 ),
                 SizedBox(width: size.width*0.05,),
-                GestureDetector(
+                InkWell(
+                  hoverColor: Colors.grey,
                   onTap: (){
                     Get.offAndToNamed(Routes.LOGIN);
                   },
@@ -109,7 +124,7 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
               height: 40,
               width: 40,
             ),
-            SizedBox(width: 20,),
+            SizedBox(width: 10,),
             Container(
               width: size.width*0.25,
               child: AutoSizeText(
