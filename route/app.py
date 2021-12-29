@@ -10,13 +10,16 @@ import datetime
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from model.user import User
+from service import mongo_db_connection as conn
+from model.my_encoder import MyEncoder
 
 
-class MyEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, ObjectId):
-            return str(obj)
-        return super(MyEncoder, self).default(obj)
+# class MyEncoder(json.JSONEncoder):
+#     def default(self, obj):
+#         if isinstance(obj, ObjectId):
+#             return str(obj)
+#         return super(MyEncoder, self).default(obj)
 
 
 app = Flask(__name__)
@@ -25,41 +28,40 @@ app.config['SECRET_KEY'] = "khoabimat"
 app.json_encoder = MyEncoder
 app.app_context()
 
-client = pymongo.MongoClient(
-    "mongodb+srv://vaccineForThePeople:vaccine@vaccineforthepeople.vodjz.mongodb.net/admin?retryWrites=true&w=majority")
-db = client['vaccinePlanningDB']
+
+db = conn.get_db('vaccinePlanningDB')
 managers = db['manager']
 
 
-class User:
-
-    def __init__(self, _id, name, hash_password, tittle, username, is_admin, user=None):
-        if user is None:
-            self._id = _id
-            self.name = name
-            self.hash_password = hash_password
-            self.tittle = tittle
-            self.username = username
-            self.is_admin = is_admin
-
-        else:
-            self._id = user['_id']
-            self.name = user['name']
-            self.hash_password = user['password']
-            try:
-                self.tittle = user['tittle']
-            except Exception as ignore:
-                pass
-            self.username = user['username']
-            self.is_admin = user['is_admin']
-
-    def gen_dict(self):
-        gen_dict = {'_id': self._id,
-                    'name': self.name,
-                    'password': self.hash_password,
-                    'username': self.username,
-                    'is_admin': self.is_admin}
-        return gen_dict
+# class User:
+#
+#     def __init__(self, _id, name, hash_password, tittle, username, is_admin, user=None):
+#         if user is None:
+#             self._id = _id
+#             self.name = name
+#             self.hash_password = hash_password
+#             self.tittle = tittle
+#             self.username = username
+#             self.is_admin = is_admin
+#
+#         else:
+#             self._id = user['_id']
+#             self.name = user['name']
+#             self.hash_password = user['password']
+#             try:
+#                 self.tittle = user['tittle']
+#             except Exception as ignore:
+#                 pass
+#             self.username = user['username']
+#             self.is_admin = user['is_admin']
+#
+#     def gen_dict(self):
+#         gen_dict = {'_id': self._id,
+#                     'name': self.name,
+#                     'password': self.hash_password,
+#                     'username': self.username,
+#                     'is_admin': self.is_admin}
+#         return gen_dict
 
 
 def admin_required(f):
@@ -91,6 +93,7 @@ def admin_required(f):
     return decorated
 
 # TODO: user_require
+
 
 @app.route('/')
 def helloWorld():
