@@ -43,9 +43,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - vietnam1.json
+    - assets/vietnam1.json
     - vietnam2.json
     - assets/vietnam2.json
-    - assets/vietnam1.json
+    - vietnam3.json
+    - assets/vietnam3.json
     - assets/images/
   #   - images/a_dot_ham.jpeg
 

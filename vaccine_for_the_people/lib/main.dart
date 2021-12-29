@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: defaultAppThemeData,
-      initialRoute: Routes.REGISTER_INJECTION,
-      initialBinding: RegisterInjectionBinding(),
+      initialRoute: Routes.HOMESCREEN,
+      initialBinding: HomeBinding(),
       getPages: AppPages.routes,
     );
   }

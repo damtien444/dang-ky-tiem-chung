@@ -19,7 +19,7 @@ class HomeController extends GetxController{
   final dataRateCaseCovid=<Model>[].obs;
 
   final mapSource = MapShapeSource.asset(
-    'assets/vietnam1.json',
+    'assets/vietnam3.json',
     shapeDataField: 'name',
   ).obs;
   final mapSource1 = MapShapeSource.asset(

@@ -33,10 +33,9 @@ class HomeScreen extends GetView<HomeController> {
             // c1.getDataCovidSevenDayCase();
             c1.getDataVaccineRate();
             c1.getDataCaseCovidProvince();
-            Future.delayed(Duration(seconds:1),(){
-              print(c1.dataRateCaseCovid);
+            Future.delayed(Duration(seconds:2),(){
               c1.mapSource.value = MapShapeSource.asset(
-                  'assets/vietnam1.json',
+                  'assets/vietnam3.json',
                   shapeDataField: 'name',
                   dataCount: c1.dataRateVaccineDistribution.length,
                   primaryValueMapper: (int index) => c1.dataRateVaccineDistribution[index].state,
@@ -290,7 +289,6 @@ class HomeScreen extends GetView<HomeController> {
                                         child: SfMaps(
                                           layers: [
                                             MapShapeLayer(
-
                                               // showDataLabels: true,
                                               source: _.mapSource1.value,
                                               // showDataLabels: true,

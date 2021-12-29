@@ -44,6 +44,9 @@ class VnCaseService{
     if(respone.statusCode==200){
       // String body = utf8.decode(respone.bodyBytes);
       final data=vaccineDistributionFromJson(respone.body);
+      // for(int i=0;i<data.dataDistribution.length;i++){
+      //   print(data.dataDistribution[i]!.name);
+      // }
       return data;
     }
     else{

@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
+import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class CustomeAppBar extends StatefulWidget {
   const CustomeAppBar({
@@ -16,6 +18,7 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
   Widget build(BuildContext context) {
     var size=MediaQuery.of(context).size;
     return AppBar(
+      automaticallyImplyLeading: false,
       flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -37,13 +40,18 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
           child: Container(
             child: Row(
               children: [
-                Container(
-                  width: size.width*0.07,
-                  child: AutoSizeText(
-                    'Trang chủ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
-                    minFontSize: 10,
+                GestureDetector(
+                  onTap: (){
+                    Get.offAndToNamed(Routes.HOMESCREEN);
+                  },
+                  child: Container(
+                    width: size.width*0.07,
+                    child: AutoSizeText(
+                      'Trang chủ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                      minFontSize: 10,
+                    ),
                   ),
                 ),
                 SizedBox(width: 20,),
@@ -57,23 +65,33 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                   ),
                 ),
                 SizedBox(width: 20,),
-                Container(
-                  width: size.width*0.07,
-                  child: AutoSizeText(
-                    'Đăng kí tiêm',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
-                    minFontSize: 10,
+                GestureDetector(
+                  onTap: (){
+                    Get.offAndToNamed(Routes.REGISTER_INJECTION);
+                  },
+                  child: Container(
+                    width: size.width*0.07,
+                    child: AutoSizeText(
+                      'Đăng kí tiêm',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                      minFontSize: 10,
+                    ),
                   ),
                 ),
                 SizedBox(width: size.width*0.05,),
-                Container(
-                  width: size.width*0.06,
-                  child: AutoSizeText(
-                    'Đăng nhập',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
-                    minFontSize: 10,
+                GestureDetector(
+                  onTap: (){
+                    Get.offAndToNamed(Routes.LOGIN);
+                  },
+                  child: Container(
+                    width: size.width*0.06,
+                    child: AutoSizeText(
+                      'Đăng nhập',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                      minFontSize: 10,
+                    ),
                   ),
                 ),
               ],
@@ -97,7 +115,7 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
               child: AutoSizeText(
                 'CỔNG THÔNG TIN TIÊM CHỦNG COVID-19',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 19),
+                style: TextStyle(fontSize: 19,color: Colors.white),
                 minFontSize: 10,
                 maxLines: 2,
               ),
