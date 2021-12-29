@@ -22,10 +22,6 @@ class HomeScreen extends GetView<HomeController> {
     final HomeController c1= Get.find<HomeController>();
     var size=MediaQuery.of(context).size;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80.0),
-        child: CustomeAppBar(),
-      ),
       body: SingleChildScrollView(
         child: GetX<HomeController>(
           initState: (_){

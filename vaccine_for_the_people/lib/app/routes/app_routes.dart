@@ -3,4 +3,5 @@ abstract class Routes {
   static const LOGIN = '/login';
   static const FEEDBACK = '/feedback';
   static const REGISTER_INJECTION = '/register-injection';
+  static const NAVIGATION = '/navigation';
 }
