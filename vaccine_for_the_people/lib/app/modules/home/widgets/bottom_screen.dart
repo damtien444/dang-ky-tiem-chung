@@ -14,32 +14,30 @@ class BottomSceen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: size.width,
-      height: size.height*0.25+20,
-      decoration: BoxDecoration(
-          color: CustomeColor.colorAppBar
-      ),
+      height: size.height * 0.25 + 20,
+      decoration: BoxDecoration(color: CustomeColor.colorAppBar),
       child: Padding(
-        padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
+        padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  width: size.width*0.45,
+                  width: size.width * 0.45,
                   child: AutoSizeText(
                     '© Bản quyền thuộc TRUNG TÂM CÔNG NGHỆ PHÒNG, CHỐNG DỊCH COVID-19 QUỐC GIA',
-                    style: TextStyle(fontSize: 18,color: Colors.white),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                     minFontSize: 10,
                     textAlign: TextAlign.center,
                     maxLines: 5,
                   ),
                 ),
                 Container(
-                  width: size.width*0.2,
+                  width: size.width * 0.2,
                   child: AutoSizeText(
                     'Tải sổ sức khỏe điện tử để đăng ký tiêm',
-                    style: TextStyle(fontSize: 16,color: Colors.white),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                     minFontSize: 10,
                     textAlign: TextAlign.center,
                     maxLines: 5,
@@ -47,12 +45,18 @@ class BottomSceen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(child: Text("Phát triển bởi: Viettel",style: TextStyle(color: Colors.white),)),
+                Container(
+                    child: Text(
+                  "Phát triển bởi: Viettel",
+                  style: TextStyle(color: Colors.white),
+                )),
                 Container(
                   child: Row(
                     children: [
@@ -60,21 +64,21 @@ class BottomSceen extends StatelessWidget {
                           width: 100,
                           height: 40,
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1,
-                                  color: Colors.white
-                              ),
+                              border: Border.all(width: 1, color: Colors.white),
                               borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(15),
                                 topLeft: Radius.circular(15),
                                 bottomRight: Radius.circular(15),
-                              )
-                          ),
+                              )),
                           child: Center(
-                            child: Text("App Store",style: TextStyle(color: Colors.white),),
-                          )
+                            child: Text(
+                              "App Store",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )),
+                      SizedBox(
+                        width: 20,
                       ),
-                      SizedBox(width: 20,),
                       Container(
                         child: Row(
                           children: [
@@ -83,20 +87,21 @@ class BottomSceen extends StatelessWidget {
                                 height: 40,
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1,
-                                        color: Colors.white
-                                    ),
+                                        width: 1, color: Colors.white),
                                     borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(15),
                                       topLeft: Radius.circular(15),
                                       bottomRight: Radius.circular(15),
-                                    )
-                                ),
+                                    )),
                                 child: Center(
-                                  child: Text("Google Play",style: TextStyle(color: Colors.white),),
-                                )
+                                  child: Text(
+                                    "Google Play",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )),
+                            SizedBox(
+                              width: 20,
                             ),
-                            SizedBox(width: 20,),
                             Container(
                               child: Row(
                                 children: [
@@ -105,19 +110,18 @@ class BottomSceen extends StatelessWidget {
                                       height: 40,
                                       decoration: BoxDecoration(
                                           border: Border.all(
-                                              width: 1,
-                                              color: Colors.white
-                                          ),
+                                              width: 1, color: Colors.white),
                                           borderRadius: BorderRadius.only(
                                             topRight: Radius.circular(15),
                                             topLeft: Radius.circular(15),
                                             bottomRight: Radius.circular(15),
-                                          )
-                                      ),
+                                          )),
                                       child: Center(
-                                        child: Text("App Gallery",style: TextStyle(color: Colors.white),),
-                                      )
-                                  )
+                                        child: Text(
+                                          "App Gallery",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ))
                                 ],
                               ),
                             )
@@ -129,19 +133,18 @@ class BottomSceen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                    height:80,
-                    child: Image.asset("assets/images/logo2bo.png")
-                ),
+                    height: 80,
+                    child: Image.asset("assets/images/logo2bo.png")),
                 SizedBox(
-                    height:80,
-                    child: Image.asset("assets/images/handle_cert.png")
-                )
-
+                    height: 80,
+                    child: Image.asset("assets/images/handle_cert.png"))
               ],
             )
           ],
@@ -150,7 +153,3 @@ class BottomSceen extends StatelessWidget {
     );
   }
 }
-
-
-
-

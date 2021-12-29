@@ -4,12 +4,10 @@ import 'colors.dart';
 
 const kFontWeightNormal = FontWeight.w300;
 const kFontWeightBold = FontWeight.w600;
-const kDefaultFontFamily = 'hiragino-kaku-gothic-pro';
 
 const kDefaultTextStyle = TextStyle(
   fontSize: 16,
   color: kOnSecondaryColor,
-  fontFamily: kDefaultFontFamily,
   fontWeight: kFontWeightNormal,
 );
 

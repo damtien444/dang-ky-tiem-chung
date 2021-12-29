@@ -62,16 +62,3 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: hiragino-kaku-gothic-pro
-      fonts:
-        - asset: fonts/hiragino-kaku-gothic-pro-w3.otf
-          style: normal
-          weight: 300
-        - asset: fonts/hiragino-kaku-gothic-pro-w6.otf
-          style: normal
-          weight: 600
-    - family: impact
-      fonts:
-        - asset: fonts/impact.ttf
-          weight: 600

@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
 
 class FormBuilderOptions extends StatefulWidget {
   const FormBuilderOptions({
@@ -18,7 +17,7 @@ class FormBuilderOptions extends StatefulWidget {
     this.mode = FormBuilderMode.DEFAULT,
     required this.nameForm,
     this.inputMode = InputMode.NAME,
-    this.dropDownMode = DropDownMode.ORDER,
+    this.listOptions,
   }) : super(key: key);
   final GlobalKey<FormBuilderState> regFormKey;
   final String title;
@@ -26,13 +25,15 @@ class FormBuilderOptions extends StatefulWidget {
   final String nameForm;
   final FormBuilderMode mode;
   final InputMode inputMode;
-  final DropDownMode dropDownMode;
+  final List<String>? listOptions;
 
   @override
   _FormBuilderOptionsState createState() => _FormBuilderOptionsState();
 }
 
 class _FormBuilderOptionsState extends State<FormBuilderOptions> {
+  bool _isDropDown = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -102,6 +103,17 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                 decoration: InputDecoration(
                   hintText: widget.title,
                 ),
+                onChanged: (dynamic _) {
+                  widget.regFormKey.currentState?.save();
+                  setState(() {
+                    if (widget.regFormKey.currentState?.value['province'] !=
+                        null) {
+                      _isDropDown = true;
+                    } else {
+                      _isDropDown = false;
+                    }
+                  });
+                },
                 allowClear: true,
                 validator: FormBuilderValidators.compose(
                   [
@@ -112,7 +124,17 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                   ],
                 ),
                 focusColor: Colors.transparent,
-                items: createSelectionItem(widget.dropDownMode),
+                enabled: widget.nameForm == 'district' ? _isDropDown : true,
+                items: widget.listOptions?.map((order) {
+                      return DropdownMenuItem(
+                        value: order,
+                        child: AutoSizeText(
+                          order,
+                          style: Get.textTheme.headline6,
+                        ),
+                      );
+                    }).toList() ??
+                    [],
               );
             case FormBuilderMode.DATE_PICKER:
               return FormBuilderDateTimePicker(
@@ -148,35 +170,6 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
   final noteStyle = Get.textTheme.headline6!.copyWith(
     color: kError,
   );
-}
-
-List<DropdownMenuItem> createSelectionItem(DropDownMode dropDownMode) {
-  switch (dropDownMode) {
-    case DropDownMode.ORDER:
-      return Get.find<RegisterInjectionController>().orderInjection.map(
-        (order) {
-          return DropdownMenuItem(
-            value: order,
-            child: AutoSizeText(
-              order,
-              style: Get.textTheme.headline6,
-            ),
-          );
-        },
-      ).toList();
-    case DropDownMode.GENDER:
-      return Get.find<RegisterInjectionController>().genders.map(
-        (gender) {
-          return DropdownMenuItem(
-            value: gender,
-            child: AutoSizeText(
-              gender,
-              style: Get.textTheme.headline6,
-            ),
-          );
-        },
-      ).toList();
-  }
 }
 
 enum FormBuilderMode {
