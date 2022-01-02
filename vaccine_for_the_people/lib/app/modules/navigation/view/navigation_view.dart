@@ -64,8 +64,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             Image.asset(
                               "assets/images/icon_heart.png",
                               fit: BoxFit.contain,
-                              height: 40,
-                              width: 40,
+                              height: 50,
+                              width: 50,
                             ),
                             SizedBox(width: 10,),
                             Container(
@@ -73,7 +73,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               child: AutoSizeText(
                                 'CỔNG THÔNG TIN TIÊM CHỦNG COVID-19',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 19,color: Colors.white),
+                                style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),
                                 minFontSize: 10,
                                 maxLines: 2,
                               ),

@@ -9,6 +9,7 @@ import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.
 import 'package:vaccine_for_the_people/app/modules/home/controller/home_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/home/view/home_view.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
+import 'package:vaccine_for_the_people/app/modules/injection_statistic/view/injection_statistic_view.dart';
 import 'package:vaccine_for_the_people/app/modules/login/controllers/login_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/login/views/login_view.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
@@ -30,7 +31,7 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
     // LoginView(),
     Scaffold(),
     Scaffold(),
-    Scaffold(),
+    InjectionStatisticView(),
   ];
   final List<String> title = const [
     "Trang Chủ",
@@ -72,8 +73,8 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
                             Image.asset(
                               "assets/images/icon_heart.png",
                               fit: BoxFit.contain,
-                              height: 40,
-                              width: 40,
+                              height: 50,
+                              width: 50,
                             ),
                             SizedBox(width: 10,),
                             Container(
@@ -81,7 +82,7 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
                               child: AutoSizeText(
                                 'CỔNG THÔNG TIN TIÊM CHỦNG COVID-19',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 19,color: Colors.white),
+                                style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),
                                 minFontSize: 10,
                                 maxLines: 2,
                               ),
@@ -89,7 +90,7 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(width: screenSize.width*0.2,),
+                      SizedBox(width: screenSize.width*0.19,),
                       Expanded(
                         child: TabBar(
                           unselectedLabelColor: Colors.white,
@@ -202,7 +203,7 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
                         child: SizedBox(
                           width: screenSize.width*0.07,
                           child: AutoSizeText(
-                            'Đăng Xuất',
+                            'Đăng xuất',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 15,color: Colors.white),
                             minFontSize: 10,
