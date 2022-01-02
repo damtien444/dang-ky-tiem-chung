@@ -49,6 +49,8 @@ flutter:
     - vietnam3.json
     - assets/vietnam3.json
     - assets/images/
+    - assets/province.json
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

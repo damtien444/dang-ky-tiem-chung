@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
+import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
 
 class FormBuilderOptions extends StatefulWidget {
   const FormBuilderOptions({
@@ -18,6 +19,7 @@ class FormBuilderOptions extends StatefulWidget {
     required this.nameForm,
     this.inputMode = InputMode.NAME,
     this.listOptions,
+    this.isDropDown = true,
   }) : super(key: key);
   final GlobalKey<FormBuilderState> regFormKey;
   final String title;
@@ -25,6 +27,7 @@ class FormBuilderOptions extends StatefulWidget {
   final String nameForm;
   final FormBuilderMode mode;
   final InputMode inputMode;
+  final bool isDropDown;
   final List<String>? listOptions;
 
   @override
@@ -32,8 +35,6 @@ class FormBuilderOptions extends StatefulWidget {
 }
 
 class _FormBuilderOptionsState extends State<FormBuilderOptions> {
-  bool _isDropDown = false;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -105,16 +106,30 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                 ),
                 onChanged: (dynamic _) {
                   widget.regFormKey.currentState?.save();
-                  setState(() {
-                    if (widget.regFormKey.currentState?.value['province'] !=
-                        null) {
-                      _isDropDown = true;
-                    } else {
-                      _isDropDown = false;
-                    }
-                  });
+                  if (widget.regFormKey.currentState!.value['province'] !=
+                      null) {
+                    Get.find<RegisterInjectionController>()
+                        .isDropDownProvince
+                        .value = false;
+                    Get.find<RegisterInjectionController>()
+                        .isDropDownDistrict
+                        .value = true;
+                    Get.find<RegisterInjectionController>()
+                        .isDropDownWard
+                        .value = false;
+                    Get.find<RegisterInjectionController>().findListDistricts();
+                  }
+                  if (widget.regFormKey.currentState!.value['district'] !=
+                      null) {
+                    Get.find<RegisterInjectionController>()
+                        .isDropDownWard
+                        .value = true;
+                    Get.find<RegisterInjectionController>()
+                        .isDropDownDistrict
+                        .value = false;
+                    Get.find<RegisterInjectionController>().findListWards();
+                  }
                 },
-                allowClear: true,
                 validator: FormBuilderValidators.compose(
                   [
                     FormBuilderValidators.required(
@@ -124,7 +139,7 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                   ],
                 ),
                 focusColor: Colors.transparent,
-                enabled: widget.nameForm == 'district' ? _isDropDown : true,
+                enabled: widget.isDropDown,
                 items: widget.listOptions?.map((order) {
                       return DropdownMenuItem(
                         value: order,

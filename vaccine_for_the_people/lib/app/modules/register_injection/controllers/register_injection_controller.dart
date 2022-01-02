@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
+import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
 
 class RegisterInjectionController extends GetxController {
+  VietNamRepository vietNamRepository;
+
+  RegisterInjectionController({required this.vietNamRepository});
+
   GlobalKey<FormBuilderState> regInjectionFormKey =
       GlobalKey<FormBuilderState>();
   final List<String> orderInjection = ['Mũi tiêm thứ nhất', 'Mũi tiêm thứ hai'];
@@ -40,17 +46,47 @@ class RegisterInjectionController extends GetxController {
     '15. Người lao động tự do',
     '16. Các đối tượng khác',
   ];
-  final listProvince = [
-    'Hà Nội',
-    'Hồ Chí Minh',
-  ];
-  final listDistrict = [
-    'Mỹ Đình',
-    'Ba Đình',
-  ];
+  final listVietNam = RxList<VietNam>();
+  final listProvinces = RxList<String>();
+  final listDistricts = RxList<String>();
+  final listWards = RxList<String>();
+  final isDropDownProvince = true.obs;
+  final isDropDownDistrict = false.obs;
+  final isDropDownWard = false.obs;
+
+  Future<void> getProvinces() async {
+    final data = await VietNamRepository.getProvinces();
+    listVietNam.value = data;
+    for (var element in listVietNam) {
+      listProvinces.add(element.name!);
+    }
+  }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    await getProvinces();
+  }
+
+  void findListDistricts() {
+    listDistricts.value = listVietNam
+        .firstWhere((element) =>
+            element.name == regInjectionFormKey.currentState!.value['province'])
+        .districts!
+        .map((e) => e.name!)
+        .toList();
+  }
+
+  void findListWards() {
+    listWards.value = listVietNam
+        .firstWhere((province) =>
+            province.name ==
+            regInjectionFormKey.currentState!.value['province'])
+        .districts!
+        .firstWhere((ward) =>
+            ward.name == regInjectionFormKey.currentState!.value['district'])
+        .wards!
+        .map((e) => e.name!)
+        .toList();
   }
 }

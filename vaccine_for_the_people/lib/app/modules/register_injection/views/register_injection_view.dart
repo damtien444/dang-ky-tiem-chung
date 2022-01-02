@@ -183,49 +183,56 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: FormBuilderOptions(
-                                      nameForm: 'province',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
-                                      title: 'Tỉnh',
-                                      listOptions: controller.listProvince,
-                                      mode: FormBuilderMode.DROP_DOWN),
+                          Obx(() {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: FormBuilderOptions(
+                                        nameForm: 'province',
+                                        regFormKey:
+                                            controller.regInjectionFormKey,
+                                        title: 'Tỉnh/Thành phố',
+                                        isDropDown:
+                                            controller.isDropDownProvince.value,
+                                        listOptions:
+                                            controller.listProvinces.value,
+                                        mode: FormBuilderMode.DROP_DOWN),
+                                  ),
                                 ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
-                                  child: FormBuilderOptions(
-                                      nameForm: 'district',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
-                                      title: 'Quận/Huyện',
-                                      listOptions: controller.listDistrict,
-                                      mode: FormBuilderMode.DROP_DOWN),
+                                Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: FormBuilderOptions(
+                                        nameForm: 'district',
+                                        regFormKey:
+                                            controller.regInjectionFormKey,
+                                        title: 'Quận/Huyện',
+                                        isDropDown: controller.isDropDownDistrict.value,
+                                        listOptions:
+                                            controller.listDistricts.value,
+                                        mode: FormBuilderMode.DROP_DOWN),
+                                  ),
                                 ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                Flexible(
+                                  flex: 1,
                                   child: FormBuilderOptions(
                                       nameForm: 'ward',
                                       regFormKey:
                                           controller.regInjectionFormKey,
                                       title: 'Phường/Xã',
+                                      isDropDown:
+                                          controller.isDropDownWard.value,
+                                      listOptions: controller.listWards.value,
                                       mode: FormBuilderMode.DROP_DOWN),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            );
+                          }),
                           const SizedBox(height: 20),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,6 +309,7 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                               const Spacer(flex: 2),
                             ],
                           ),
+
                           const SizedBox(height: 40),
                           ElevatedButton(
                             onPressed: () {
