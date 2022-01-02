@@ -7,12 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
 
 class FormBuilderOptions extends StatefulWidget {
   const FormBuilderOptions({
     Key? key,
-    required this.regFormKey,
     required this.title,
     this.require = true,
     this.mode = FormBuilderMode.DEFAULT,
@@ -20,15 +18,21 @@ class FormBuilderOptions extends StatefulWidget {
     this.inputMode = InputMode.NAME,
     this.listOptions,
     this.isDropDown = true,
+    this.allowClear = false,
+    this.onPress,
+    this.initial = '', this.listItemsSelection,
   }) : super(key: key);
-  final GlobalKey<FormBuilderState> regFormKey;
   final String title;
   final bool require;
   final String nameForm;
   final FormBuilderMode mode;
   final InputMode inputMode;
   final bool isDropDown;
+  final bool allowClear;
+  final Function(dynamic)? onPress;
   final List<String>? listOptions;
+  final String initial;
+  final List<String>? listItemsSelection;
 
   @override
   _FormBuilderOptionsState createState() => _FormBuilderOptionsState();
@@ -97,39 +101,19 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
               );
             case FormBuilderMode.DROP_DOWN:
               return FormBuilderDropdown(
+                initialValue: widget.nameForm == 'province' ||
+                        widget.nameForm == 'district'
+                    ? widget.initial
+                    : null,
                 autovalidateMode: widget.require
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
                 name: widget.nameForm,
+                allowClear: widget.allowClear,
                 decoration: InputDecoration(
                   hintText: widget.title,
                 ),
-                onChanged: (dynamic _) {
-                  widget.regFormKey.currentState?.save();
-                  if (widget.regFormKey.currentState!.value['province'] !=
-                      null) {
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownProvince
-                        .value = false;
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownDistrict
-                        .value = true;
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownWard
-                        .value = false;
-                    Get.find<RegisterInjectionController>().findListDistricts();
-                  }
-                  if (widget.regFormKey.currentState!.value['district'] !=
-                      null) {
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownWard
-                        .value = true;
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownDistrict
-                        .value = false;
-                    Get.find<RegisterInjectionController>().findListWards();
-                  }
-                },
+                onChanged: widget.onPress,
                 validator: FormBuilderValidators.compose(
                   [
                     FormBuilderValidators.required(

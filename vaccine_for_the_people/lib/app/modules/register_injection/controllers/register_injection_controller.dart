@@ -25,7 +25,6 @@ class RegisterInjectionController extends GetxController {
     'Abdala'
   ];
   final bool isEnable = false;
-  var i = 12;
   final List<String> listAges = List.generate(99, (index) => '${++index}');
   final List<String> anamesis = ['Có', 'Không'];
   final List<String> typeObject = [
@@ -50,13 +49,15 @@ class RegisterInjectionController extends GetxController {
   final listProvinces = RxList<String>();
   final listDistricts = RxList<String>();
   final listWards = RxList<String>();
-  final isDropDownProvince = true.obs;
   final isDropDownDistrict = false.obs;
   final isDropDownWard = false.obs;
 
   Future<void> getProvinces() async {
     final data = await VietNamRepository.getProvinces();
     listVietNam.value = data;
+    listProvinces.add("Tất cả");
+    listDistricts.add("Tất cả");
+    listWards.add("Tất cả");
     for (var element in listVietNam) {
       listProvinces.add(element.name!);
     }
@@ -68,25 +69,52 @@ class RegisterInjectionController extends GetxController {
     await getProvinces();
   }
 
+  void onSelectionAddress(dynamic _) {
+    regInjectionFormKey.currentState?.save();
+    if (regInjectionFormKey.currentState!.value['province'] != null ||
+        regInjectionFormKey.currentState!.value['province'].toString() !=
+            'Tất cả') {
+      isDropDownDistrict.value = true;
+      isDropDownWard.value = false;
+
+      findListDistricts();
+    }
+    if (regInjectionFormKey.currentState!.value['district'] != null ||
+        regInjectionFormKey.currentState!.value['district'].toString() !=
+            'Tất cả') {
+      isDropDownWard.value = true;
+      findListWards();
+    }
+  }
+
   void findListDistricts() {
-    listDistricts.value = listVietNam
-        .firstWhere((element) =>
-            element.name == regInjectionFormKey.currentState!.value['province'])
-        .districts!
-        .map((e) => e.name!)
-        .toList();
+    listDistricts.clear();
+    listDistricts.add("Tất cả");
+    listDistricts.addAll(
+      listVietNam
+          .firstWhere((element) =>
+              element.name ==
+              regInjectionFormKey.currentState!.value['province'])
+          .districts!
+          .map((e) => e.name!)
+          .toList(),
+    );
   }
 
   void findListWards() {
-    listWards.value = listVietNam
-        .firstWhere((province) =>
-            province.name ==
-            regInjectionFormKey.currentState!.value['province'])
-        .districts!
-        .firstWhere((ward) =>
-            ward.name == regInjectionFormKey.currentState!.value['district'])
-        .wards!
-        .map((e) => e.name!)
-        .toList();
+    listWards.clear();
+    listWards.add("Tất cả");
+    listWards.addAll(
+      listVietNam
+          .firstWhere((province) =>
+              province.name ==
+              regInjectionFormKey.currentState!.value['province'])
+          .districts!
+          .firstWhere((ward) =>
+              ward.name == regInjectionFormKey.currentState!.value['district'])
+          .wards!
+          .map((e) => e.name!)
+          .toList(),
+    );
   }
 }

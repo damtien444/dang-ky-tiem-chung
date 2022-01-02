@@ -6,21 +6,19 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/components/form_builder_options.dart';
 
 import '../controllers/register_injection_controller.dart';
 
 class RegisterInjectionView extends GetView<RegisterInjectionController> {
   RegisterInjectionView({Key? key}) : super(key: key);
-  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Scrollbar(
-        controller: _scrollController, // <---- Here, the controller
-        isAlwaysShown: true,
-        child: ListView(
+      body: Obx(() {
+        return ListView(
           children: [
             const SizedBox(
               height: 20,
@@ -68,7 +66,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                             width: Get.width * 0.15,
                             child: FormBuilderOptions(
                                 nameForm: 'order',
-                                regFormKey: controller.regInjectionFormKey,
                                 title: 'Đăng kí mũi tiêm',
                                 listOptions: controller.orderInjection,
                                 mode: FormBuilderMode.DROP_DOWN),
@@ -80,26 +77,22 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding: EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'name',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Họ và tên',
                                       mode: FormBuilderMode.DEFAULT),
                                 ),
                               ),
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding: EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'dob',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Ngày sinh',
                                       mode: FormBuilderMode.DATE_PICKER),
                                 ),
@@ -110,18 +103,15 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                   padding: const EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'gender',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Giới tính',
                                       listOptions: controller.genders,
                                       mode: FormBuilderMode.DROP_DOWN),
                                 ),
                               ),
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
                                 child: FormBuilderOptions(
                                     nameForm: 'phone_number',
-                                    regFormKey: controller.regInjectionFormKey,
                                     title: 'Số điện thoại',
                                     inputMode: InputMode.PHONE,
                                     mode: FormBuilderMode.DEFAULT),
@@ -132,27 +122,23 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding: EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'email',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Email',
                                       inputMode: InputMode.EMAIL,
                                       mode: FormBuilderMode.DEFAULT),
                                 ),
                               ),
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding: EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'cmnd',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title:
                                           'CCCD/Mã định danh công dân/Hộ chiếu',
                                       mode: FormBuilderMode.DEFAULT),
@@ -164,8 +150,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                   padding: const EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'type_vaccine',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Loại vaccine',
                                       listOptions: controller.typeVaccine,
                                       mode: FormBuilderMode.DROP_DOWN),
@@ -175,64 +159,12 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                 flex: 1,
                                 child: FormBuilderOptions(
                                     nameForm: 'type_object',
-                                    regFormKey: controller.regInjectionFormKey,
                                     title: 'Nhóm ưu tiên',
                                     listOptions: controller.typeObject,
                                     mode: FormBuilderMode.DROP_DOWN),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
-                          Obx(() {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 20),
-                                    child: FormBuilderOptions(
-                                        nameForm: 'province',
-                                        regFormKey:
-                                            controller.regInjectionFormKey,
-                                        title: 'Tỉnh/Thành phố',
-                                        isDropDown:
-                                            controller.isDropDownProvince.value,
-                                        listOptions:
-                                            controller.listProvinces.value,
-                                        mode: FormBuilderMode.DROP_DOWN),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 20),
-                                    child: FormBuilderOptions(
-                                        nameForm: 'district',
-                                        regFormKey:
-                                            controller.regInjectionFormKey,
-                                        title: 'Quận/Huyện',
-                                        isDropDown: controller.isDropDownDistrict.value,
-                                        listOptions:
-                                            controller.listDistricts.value,
-                                        mode: FormBuilderMode.DROP_DOWN),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: FormBuilderOptions(
-                                      nameForm: 'ward',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
-                                      title: 'Phường/Xã',
-                                      isDropDown:
-                                          controller.isDropDownWard.value,
-                                      listOptions: controller.listWards.value,
-                                      mode: FormBuilderMode.DROP_DOWN),
-                                ),
-                              ],
-                            );
-                          }),
                           const SizedBox(height: 20),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,9 +174,53 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
+                                      nameForm: 'province',
+                                      title: 'Tỉnh/Thành phố',
+                                      onPress: controller.onSelectionAddress,
+                                      isDropDown: true,
+                                      initial: controller.listProvinces.first,
+                                      listOptions:
+                                          controller.listProvinces.value,
+                                      mode: FormBuilderMode.DROP_DOWN),
+                                ),
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: FormBuilderOptions(
+                                      nameForm: 'district',
+                                      title: 'Quận/Huyện',
+                                      initial: controller.listDistricts.first,
+                                      onPress: controller.onSelectionAddress,
+                                      isDropDown:
+                                          controller.isDropDownDistrict.value,
+                                      listOptions:
+                                          controller.listDistricts,
+                                      mode: FormBuilderMode.DROP_DOWN),
+                                ),
+                              ),
+                              Flexible(
+                                flex: 1,
+                                child: FormBuilderOptions(
+                                    nameForm: 'ward',
+                                    title: 'Phường/Xã',
+                                    isDropDown: controller.isDropDownWard.value,
+                                    listOptions: controller.listWards.value,
+                                    mode: FormBuilderMode.DROP_DOWN),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 20),
+                                  child: FormBuilderOptions(
                                       nameForm: 'address',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Địa chỉ hiện tại',
                                       require: false,
                                       mode: FormBuilderMode.DEFAULT),
@@ -256,8 +232,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                   padding: const EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'age',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Tuổi',
                                       listOptions: controller.listAges,
                                       mode: FormBuilderMode.DROP_DOWN),
@@ -267,7 +241,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                 flex: 1,
                                 child: FormBuilderOptions(
                                     nameForm: 'anamesis',
-                                    regFormKey: controller.regInjectionFormKey,
                                     title: 'Tiền sử bệnh',
                                     listOptions: controller.anamesis,
                                     mode: FormBuilderMode.DROP_DOWN),
@@ -281,14 +254,12 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Flexible(
+                              const Flexible(
                                 flex: 1,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(right: 20),
+                                  padding: EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'injection_day',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Ngày muốn được tiêm(dự kiến)',
                                       mode: FormBuilderMode.DATE_PICKER),
                                 ),
@@ -299,8 +270,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                   padding: const EdgeInsets.only(right: 20),
                                   child: FormBuilderOptions(
                                       nameForm: 'name',
-                                      regFormKey:
-                                          controller.regInjectionFormKey,
                                       title: 'Buổi muốn được tiêm',
                                       listOptions: controller.listSession,
                                       mode: FormBuilderMode.DROP_DOWN),
@@ -309,14 +278,72 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                               const Spacer(flex: 2),
                             ],
                           ),
-
-                          const SizedBox(height: 40),
-                          ElevatedButton(
-                            onPressed: () {
-                              controller.regInjectionFormKey.currentState!
-                                  .saveAndValidate();
-                            },
-                            child: const AutoSizeText('Gửi phản hồi'),
+                          const SizedBox(height: 50),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  controller.regInjectionFormKey.currentState!
+                                      .reset();
+                                  controller.isDropDownDistrict.value = false;
+                                  controller.isDropDownWard.value = false;
+                                },
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 50)),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          kOnPrimaryColor),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          kWarning),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    const RoundedRectangleBorder(
+                                      side: BorderSide(color: kWarning),
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12),
+                                        bottomRight: Radius.circular(12),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: const AutoSizeText('Hủy bỏ'),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  controller.regInjectionFormKey.currentState!
+                                      .saveAndValidate();
+                                },
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      const EdgeInsets.symmetric(
+                                          horizontal: 30)),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12),
+                                        bottomRight: Radius.circular(12),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: const AutoSizeText('Đăng kí tiêm'),
+                              )
+                            ],
                           ),
                         ],
                       ),
@@ -325,9 +352,13 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const BottomSceen(),
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
 

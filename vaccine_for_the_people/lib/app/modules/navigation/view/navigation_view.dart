@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/home/view/home_view.dart';
-import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
 import 'package:vaccine_for_the_people/app/modules/login/views/login_view.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/views/register_injection_view.dart';
-import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);
@@ -63,8 +61,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             Image.asset(
                               "assets/images/icon_heart.png",
                               fit: BoxFit.contain,
-                              height: 40,
-                              width: 40,
+                              height: 50,
+                              width: 50,
                             ),
                             SizedBox(width: 10,),
                             Container(
@@ -72,7 +70,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                               child: AutoSizeText(
                                 'CỔNG THÔNG TIN TIÊM CHỦNG COVID-19',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 19,color: Colors.white),
+                                style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),
                                 minFontSize: 10,
                                 maxLines: 2,
                               ),
@@ -117,7 +115,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             body: IndexedStack(
               index: _selectedIndex,
               children: _screens,
-            )
+            ),
           ),
         )
     );
