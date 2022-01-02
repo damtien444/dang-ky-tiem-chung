@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
@@ -9,8 +7,6 @@ class RegisterInjectionController extends GetxController {
 
   RegisterInjectionController({required this.vietNamRepository});
 
-  GlobalKey<FormBuilderState> regInjectionFormKey =
-      GlobalKey<FormBuilderState>();
   final List<String> orderInjection = ['Mũi tiêm thứ nhất', 'Mũi tiêm thứ hai'];
   final List<String> genders = ['Nam', 'Nữ'];
   final List<String> listSession = ['Buổi sáng', 'Buổi chiều', 'Cả ngày'];
@@ -25,7 +21,6 @@ class RegisterInjectionController extends GetxController {
     'Abdala'
   ];
   final bool isEnable = false;
-  var i = 12;
   final List<String> listAges = List.generate(99, (index) => '${++index}');
   final List<String> anamesis = ['Có', 'Không'];
   final List<String> typeObject = [
@@ -50,13 +45,17 @@ class RegisterInjectionController extends GetxController {
   final listProvinces = RxList<String>();
   final listDistricts = RxList<String>();
   final listWards = RxList<String>();
-  final isDropDownProvince = true.obs;
-  final isDropDownDistrict = false.obs;
-  final isDropDownWard = false.obs;
+
+  final initialTinh = 'Tất cả'.obs;
+  final initialHuyen = 'Tất cả'.obs;
+  final initialXa = 'Tất cả'.obs;
 
   Future<void> getProvinces() async {
     final data = await VietNamRepository.getProvinces();
     listVietNam.value = data;
+    listProvinces.add("Tất cả");
+    // listDistricts.add("Tất cả");
+    // listWards.add("Tất cả");
     for (var element in listVietNam) {
       listProvinces.add(element.name!);
     }
@@ -68,25 +67,34 @@ class RegisterInjectionController extends GetxController {
     await getProvinces();
   }
 
-  void findListDistricts() {
-    listDistricts.value = listVietNam
-        .firstWhere((element) =>
-            element.name == regInjectionFormKey.currentState!.value['province'])
+  void findListDistricts(String data) {
+    initialTinh.value = data;
+    initialHuyen.value = "Tất cả";
+    initialXa.value = "Tất cả";
+    listDistricts.clear();
+    listDistricts.add("Tất cả");
+    listDistricts.addAll(listVietNam
+        .firstWhere((element) => element.name == data)
         .districts!
         .map((e) => e.name!)
-        .toList();
+        .toList());
+    initialHuyen.value = listDistricts.first;
   }
 
-  void findListWards() {
-    listWards.value = listVietNam
-        .firstWhere((province) =>
-            province.name ==
-            regInjectionFormKey.currentState!.value['province'])
-        .districts!
-        .firstWhere((ward) =>
-            ward.name == regInjectionFormKey.currentState!.value['district'])
-        .wards!
-        .map((e) => e.name!)
-        .toList();
+  void findListWards(String data) {
+    initialHuyen.value = data;
+    listWards.clear();
+    listWards.add("Tất cả");
+    listWards.addAll(
+      listVietNam
+          .firstWhere((province) => province.name == initialTinh.value)
+          .districts!
+          .firstWhere((district) => district.name == data)
+          .wards!
+          .map((e) => e.name!)
+          .toList(),
+    );
+    initialXa.value = listWards.first;
+    print(initialXa);
   }
 }

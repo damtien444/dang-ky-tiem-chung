@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/icons.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
+import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -17,109 +20,115 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-            color: kHeaderPage,
-            child: Row(
-              children: [
-                AutoSizeText(
-                  'Đăng nhập',
-                  style: Get.textTheme.headline5,
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                AutoSizeText.rich(
-                  TextSpan(
-                    style: Get.textTheme.bodyText2,
-                    children: [
-                      TextSpan(
-                        text: 'Trang chủ',
-                        style: noteStyle,
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                      ),
-                      const TextSpan(text: '  /  Đăng nhập'),
-                    ],
-                  ),
-                ),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          Center(
-            child: SizedBox(
-              width: Get.width * 0.3,
-              child: Column(
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+              color: kHeaderPage,
+              child: Row(
                 children: [
-                  FormBuilder(
-                    autovalidateMode: AutovalidateMode.disabled,
-                    key: controller.loginFormKey,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          const Image(
-                            image: kVaccineLogo,
-                            width: 120,
-                            height: 120,
-                          ),
-                          const SizedBox(height: 20),
-                          AutoSizeText('Tên đăng nhập', style: labelStyle),
-                          const SizedBox(height: 10),
-                          FormBuilderTextField(
-                            name: 'username',
-                            style: Get.textTheme.headline6,
-                            validator: FormBuilderValidators.compose(
-                              [
-                                FormBuilderValidators.required(
-                                  context,
-                                  errorText:
-                                      'Tên đăng nhập không được bỏ trống',
-                                ),
-                              ],
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: 'Tên đăng nhập',
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          AutoSizeText('Mật khẩu', style: labelStyle),
-                          const SizedBox(height: 10),
-                          FormBuilderTextField(
-                            name: 'password',
-                            style: Get.textTheme.headline5,
-                            obscureText: true,
-                            validator: FormBuilderValidators.compose(
-                              [
-                                FormBuilderValidators.required(
-                                  context,
-                                  errorText: 'Mật khẩu không được để trống',
-                                ),
-                              ],
-                            ),
-                            decoration: const InputDecoration(
-                              hintText: 'Mật khẩu',
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: const AutoSizeText('Đăng nhập'),
-                          ),
-                        ],
-                      ),
+                  AutoSizeText(
+                    'Đăng nhập',
+                    style: Get.textTheme.headline5,
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  AutoSizeText.rich(
+                    TextSpan(
+                      style: Get.textTheme.bodyText2,
+                      children: [
+                        TextSpan(
+                          text: 'Trang chủ',
+                          style: noteStyle,
+                          recognizer: TapGestureRecognizer()..onTap = () {},
+                        ),
+                        const TextSpan(text: '  /  Đăng nhập'),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            Center(
+              child: SizedBox(
+                width: Get.width * 0.3,
+                child: Column(
+                  children: [
+                    FormBuilder(
+                      autovalidateMode: AutovalidateMode.disabled,
+                      key: controller.loginFormKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Image(
+                              image: kVaccineLogo,
+                              width: 120,
+                              height: 120,
+                            ),
+                            const SizedBox(height: 20),
+                            AutoSizeText('Tên đăng nhập', style: labelStyle),
+                            const SizedBox(height: 10),
+                            FormBuilderTextField(
+                              name: 'username',
+                              style: Get.textTheme.headline6,
+                              validator: FormBuilderValidators.compose(
+                                [
+                                  FormBuilderValidators.required(
+                                    context,
+                                    errorText:
+                                        'Tên đăng nhập không được bỏ trống',
+                                  ),
+                                ],
+                              ),
+                              decoration: const InputDecoration(
+                                hintText: 'Tên đăng nhập',
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            AutoSizeText('Mật khẩu', style: labelStyle),
+                            const SizedBox(height: 10),
+                            FormBuilderTextField(
+                              name: 'password',
+                              style: Get.textTheme.headline5,
+                              obscureText: true,
+                              validator: FormBuilderValidators.compose(
+                                [
+                                  FormBuilderValidators.required(
+                                    context,
+                                    errorText: 'Mật khẩu không được để trống',
+                                  ),
+                                ],
+                              ),
+                              decoration: const InputDecoration(
+                                hintText: 'Mật khẩu',
+                              ),
+                            ),
+                            const SizedBox(height: 40),
+                            ElevatedButton(
+                              onPressed: () {
+                                Get.offAndToNamed(Routes.NAVIGATIONADMIN);
+                              },
+                              child: const AutoSizeText('Đăng nhập'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 20,),
+            BottomSceen(),
+          ],
+        ),
       ),
     );
   }

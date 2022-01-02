@@ -47,6 +47,7 @@ class ChartCovidCase extends StatelessWidget {
                 ],
                 xValueMapper: (SalesData sales, _) => sales.year,
                 yValueMapper: (SalesData sales, _) => sales.sales,
+                name: "Số ca nhiễm"
                 // Enable data label
                 // dataLabelSettings: DataLabelSettings(isVisible: true)
               )

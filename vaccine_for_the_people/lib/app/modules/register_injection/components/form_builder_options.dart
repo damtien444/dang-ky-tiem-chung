@@ -1,34 +1,31 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
 
 class FormBuilderOptions extends StatefulWidget {
   const FormBuilderOptions({
     Key? key,
-    required this.regFormKey,
     required this.title,
     this.require = true,
     this.mode = FormBuilderMode.DEFAULT,
-    required this.nameForm,
     this.inputMode = InputMode.NAME,
     this.listOptions,
-    this.isDropDown = true,
+    this.onPress,
+    this.value = '',
   }) : super(key: key);
-  final GlobalKey<FormBuilderState> regFormKey;
   final String title;
   final bool require;
-  final String nameForm;
   final FormBuilderMode mode;
   final InputMode inputMode;
-  final bool isDropDown;
+  final Function(String)? onPress;
   final List<String>? listOptions;
+  final String value;
 
   @override
   _FormBuilderOptionsState createState() => _FormBuilderOptionsState();
@@ -61,11 +58,10 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
         () {
           switch (widget.mode) {
             case FormBuilderMode.DEFAULT:
-              return FormBuilderTextField(
+              return TextFormField(
                 autovalidateMode: widget.require
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
-                name: widget.nameForm,
                 style: Get.textTheme.headline6,
                 maxLength: widget.inputMode == InputMode.PHONE ? 10 : null,
                 validator: FormBuilderValidators.compose(
@@ -96,69 +92,96 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                 ),
               );
             case FormBuilderMode.DROP_DOWN:
-              return FormBuilderDropdown(
-                autovalidateMode: widget.require
-                    ? AutovalidateMode.onUserInteraction
-                    : AutovalidateMode.disabled,
-                name: widget.nameForm,
-                decoration: InputDecoration(
-                  hintText: widget.title,
-                ),
-                onChanged: (dynamic _) {
-                  widget.regFormKey.currentState?.save();
-                  if (widget.regFormKey.currentState!.value['province'] !=
-                      null) {
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownProvince
-                        .value = false;
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownDistrict
-                        .value = true;
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownWard
-                        .value = false;
-                    Get.find<RegisterInjectionController>().findListDistricts();
-                  }
-                  if (widget.regFormKey.currentState!.value['district'] !=
-                      null) {
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownWard
-                        .value = true;
-                    Get.find<RegisterInjectionController>()
-                        .isDropDownDistrict
-                        .value = false;
-                    Get.find<RegisterInjectionController>().findListWards();
-                  }
-                },
-                validator: FormBuilderValidators.compose(
-                  [
-                    FormBuilderValidators.required(
-                      context,
-                      errorText: '${widget.title} không được bỏ trống',
+              return widget.title == 'Tỉnh/Thành phố' ||
+                      widget.title == 'Quận/Huyện' ||
+                      widget.title == 'Phường/Xã'
+                  ? FormField<String>(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.match(
+                            context,
+                            '^(?!Tất cả).*',
+                            errorText: 'Vui lòng chọn địa chỉ chính xác',
+                          )
+                        ],
+                      ),
+                      builder: (_) {
+                        return InputDecorator(
+                          decoration: InputDecoration(
+                            labelStyle: Get.textTheme.headline6,
+                            errorStyle: Get.textTheme.bodyText2!.copyWith(
+                              color: kError,
+                            ),
+                            hintText: widget.title,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: widget.value,
+                              onChanged: (newValue) {
+                                widget.onPress!(newValue!);
+                              },
+                              isDense: true,
+                              items: widget.listOptions?.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: AutoSizeText(
+                                    value,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Get.textTheme.headline6,
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        );
+                      },
                     )
-                  ],
-                ),
-                focusColor: Colors.transparent,
-                enabled: widget.isDropDown,
-                items: widget.listOptions?.map((order) {
-                      return DropdownMenuItem(
-                        value: order,
-                        child: AutoSizeText(
-                          order,
-                          style: Get.textTheme.headline6,
-                        ),
-                      );
-                    }).toList() ??
-                    [],
-              );
+                  : DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        hintText: widget.title,
+                      ),
+                      isExpanded: true,
+                      value: null,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(
+                            context,
+                            errorText: '${widget.title} không được bỏ trống',
+                          ),
+                        ],
+                      ),
+                      focusColor: Colors.transparent,
+                      items: widget.listOptions?.map((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: AutoSizeText(
+                            value,
+                            style: Get.textTheme.headline6,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (_) {},
+                    );
             case FormBuilderMode.DATE_PICKER:
-              return FormBuilderDateTimePicker(
+              return DateTimeField(
+                onShowPicker: (context, currentValue) {
+                  return showDatePicker(
+                      context: context,
+                      firstDate: DateTime(1900),
+                      initialDate: currentValue ?? DateTime.now(),
+                      lastDate: DateTime(2100));
+                },
                 autovalidateMode: widget.require
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
-                name: widget.title,
                 style: Get.textTheme.headline6,
-                inputType: InputType.date,
                 decoration: const InputDecoration(
                   hintText: 'Ngày/Tháng/Năm',
                 ),

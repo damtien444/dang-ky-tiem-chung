@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
 class CustomeColor{
   static final Color colorAppBar=Color(0xFF332f8e);

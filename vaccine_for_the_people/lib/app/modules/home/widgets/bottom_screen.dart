@@ -5,13 +5,12 @@ import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 class BottomSceen extends StatelessWidget {
   const BottomSceen({
     Key? key,
-    required this.size,
   }) : super(key: key);
 
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
+    var size=MediaQuery.of(context).size;
     return Container(
       width: size.width,
       height: size.height * 0.25 + 20,
