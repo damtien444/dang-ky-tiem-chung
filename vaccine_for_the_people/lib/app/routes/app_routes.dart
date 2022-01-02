@@ -1,7 +1,8 @@
 abstract class Routes {
-  static const HOMESCREEN = '/home';
-  static const LOGIN = '/login';
+  static const HOMESCREEN = '/home_screen';
+  static const LOGIN = '/login_screen';
   static const FEEDBACK = '/feedback';
   static const REGISTER_INJECTION = '/register-injection';
-  static const NAVIGATION = '/navigation';
+  static const NAVIGATION = '/home';
+  static const NAVIGATIONADMIN = '/home_admin';
 }

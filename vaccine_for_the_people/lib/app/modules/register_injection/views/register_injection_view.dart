@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/components/form_builder_options.dart';
 
@@ -285,6 +286,8 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                 ],
               ),
             ),
+            const SizedBox(height: 20,),
+            BottomSceen(),
           ],
         ),
       ),

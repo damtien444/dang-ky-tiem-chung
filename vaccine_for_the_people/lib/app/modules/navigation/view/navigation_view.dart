@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/home/view/home_view.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
 import 'package:vaccine_for_the_people/app/modules/login/views/login_view.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/views/register_injection_view.dart';
@@ -117,7 +118,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             body: IndexedStack(
               index: _selectedIndex,
               children: _screens,
-            )
+            ),
           ),
         )
     );

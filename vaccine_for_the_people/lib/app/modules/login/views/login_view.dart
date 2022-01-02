@@ -8,7 +8,9 @@ import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/icons.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
+import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -110,7 +112,9 @@ class LoginView extends GetView<LoginController> {
                             ),
                             const SizedBox(height: 40),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.offAndToNamed(Routes.NAVIGATIONADMIN);
+                              },
                               child: const AutoSizeText('Đăng nhập'),
                             ),
                           ],
@@ -121,6 +125,8 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
             ),
+            SizedBox(height: 20,),
+            BottomSceen(),
           ],
         ),
       ),

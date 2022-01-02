@@ -302,7 +302,7 @@ class HomeScreen extends GetView<HomeController> {
                     ],
                   ),
                   SizedBox(height: 20,),
-                  BottomSceen(size: size),
+                  BottomSceen(),
                 ],
               ),
             );

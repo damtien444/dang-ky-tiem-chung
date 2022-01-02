@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_navigation/view/navigation_view.dart';
 
 import 'package:vaccine_for_the_people/app/modules/feedback/bindings/feedback_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.dart';
@@ -38,6 +39,10 @@ class AppPages {
     GetPage(
       name: Routes.NAVIGATION,
       page: () => NavigationScreen(),
+    ),
+    GetPage(
+      name: Routes.NAVIGATIONADMIN,
+      page: () => AdminNavigationScreen(),
     ),
   ];
 }
