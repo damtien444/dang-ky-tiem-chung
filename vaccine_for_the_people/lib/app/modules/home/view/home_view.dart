@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
+import 'package:vaccine_for_the_people/app/data/models/map.dart';
 import 'package:vaccine_for_the_people/app/data/models/sale_data.dart';
 import 'package:vaccine_for_the_people/app/modules/home/controller/home_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
@@ -24,12 +25,12 @@ class HomeScreen extends GetView<HomeController> {
     return Scaffold(
       body: SingleChildScrollView(
         child: GetX<HomeController>(
-          initState: (_){
+          initState: (state){
             c1.getDataCovidCase();
-            // c1.getDataCovidSevenDayCase();
             c1.getDataVaccineRate();
             c1.getDataCaseCovidProvince();
             Future.delayed(Duration(seconds:2),(){
+              c1.dataRateVaccineDistribution.add(Model("Hòa Bình", CustomeColor.rateVaccine2));
               c1.mapSource.value = MapShapeSource.asset(
                   'assets/vietnam3.json',
                   shapeDataField: 'name',
@@ -53,7 +54,7 @@ class HomeScreen extends GetView<HomeController> {
               child: Column(
                 children: [
                   Container(
-                    width: size.width,
+                    width: size.width-200,
                     height: size.height*0.12,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -71,11 +72,11 @@ class HomeScreen extends GetView<HomeController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                        width: size.width*0.25,
+                        width: (size.width-200)/3,
                           decoration: BoxDecoration(
                               border:Border(
                                   right: BorderSide(
-                                      color: Colors.grey,
+                                      color: Colors.grey.withOpacity(0.5),
                                       width: 1
                                   )
                               )
@@ -111,11 +112,11 @@ class HomeScreen extends GetView<HomeController> {
                           ),
                         ),
                         Container(
-                        width: size.width*0.25,
+                          width: (size.width-200)/3,
                           decoration: BoxDecoration(
                               border:Border(
                                   right: BorderSide(
-                                      color: Colors.grey,
+                                      color: Colors.grey.withOpacity(0.5),
                                       width: 1
                                   )
                               )
@@ -151,7 +152,7 @@ class HomeScreen extends GetView<HomeController> {
                           ),
                         ),
                         Container(
-                          width: size.width*0.25,
+                            width: (size.width-200)/3,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 20),
                             child: Column(

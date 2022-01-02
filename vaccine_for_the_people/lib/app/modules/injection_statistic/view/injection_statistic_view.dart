@@ -11,9 +11,11 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          children: [
+          children:[
+            const SizedBox(height: 20,),
+            Center(child: const Text("Thông tin thống kê tiêm chủng",style: TextStyle(fontSize: 19,fontFamily: "impact"),)),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical:20,horizontal: 100),
+              padding: EdgeInsets.symmetric(vertical:20,horizontal: 100),
               child: ChartStatistic(),
             ),
           ],
