@@ -1,0 +1,19 @@
+{% extends 'base_admin.html' %}
+{% block title %}
+  Tạo đợt tiêm
+{% endblock %}
+
+{%  block content %}
+<body>
+    {{ form_vaccine }}<br>
+    CCCD của User được phép tiêm: {{ accepted_users}}<br>
+    CCCD của User không được phép tiêm: {{ denied_users}}<br>
+    <form method="POST" action="{{url_for('confirm_vaccination')}}" >
+        Nhập CCCD đc phép tiêm:
+        <input name="accepted_users" value="{{accepted_users[0]}}"><br>
+        Nhập CCCD ko đc phép tiêm:
+        <input name="denied_users" value="{{denied_users[0]}}">
+        <button type="submit" class="btn btn-outline btn-success">Confirm Vaccination</button>
+    </form>
+</body>
+{% endblock %}
