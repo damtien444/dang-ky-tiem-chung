@@ -1,0 +1,9 @@
+{% extends 'base_admin.html' %}
+{% block title %}
+  Xác nhận tiêm chủng
+{% endblock %}
+
+{%  block content %}
+    Danh sách được tiêm: {{ accepted_user['name'] }}<br>
+    Danh sách không được tiêm: {{ denied_user['name'] }}
+{% endblock %}
