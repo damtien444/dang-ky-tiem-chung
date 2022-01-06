@@ -18,6 +18,9 @@ app.config['MAIL_USE_SSL'] = False
 app.config['DEBUG'] = True
 mail = Mail(app)
 
-from vaccine.controller import home, vaccination_sign, login, confirm_vaccination, create_vaccination, statistic
+
+from vaccine.controller.app_test import admin_required
+from vaccine.controller import app_test
+# from vaccine.controller import home, vaccination_sign, login, confirm_vaccination, create_vaccination, statistic, app_test
 
 
