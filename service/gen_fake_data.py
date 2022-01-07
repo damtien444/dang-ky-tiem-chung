@@ -31,7 +31,7 @@ def gen_random_address():
 
     ward = random.choice(list_of_ward)
 
-    print(province.value.name, district.value.name, ward.value.name, sep=", ")
+    # print(province.value.name, district.value.name, ward.value.name, sep=", ")
 
     return {
         'province': province.value.name,
@@ -83,7 +83,7 @@ def random_history():
     for i in range(num_shot):
         if i == 0:
             shot = {'type_name': random.choice(list_of_vaccine), 'shot_num': i + 1,
-                    'shot_date': random_date(datetime.datetime(2020, 5, 1), datetime.datetime.today()),
+                    'shot_date': random_date(datetime.datetime(2021, 10, 31), datetime.datetime.today()),
                     'shot_place': random_string(20), 'status': random.choice(list_of_status)}
             vaccine_shots.append(shot)
         else:
@@ -108,7 +108,7 @@ def random_sign():
     priority = random.randint(1, 16)
     vaccine_shots = random_history()
     if len(vaccine_shots) == 0:
-        next_expected_shot_date = datetime.datetime.today() + datetime.timedelta(days=random.randint(15, 90))
+        next_expected_shot_date = datetime.datetime(1900, 1, 1)
         next_expected_shot_type = ''
     else:
         next_expected_shot_date = vaccine_shots[len(vaccine_shots) - 1]['shot_date'] + datetime.timedelta(
@@ -126,15 +126,14 @@ def random_sign():
     return sign
 
 
-# fake_sign = []
-# for i in range(10000):
-#     try:
-#         fake_sign.append(random_sign())
-#     except Exception as ignore:
-#         pass
-#
-#
-# from vaccine.controller.service import db
-#
-# sign = db['vaccination_sign']
-# sign.insert_many(fake_sign)
+fake_sign = []
+for i in range(20000):
+    try:
+        fake_sign.append(random_sign())
+    except Exception as ignore:
+        pass
+
+from vaccine.controller.service import db
+
+sign = db['vaccination_sign']
+sign.insert_many(fake_sign)

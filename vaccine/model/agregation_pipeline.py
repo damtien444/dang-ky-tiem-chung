@@ -174,9 +174,9 @@ def days_diff_next_expect():
     }
 
 
-def cond_gen(message, variable, first=None, second=None, last=None):
+def cond_gen(message, variable, first=None, second=None, last=None, exception=None):
     empt = ""
-    if first is not None and second is None and last is None:
+    if first is not None and second is None and last is None and exception is None:
         return {
             '$cond': [
                 {
@@ -186,7 +186,7 @@ def cond_gen(message, variable, first=None, second=None, last=None):
                 }, message, empt
             ]
         }
-    elif first is not None and second is not None and last is None:
+    elif first is not None and second is not None and last is None and exception is None:
         return {
             '$cond': [
                 {
@@ -204,12 +204,22 @@ def cond_gen(message, variable, first=None, second=None, last=None):
                 }, message, empt
             ]
         }
-    elif first is None and second is None and last is not None:
+    elif first is None and second is None and last is not None and exception is None:
         return {
             '$cond': [
                 {
                     '$gt': [
                         variable, last
+                    ]
+                }, message, empt
+            ]
+        }
+    elif exception is not None:
+        return {
+            '$cond': [
+                {
+                    '$lt': [
+                        variable, exception
                     ]
                 }, message, empt
             ]
@@ -221,10 +231,13 @@ def concat_gen(list_range, variable):
     resutl['$project']['range'] = {}
     resutl['$project']['range']['$concat'] = []
     concat = resutl['$project']['range']['$concat']
+
+    exception = 'no expect'
+    concat.append(cond_gen(exception, variable, exception=-2000))
     for i in range(len(list_range) + 1):
         if i == 0:
             message = 'late more than ' + str(list_range[i]) + " days"
-            concat.append(cond_gen(message, variable, first=list_range[i]))
+            concat.append(cond_gen(message, variable, first=-1000, second=list_range[i]))
         elif i == len(list_range):
             message = 'over more than ' + str(list_range[i - 1]) + 'days'
             concat.append(cond_gen(message, variable, last=list_range[i - 1]))
@@ -235,12 +248,39 @@ def concat_gen(list_range, variable):
     return resutl
 
 
+def by_province_distribute():
+    return [
+        {
+            '$group': {
+                '_id': '$address.province',
+                'count': {
+                    '$sum': 1
+                }
+            }
+        },
+        sort_order('count', -1)
+    ]
+
+
+def by_area_distribution(city, district=None, ward=None):
+    match = match_area(city, district, ward)
+    if district is not None and ward is not None:
+        group = group_number('$address.ward')
+    elif district is not None and ward is None:
+        group = group_number('$address.ward')
+    elif district is None and ward is None:
+        group = group_number('$address.district')
+    return [match, group, sort_order('count', -1)]
+
+
 def by_next_shot_time_distribution():
-    return [date_conversion_stage(), concat_gen([-7, 0, 7, 14, 28, 42, 72, 90], '$expected_day'), group_number('$range'), sort_order('count', -1)]
+    return [date_conversion_stage(), concat_gen([-7, 0, 7, 14, 28, 42, 72, 90], '$expected_day'),
+            group_number('$range'), sort_order('count', -1)]
 
 
 def by_next_shot_type_distribution():
     return [group_number('$next_expected_shot_type')]
+
 
 def date_conversion_stage():
     return {
@@ -270,13 +310,13 @@ def group_number(key):
     }
 
 
-
-
 def sort_order(field, order):
     return {
         '$sort': {
             field: order
         }
     }
+
+# print(by_next_shot_time_distribution())
 
 # print(concat_gen([-7, 0, 7, 14, 28, 42, 90], '$expected_day'))
