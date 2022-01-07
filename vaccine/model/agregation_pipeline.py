@@ -157,9 +157,126 @@ def by_sex_distribution():
     return group_command
 
 
+def days_diff_next_expect():
+    return {
+        '$project': {
+            '_id': 0,
+            'expected_day': {
+                '$divide': [
+                    {
+                        '$subtract': [
+                            '$next_expected_shot_date', '$$NOW'
+                        ]
+                    }, 1000 * 86400
+                ]
+            }
+        }
+    }
+
+
+def cond_gen(message, variable, first=None, second=None, last=None):
+    empt = ""
+    if first is not None and second is None and last is None:
+        return {
+            '$cond': [
+                {
+                    '$lte': [
+                        variable, first
+                    ]
+                }, message, empt
+            ]
+        }
+    elif first is not None and second is not None and last is None:
+        return {
+            '$cond': [
+                {
+                    '$and': [
+                        {
+                            '$gt': [
+                                variable, first
+                            ]
+                        }, {
+                            '$lte': [
+                                variable, second
+                            ]
+                        }
+                    ]
+                }, message, empt
+            ]
+        }
+    elif first is None and second is None and last is not None:
+        return {
+            '$cond': [
+                {
+                    '$gt': [
+                        variable, last
+                    ]
+                }, message, empt
+            ]
+        }
+
+
+def concat_gen(list_range, variable):
+    resutl = {'$project': {}}
+    resutl['$project']['range'] = {}
+    resutl['$project']['range']['$concat'] = []
+    concat = resutl['$project']['range']['$concat']
+    for i in range(len(list_range) + 1):
+        if i == 0:
+            message = 'late more than ' + str(list_range[i]) + " days"
+            concat.append(cond_gen(message, variable, first=list_range[i]))
+        elif i == len(list_range):
+            message = 'over more than ' + str(list_range[i - 1]) + 'days'
+            concat.append(cond_gen(message, variable, last=list_range[i - 1]))
+        else:
+            message = 'in range ' + str(list_range[i - 1]) + '-' + str(list_range[i]) + ' days'
+            concat.append(cond_gen(message, variable, first=list_range[i - 1], second=list_range[i]))
+
+    return resutl
+
+
+def by_next_shot_time_distribution():
+    return [date_conversion_stage(), concat_gen([-7, 0, 7, 14, 28, 42, 72, 90], '$expected_day'), group_number('$range'), sort_order('count', -1)]
+
+
+def by_next_shot_type_distribution():
+    return [group_number('$next_expected_shot_type')]
+
+def date_conversion_stage():
+    return {
+        '$project': {
+            '_id': 0,
+            'expected_day': {
+                '$divide': [
+                    {
+                        '$subtract': [
+                            '$next_expected_shot_date', '$$NOW'
+                        ]
+                    }, 1000 * 86400
+                ]
+            }
+        }
+    }
+
+
+def group_number(key):
+    return {
+        '$group': {
+            '_id': key,
+            'count': {
+                '$sum': 1
+            }
+        }
+    }
+
+
+
+
 def sort_order(field, order):
     return {
         '$sort': {
             field: order
         }
     }
+
+# print(concat_gen([-7, 0, 7, 14, 28, 42, 90], '$expected_day'))
