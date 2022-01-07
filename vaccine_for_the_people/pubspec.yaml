@@ -32,6 +32,7 @@ dependencies:
   intl: ^0.17.0
   syncfusion_flutter_charts: ^19.4.38
   syncfusion_flutter_maps: ^19.2.57-beta
+  data_table_2: ^2.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/data/providers/vn_case_covid_provider.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/view/create_injection_campaign_view.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/controllers/feedback_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/home/controller/home_controller.dart';
@@ -30,7 +32,7 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
     // RegisterInjectionView(),
     // LoginView(),
     Scaffold(),
-    Scaffold(),
+    CreateInjectionCampaignView(),
     InjectionStatisticView(),
   ];
   final List<String> title = const [

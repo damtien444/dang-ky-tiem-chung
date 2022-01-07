@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/binding/create_injection_campaign_binding.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/controller/create_injection_campaign_controller.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/view/create_injection_campaign_view.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/view/navigation_view.dart';
 
 import 'package:vaccine_for_the_people/app/modules/feedback/bindings/feedback_binding.dart';
@@ -35,6 +38,11 @@ class AppPages {
       name: Routes.REGISTER_INJECTION,
       page: () => RegisterInjectionView(),
       binding: RegisterInjectionBinding(),
+    ),
+    GetPage(
+      name: Routes.CREATEINJECTIONCAMPAIGN,
+      page: () => CreateInjectionCampaignView(),
+      binding: CreateInjectionCampaignBinding(),
     ),
     GetPage(
       name: Routes.NAVIGATION,
