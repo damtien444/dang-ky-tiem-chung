@@ -11,14 +11,7 @@ def match_area(city, district=None, ward=None):
 
 
 def by_group_distribution():
-    return {
-        '$group': {
-            '_id': '$priority_group',
-            'number': {
-                '$sum': 1
-            }
-        }
-    }
+    return group_number('$priority_group')
 
 
 def by_age_distribution():
@@ -126,14 +119,7 @@ def by_age_distribution():
         }
     }
 
-    group_by_range = {
-        '$group': {
-            '_id': '$range',
-            'count': {
-                '$sum': 1
-            }
-        }
-    }
+    group_by_range = group_number('$range')
 
     pipeline = [
         age_project,
@@ -146,15 +132,7 @@ def by_age_distribution():
 
 
 def by_sex_distribution():
-    group_command = {
-        '$group': {
-            '_id': '$sex',
-            'count': {
-                '$sum': 1
-            }
-        }
-    }
-    return group_command
+    return group_number('$sex')
 
 
 def days_diff_next_expect():
@@ -234,6 +212,7 @@ def concat_gen(list_range, variable):
 
     exception = 'no expect'
     concat.append(cond_gen(exception, variable, exception=-2000))
+
     for i in range(len(list_range) + 1):
         if i == 0:
             message = 'late more than ' + str(list_range[i]) + " days"
@@ -250,14 +229,7 @@ def concat_gen(list_range, variable):
 
 def by_province_distribute():
     return [
-        {
-            '$group': {
-                '_id': '$address.province',
-                'count': {
-                    '$sum': 1
-                }
-            }
-        },
+        group_number('$address.province'),
         sort_order('count', -1)
     ]
 

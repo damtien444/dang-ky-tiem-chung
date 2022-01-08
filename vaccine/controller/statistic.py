@@ -9,7 +9,7 @@ sign = db['vaccination_sign']
 
 
 @app.route('/campaign-statistic', methods=['POST'])
-# @admin_required
+@admin_required
 def vaccine_statistic_gathering():
     try:
 
@@ -27,8 +27,6 @@ def vaccine_statistic_gathering():
                 ward = address['ward']
         except Exception as ignore:
             pass
-
-        # cung cap du truong dia chi
 
         match_stage = match_area(city, district, ward)
 
@@ -88,7 +86,8 @@ def vaccine_statistic_gathering():
             by_area.append(thing)
 
         return {'result': 'success', 'by_priority': by_priority, 'by_age': by_age,
-                'by_sex': by_sex, 'by_next_shot_time': by_next_shot_time, 'by_next_shot_type': by_next_shot_type, 'by_province': by_province, 'by_area': by_area}
+                'by_sex': by_sex, 'by_next_shot_time': by_next_shot_time, 'by_next_shot_type': by_next_shot_type,
+                'by_province': by_province, 'by_area': by_area}
 
     except Exception as e:
         print(e)
