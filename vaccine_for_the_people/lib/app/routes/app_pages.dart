@@ -15,7 +15,7 @@ import 'package:vaccine_for_the_people/app/modules/statement_data/views/statemen
 import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class AppPages {
-  static const INITIAL = Routes.HOMESCREEN;
+  static const INITIAL = Routes.NAVIGATIONADMIN;
 
   static final routes = [
     GetPage(

@@ -54,8 +54,6 @@ class RegisterInjectionController extends GetxController {
     final data = await VietNamRepository.getProvinces();
     listVietNam.value = data;
     listProvinces.add("Tất cả");
-    // listDistricts.add("Tất cả");
-    // listWards.add("Tất cả");
     for (var element in listVietNam) {
       listProvinces.add(element.name!);
     }
@@ -95,6 +93,5 @@ class RegisterInjectionController extends GetxController {
           .toList(),
     );
     initialXa.value = listWards.first;
-    print(initialXa);
   }
 }
