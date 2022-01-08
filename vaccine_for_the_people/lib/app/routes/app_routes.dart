@@ -6,4 +6,5 @@ abstract class Routes {
   static const NAVIGATION = '/home';
   static const NAVIGATIONADMIN = '/home_admin';
   static const STATEMENT_DATA = '/statement-data';
+  static const CREATEINJECTIONCAMPAIGN = '/admin_create_injection_campaign';
 }
