@@ -18,6 +18,7 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/controller
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/providers/viet_nam_provider.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/views/register_injection_view.dart';
+import 'package:vaccine_for_the_people/app/modules/statement_data/views/statement_data_view.dart';
 import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class AdminNavigationScreen extends StatefulWidget {
@@ -33,9 +34,10 @@ class _NavigationScreenState extends State<AdminNavigationScreen> {
     // FeedbackView(),
     // RegisterInjectionView(),
     // LoginView(),
-    Scaffold(),
+    StatementDataView(),
     CreateInjectionCampaignView(),
     InjectionStatisticView(),
+
   ];
   final List<String> title = const [
     "Trang Chủ",

@@ -16,71 +16,68 @@ class CreateInjectionCampaignView
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        children: [
-          HeaderInjectionCampaign(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Container(
-              height: 500,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0, 0),
-                        blurRadius: 1,
-                        spreadRadius: 1)
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    FirstRowTable(size: size),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const ClampingScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: 15,
-                          itemBuilder: (context,index){
-                            return  DataRowTable(size: size,index:index);
-                          }
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            HeaderInjectionCampaign(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Container(
+                height: 500,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(0, 0),
+                          blurRadius: 1,
+                          spreadRadius: 1)
+                    ]),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      FirstRowTable(size: size),
+                      Expanded(
+                        child: ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            itemCount: 15,
+                            itemBuilder: (context, index) {
+                              return DataRowTable(size: size, index: index);
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Center(
+                child: InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: 100,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: CustomeColor.colorAppBar),
+                    child: const Center(
+                      child: Text(
+                        "Xác nhận",
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Center(
-              child: InkWell(
-                onTap: (){
-
-                },
-                child: Container(
-                  width: 100,
-                  height: 30,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: CustomeColor.colorAppBar
-                  ),
-                  child: Center(
-                    child: Text("Xác nhận",style: TextStyle(color: Colors.white,fontSize: 14),),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
 }
-
-
-
-
-

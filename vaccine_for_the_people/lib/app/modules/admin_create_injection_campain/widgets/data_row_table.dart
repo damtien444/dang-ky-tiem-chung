@@ -93,7 +93,7 @@ class DataRowTable extends StatelessWidget {
             ),
             child: Center(
               child: IconButton(
-                icon: Icon(Icons.delete,color: Colors.red,size: 16,),
+                icon: const Icon(Icons.delete,color: Colors.red,size: 16,),
                 onPressed: (){
                 },
               ),
