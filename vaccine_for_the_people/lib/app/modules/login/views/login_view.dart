@@ -8,8 +8,11 @@ import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/icons.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
+import 'package:vaccine_for_the_people/app/modules/feedback/controllers/feedback_controller.dart';
+import 'package:vaccine_for_the_people/app/modules/home/controller/home_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/custome_app_bar.dart';
+import 'package:vaccine_for_the_people/app/modules/navigation/controller/navigation_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/providers/viet_nam_provider.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
 import 'package:vaccine_for_the_people/app/modules/statement_data/controllers/statement_data_controller.dart';
@@ -116,10 +119,10 @@ class LoginView extends GetView<LoginController> {
                             const SizedBox(height: 40),
                             ElevatedButton(
                               onPressed: () {
+                                Get.delete<FeedbackController>();
+                                Get.delete<LoginController>();
+                                Get.delete<NavigationController>();
                                 Get.toNamed(Routes.NAVIGATIONADMIN);
-                                Get.put(StatementDataController(
-                                  vietNamRepository: VietNamRepository(vnProvider: VnProvider()),),);
-
                               },
                               child: const AutoSizeText('Đăng nhập'),
                             ),

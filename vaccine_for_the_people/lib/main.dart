@@ -12,11 +12,7 @@ import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(RegisterInjectionController(
-      vietNamRepository: VietNamRepository(vnProvider: VnProvider())));
-  Get.put(LoginController());
-  Get.put(FeedbackController());
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
