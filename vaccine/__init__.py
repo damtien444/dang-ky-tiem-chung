@@ -16,6 +16,7 @@ app.config['MAIL_DEFAULT_SENDER'] = 'luongbui711277@gmail.com'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['DEBUG'] = True
+app.config['SECURITY_PASSWORD_SALT'] = '1bf82d1c4d517b98b32ed229'
 mail = Mail(app)
 
 
