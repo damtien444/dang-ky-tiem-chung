@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
 
 class StatementDataController extends GetxController {
@@ -6,6 +7,20 @@ class StatementDataController extends GetxController {
 
   StatementDataController({required this.vietNamRepository});
 
+  final List<String> orderInjection = ['Mũi tiêm thứ nhất', 'Mũi tiêm thứ hai'];
+  final List<String> genders = ['Nam', 'Nữ'];
+  final List<String> listSession = ['Buổi sáng', 'Buổi chiều', 'Cả ngày'];
+  final List<String> typeVaccine = [
+    'AstraZeneca',
+    'SPUTNIK V',
+    'Vero Cell',
+    'Moderna',
+    'Pfizer',
+    'Hayat-Vax',
+    'Janssen',
+    'Abdala'
+  ];
+  final bool isEnable = false;
   final List<String> listAges = List.generate(99, (index) => '${++index}');
   final List<String> anamesis = ['Có', 'Không'];
   final List<String> typeObject = [
@@ -26,15 +41,57 @@ class StatementDataController extends GetxController {
     '15. Người lao động tự do',
     '16. Các đối tượng khác',
   ];
-  final List<String> typeVaccine = [
-    'AstraZeneca',
-    'SPUTNIK V',
-    'Vero Cell',
-    'Moderna',
-    'Pfizer',
-    'Hayat-Vax',
-    'Janssen',
-    'Abdala'
-  ];
+  final listVietNam = RxList<VietNam>();
+  final listProvinces = RxList<String>();
+  final listDistricts = RxList<String>();
+  final listWards = RxList<String>();
 
+  final initialTinh = 'Tất cả'.obs;
+  final initialHuyen = 'Tất cả'.obs;
+  final initialXa = 'Tất cả'.obs;
+
+  Future<void> getProvinces() async {
+    final data = await VietNamRepository.getProvinces();
+    listVietNam.value = data;
+    listProvinces.add("Tất cả");
+    for (var element in listVietNam) {
+      listProvinces.add(element.name!);
+    }
+  }
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await getProvinces();
+  }
+
+  void findListDistricts(String data) {
+    initialTinh.value = data;
+    initialHuyen.value = "Tất cả";
+    initialXa.value = "Tất cả";
+    listDistricts.clear();
+    listDistricts.add("Tất cả");
+    listDistricts.addAll(listVietNam
+        .firstWhere((element) => element.name == data)
+        .districts!
+        .map((e) => e.name!)
+        .toList());
+    initialHuyen.value = listDistricts.first;
+  }
+
+  void findListWards(String data) {
+    initialHuyen.value = data;
+    listWards.clear();
+    listWards.add("Tất cả");
+    listWards.addAll(
+      listVietNam
+          .firstWhere((province) => province.name == initialTinh.value)
+          .districts!
+          .firstWhere((district) => district.name == data)
+          .wards!
+          .map((e) => e.name!)
+          .toList(),
+    );
+    initialXa.value = listWards.first;
+  }
 }

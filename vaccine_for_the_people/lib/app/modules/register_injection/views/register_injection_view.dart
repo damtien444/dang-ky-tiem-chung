@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/components/form_builder_options.dart';
+import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/form_builder_options.dart';
 
 import '../controllers/register_injection_controller.dart';
 
