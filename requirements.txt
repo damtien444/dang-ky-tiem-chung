@@ -1,19 +1,37 @@
 aniso8601==9.0.1
+attrs==21.2.0
+blinker==1.4
 certifi==2021.10.8
 click==8.0.3
 colorama==0.4.4
 dnspython==2.1.0
+fast-enum==1.3.0
+flasgger==0.9.5
 Flask==2.0.2
+Flask-Cors==3.0.10
+Flask-Mail==0.9.1
+Flask-PyMongo==2.3.0
 Flask-RESTful==0.3.9
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.2
 gunicorn @ git+https://github.com/benoitc/gunicorn.git@76f8da24cbb992d168e01bda811452bcf3b8f5b3
 itsdangerous==2.0.1
 Jinja2==3.0.3
+jsonschema==4.3.2
+Logbook==1.5.3
 MarkupSafe==2.0.1
-pymongo==4.0.1
+mistune==2.0.0
+mongoengine==0.23.1
+PyJWT @ file:///C:/ci/pyjwt_1619682721924/work
+pymongo==3.12.3
+pyrsistent==0.18.0
 pytz==2021.3
+PyYAML==6.0
+single-version==1.5.1
 six==1.16.0
 SQLAlchemy==1.4.28
+Unidecode==1.3.2
+vietnam-provinces==0.4.2
 Werkzeug==2.0.2
 wincertstore==0.2
+zipp @ file:///tmp/build/80754af9/zipp_1633618647012/work
