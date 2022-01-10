@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 class FeedbackController extends GetxController {
-  final feedBackFormKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> feedBackFormKey = GlobalKey<FormBuilderState>();
   final FocusNode focusNode = FocusNode();
+
 }

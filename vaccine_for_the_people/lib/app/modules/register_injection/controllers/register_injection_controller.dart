@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
+import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
 
 class RegisterInjectionController extends GetxController {
   VietNamRepository vietNamRepository;
