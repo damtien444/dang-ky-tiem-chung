@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
-import 'package:vaccine_for_the_people/app/data/providers/vn_case_covid_provider.dart';
+import 'package:vaccine_for_the_people/app/data/providers/provider_service.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/view/create_injection_campaign_view.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/controller/admin_navigation_controller.dart';
@@ -194,6 +194,7 @@ class AdminNavigationScreen extends GetView<AdminNavigationController> {
                                                               fontFamily:
                                                                   "impact")),
                                                       onPressed: () async {
+                                                        Get.delete<AdminNavigationController>();
                                                         Get.offAndToNamed(
                                                             Routes.NAVIGATION);
                                                       }),
