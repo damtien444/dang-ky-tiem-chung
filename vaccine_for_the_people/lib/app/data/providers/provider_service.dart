@@ -113,10 +113,8 @@ class ProviderService {
         headers: requestHeader,
         body: body);
     if (httpPost.statusCode == 200) {
-      print(httpPost.body);
       final data = json.decode(json.encode(httpPost.body));
       final dataInjectionStatistic = provinceFromJson(data);
-      print(dataInjectionStatistic.byArea?[1].sId);
       return dataInjectionStatistic;
     } else {
 

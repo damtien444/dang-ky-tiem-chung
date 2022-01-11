@@ -64,9 +64,6 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
                             Flexible(
                               flex: 1,
                               child: Padding(
@@ -74,9 +71,23 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                                 child: FormBuilderOptions(
                                     title: 'Tỉnh/Thành phố',
                                     value: controller.initialTinh.value,
-                                    onPress: (data) =>
-                                        controller.findListDistricts(data),
-                                    listOptions: controller.listProvinces.value,
+                                    onPress: (data){
+                                      controller.findListDistricts(data);
+                                      Future.delayed(const Duration(seconds: 2),(){
+                                        _.listDataChartByAge.value=[];
+                                        _.listDataChartByGender.value=[];
+                                        _.listDataChartByPriority.value=[];
+                                        _.listDataChartByArea.value=[];
+                                        _.listDataChartByNextShotType.value=[];
+                                        _.listDataChartByAreaNextShotTime.value=[];
+                                        _.getDataSearchChartProvince(data);
+                                        _.getDataSearchChartProvince(data);
+                                        _.fillDataChartProvince();
+                                      });
+
+                                    },
+
+                                    listOptions: controller.listProvinces,
                                     mode: FormBuilderMode.DROP_DOWN),
                               ),
                             ),
@@ -91,8 +102,20 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                                     title: 'Quận/Huyện',
                                     value: controller.initialHuyen.value,
                                     listOptions: controller.listDistricts.value,
-                                    onPress: (data) =>
-                                        controller.findListWards(data),
+                                    onPress: (data){
+                                      controller.findListWards(data);
+                                      _.listDataChartByAge.value=[];
+                                      _.listDataChartByGender.value=[];
+                                      _.listDataChartByPriority.value=[];
+                                      _.listDataChartByArea.value=[];
+                                      _.listDataChartByNextShotType.value=[];
+                                      _.listDataChartByAreaNextShotTime.value=[];
+                                      _.getDataSearchChartProvinceAndDistrict(_.initialTinh.value, data);
+                                      print(_.listDataArea[1].sId);
+                                      Future.delayed(const Duration(seconds: 3),(){
+                                        _.fillDataChartProvinceAndDistrict();
+                                      });
+                                    },
                                     mode: FormBuilderMode.DROP_DOWN),
                               ),
                             ),
@@ -155,14 +178,140 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                       height: 10,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 40,left: 40,top: 20,bottom: 10),
+                      padding: const EdgeInsets.only(right: 80,left: 80,top: 20,bottom: 10),
                       child: Column(
                         children: [
                           Row(
                             children: [
+                              controller.listDataChartByArea.isNotEmpty ?
+                              Container(
+                                  width: (MediaQuery.of(context).size.width)-160,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            spreadRadius: 2,
+                                            blurRadius: 1,
+                                            offset: Offset(1,0)
+                                        )
+                                      ]
+                                  ),
+                                  child: SfCartesianChart(
+                                      primaryXAxis: CategoryAxis(),
+                                      title: ChartTitle(text: 'Thống kê theo diện tích'),
+                                      tooltipBehavior: TooltipBehavior(enable: true),
+                                      series: <ChartSeries>[
+                                        ColumnSeries<SalesData,String>(
+                                          // dataSource: là hàm nếu nhận từ hàm,
+                                            dataSource: controller.listDataChartByArea,
+                                            xValueMapper: (SalesData sales, _) => sales.year.toString(),
+                                            yValueMapper: (SalesData sales, _) => sales.sales,
+                                            name: "Số mũi tiêm cần đáp ứng",
+                                            legendIconType: LegendIconType.diamond,
+                                            dataLabelSettings: DataLabelSettings(
+                                              isVisible: true,
+                                            )
+                                        )
+                                      ]
+                                  )
+                              ):const SizedBox.shrink(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 80,left: 80,top: 10,bottom: 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              controller.listDataChartByAreaNextShotTime.isNotEmpty ?
+                              Container(
+                                width: (MediaQuery.of(context).size.width)-160,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: 2,
+                                          blurRadius: 1,
+                                          offset: Offset(1,0)
+                                      )
+                                    ]
+                                ),
+                                child: SfCartesianChart(
+                                    primaryXAxis: CategoryAxis(),
+                                    title: ChartTitle(text: 'Thống kê theo thời gian'),
+                                    tooltipBehavior: TooltipBehavior(enable: true),
+                                    series: <ChartSeries>[
+                                      ColumnSeries<SalesData,String>(
+                                        // dataSource: là hàm nếu nhận từ hàm,
+                                          dataSource: controller.listDataChartByAreaNextShotTime,
+                                          xValueMapper: (SalesData sales, _) => sales.year.toString(),
+                                          yValueMapper: (SalesData sales, _) => sales.sales,
+                                          name: "Số mũi tiêm theo thời gian",
+                                          legendIconType: LegendIconType.diamond,
+                                          dataLabelSettings: DataLabelSettings(
+                                            isVisible: true,
+                                          )
+                                      )
+                                    ]
+                                ),
+                              ):const SizedBox.shrink(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 40,left: 40,top: 10,bottom: 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const SizedBox(width: 20,),
+                              controller.listDataChartByNextShotType.isNotEmpty ?
+                              Container(
+                                  width: (MediaQuery.of(context).size.width/3)-20,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: const[
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            spreadRadius: 2,
+                                            blurRadius: 1,
+                                            offset: Offset(1,0)
+                                        )
+                                      ]
+                                  ),
+                                  child:  SfCartesianChart(
+                                      primaryXAxis: CategoryAxis(),
+                                      title: ChartTitle(text: 'Thống kê theo loại vaccine'),
+                                      tooltipBehavior: TooltipBehavior(enable: true),
+                                      series: <ChartSeries>[
+                                        ColumnSeries<SalesData,String>(
+                                          // dataSource: là hàm nếu nhận từ hàm,
+                                            dataSource: controller.listDataChartByNextShotType,
+                                            xValueMapper: (SalesData sales, _) => sales.year.toString(),
+                                            yValueMapper: (SalesData sales, _) => sales.sales,
+                                            name: "Mũi tiêm thuộc loại vaccine",
+                                            legendIconType: LegendIconType.diamond,
+                                            dataLabelSettings: DataLabelSettings(
+                                              isVisible: true,
+                                            )
+                                        )
+                                      ]
+                                  )
+                              ):const SizedBox.shrink(),
+                              const SizedBox(width: 20,),
                               controller.listDataChartByAge.isNotEmpty ?
                               Container(
-                                width: (MediaQuery.of(context).size.width/2)-50,
+                                width: (MediaQuery.of(context).size.width/3)-20,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
@@ -196,169 +345,9 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                                   ),
                               ):const SizedBox.shrink(),
                               const SizedBox(width: 20,),
-                              controller.listDataChartByArea.isNotEmpty ?
-                              Container(
-                                  width: (MediaQuery.of(context).size.width/2)-50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: const[
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            spreadRadius: 2,
-                                            blurRadius: 1,
-                                            offset: Offset(1,0)
-                                        )
-                                      ]
-                                  ),
-                                  child:  SfCartesianChart(
-                                      primaryXAxis: CategoryAxis(),
-                                      title: ChartTitle(text: 'Thống kê theo diện tích'),
-                                      tooltipBehavior: TooltipBehavior(enable: true),
-                                      series: <ChartSeries>[
-                                        ColumnSeries<SalesData,String>(
-                                          // dataSource: là hàm nếu nhận từ hàm,
-                                            dataSource: controller.listDataChartByArea,
-                                            xValueMapper: (SalesData sales, _) => sales.year.toString(),
-                                            yValueMapper: (SalesData sales, _) => sales.sales,
-                                            name: "Số mũi tiêm cần đáp ứng",
-                                            legendIconType: LegendIconType.diamond,
-                                            dataLabelSettings: DataLabelSettings(
-                                              isVisible: true,
-                                            )
-                                        )
-                                      ]
-                                  )
-                              ):const SizedBox.shrink(),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 40,left: 40,top: 10,bottom: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              controller.listDataChartByAreaNextShotTime.isNotEmpty ?
-                              Container(
-                                width: (MediaQuery.of(context).size.width/2)-50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: Colors.black12,
-                                          spreadRadius: 2,
-                                          blurRadius: 1,
-                                          offset: Offset(1,0)
-                                      )
-                                    ]
-                                ),
-                                child: SfCartesianChart(
-                                    primaryXAxis: CategoryAxis(),
-                                    title: ChartTitle(text: 'Thống kê theo thời gian'),
-                                    tooltipBehavior: TooltipBehavior(enable: true),
-                                    series: <ChartSeries>[
-                                      ColumnSeries<SalesData,String>(
-                                        // dataSource: là hàm nếu nhận từ hàm,
-                                          dataSource: controller.listDataChartByAreaNextShotTime,
-                                          xValueMapper: (SalesData sales, _) => sales.year.toString(),
-                                          yValueMapper: (SalesData sales, _) => sales.sales,
-                                          name: "Số mũi tiêm theo thời gian",
-                                          legendIconType: LegendIconType.diamond,
-                                          dataLabelSettings: DataLabelSettings(
-                                            isVisible: true,
-                                          )
-                                      )
-                                    ]
-                                ),
-                              ):const SizedBox.shrink(),
-                              const SizedBox(width: 20,),
-                              controller.listDataChartByNextShotType.isNotEmpty ?
-                              Container(
-                                  width: (MediaQuery.of(context).size.width/2)-50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: const[
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            spreadRadius: 2,
-                                            blurRadius: 1,
-                                            offset: Offset(1,0)
-                                        )
-                                      ]
-                                  ),
-                                  child:  SfCartesianChart(
-                                      primaryXAxis: CategoryAxis(),
-                                      title: ChartTitle(text: 'Thống kê theo loại vaccine'),
-                                      tooltipBehavior: TooltipBehavior(enable: true),
-                                      series: <ChartSeries>[
-                                        ColumnSeries<SalesData,String>(
-                                          // dataSource: là hàm nếu nhận từ hàm,
-                                            dataSource: controller.listDataChartByNextShotType,
-                                            xValueMapper: (SalesData sales, _) => sales.year.toString(),
-                                            yValueMapper: (SalesData sales, _) => sales.sales,
-                                            name: "Mũi tiêm thuộc loại vaccine",
-                                            legendIconType: LegendIconType.diamond,
-                                            dataLabelSettings: DataLabelSettings(
-                                              isVisible: true,
-                                            )
-                                        )
-                                      ]
-                                  )
-                              ):const SizedBox.shrink(),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 40,left: 40,top: 10,bottom: 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              controller.listDataChartByPriority.isNotEmpty ?
-                              Container(
-                                width: (MediaQuery.of(context).size.width/2)-50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                          color: Colors.black12,
-                                          spreadRadius: 2,
-                                          blurRadius: 1,
-                                          offset: Offset(1,0)
-                                      )
-                                    ]
-                                ),
-                                child: SfCartesianChart(
-                                    primaryXAxis: CategoryAxis(),
-                                    title: ChartTitle(text: 'Thống kê theo thứ tự ưu tiên'),
-                                    tooltipBehavior: TooltipBehavior(enable: true),
-                                    series: <ChartSeries>[
-                                      ColumnSeries<SalesData,String>(
-                                        // dataSource: là hàm nếu nhận từ hàm,
-                                          dataSource: controller.listDataChartByPriority,
-                                          xValueMapper: (SalesData sales, _) => sales.year.toString(),
-                                          yValueMapper: (SalesData sales, _) => sales.sales,
-                                          name: "Số mũi tiêm cần",
-                                          legendIconType: LegendIconType.diamond,
-                                          dataLabelSettings: DataLabelSettings(
-                                            isVisible: true,
-                                          )
-                                      )
-                                    ]
-                                ),
-                              ):const SizedBox.shrink(),
-                              const SizedBox(width: 20,),
                               controller.listDataChartByGender.isNotEmpty ?
                               Container(
-                                  width: (MediaQuery.of(context).size.width/2)-50,
+                                  width: (MediaQuery.of(context).size.width/3)-100,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
@@ -389,6 +378,51 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                                         )
                                       ]
                                   )
+                              ):const SizedBox.shrink(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 40,left: 40,top: 10,bottom: 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              controller.listDataChartByPriority.isNotEmpty ?
+                              Container(
+                                width: (MediaQuery.of(context).size.width)-80,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black12,
+                                          spreadRadius: 2,
+                                          blurRadius: 1,
+                                          offset: Offset(1,0)
+                                      )
+                                    ]
+                                ),
+                                child:  SfCartesianChart(
+                                    primaryXAxis: CategoryAxis(),
+                                    title: ChartTitle(text: 'Thống kê theo thứ tự ưu tiên'),
+                                    tooltipBehavior: TooltipBehavior(enable: true),
+                                    series: <ChartSeries>[
+                                      ColumnSeries<SalesData,String>(
+                                        // dataSource: là hàm nếu nhận từ hàm,
+                                          dataSource: controller.listDataChartByPriority,
+                                          xValueMapper: (SalesData sales, _) => sales.year.toString(),
+                                          yValueMapper: (SalesData sales, _) => sales.sales,
+                                          name: "Số mũi tiêm cần",
+                                          legendIconType: LegendIconType.diamond,
+                                          dataLabelSettings: DataLabelSettings(
+                                            isVisible: true,
+                                          )
+                                      )
+                                    ]
+                                ),
                               ):const SizedBox.shrink(),
                             ],
                           ),

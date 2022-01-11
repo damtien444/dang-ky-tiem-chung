@@ -134,7 +134,7 @@ class InjectionStatisticController extends GetxController{
       listDataBySex.value=data.bySex!;
   }
   Future<void> getDataSearchChartProvinceAndDistrict(String province,String district)async{
-    final data = await  repository.getDataInjectionStatisticProvinceAnDistrict(province, district);
+    final data = await repository.getDataInjectionStatisticProvinceAnDistrict(province, district);
       listDataAge.value=data!.byAge!;
       listDataArea.value=data.byArea!;
       listDataByNextShotTime.value=data.byNextShotTime!;
@@ -148,29 +148,28 @@ class InjectionStatisticController extends GetxController{
     return utf8.decode(bytes);
   }
   void fillDataChartProvince(){
-
-      for(var data in listDataAge){
-        listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-      }
-      for(var data in listDataArea){
-        listDataChartByArea.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-      }
-      for(var data in listDataByNextShotTime){
-        listDataChartByAreaNextShotTime.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-      }
-      for(var data in listDataByNextShotType){
-        listDataChartByNextShotType.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-      }
-      for(var data in listDataPriority){
-        listDataChartByPriority.add(SalesData(utf8convert(data.iId.toString()), data.count!));
-      }
-      for(var data in listDataBySex){
-        if(data.bId!){
-          listDataChartByGender.add(SalesData( "Nam", data.count!));
-        }else{
-          listDataChartByGender.add(SalesData( "Nữ", data.count!));
+        for(var data in listDataAge){
+          listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
         }
-      }
+        for(var data in listDataArea){
+          listDataChartByArea.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+        }
+        for(var data in listDataByNextShotTime){
+          listDataChartByAreaNextShotTime.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+        }
+        for(var data in listDataByNextShotType){
+          listDataChartByNextShotType.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+        }
+        for(var data in listDataPriority){
+          listDataChartByPriority.add(SalesData(utf8convert(data.iId.toString()), data.count!));
+        }
+        for(var data in listDataBySex){
+          if(data.bId!){
+            listDataChartByGender.add(SalesData( "Nam", data.count!));
+          }else{
+            listDataChartByGender.add(SalesData( "Nữ", data.count!));
+          }
+        }
 
   }
   void fillDataChartProvinceAndDistrict(){
