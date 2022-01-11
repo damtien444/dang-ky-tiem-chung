@@ -109,7 +109,7 @@ def random_sign():
     vaccine_shots = random_history()
     if len(vaccine_shots) == 0:
         next_expected_shot_date = datetime.datetime(1900, 1, 1)
-        next_expected_shot_type = ''
+        next_expected_shot_type = 'NO_NEXT'
     else:
         next_expected_shot_date = vaccine_shots[len(vaccine_shots) - 1]['shot_date'] + datetime.timedelta(
             days=random.randint(15, 90))
