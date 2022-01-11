@@ -118,11 +118,15 @@ class LoginView extends GetView<LoginController> {
                             ),
                             const SizedBox(height: 40),
                             ElevatedButton(
-                              onPressed: () {
-                                Get.delete<FeedbackController>();
-                                Get.delete<LoginController>();
-                                Get.delete<NavigationController>();
-                                Get.toNamed(Routes.NAVIGATIONADMIN);
+                              onPressed: () async {
+                                if (controller.loginFormKey.currentState!
+                                    .saveAndValidate()) {
+                                  await controller.login(
+                                      controller.loginFormKey.currentState!
+                                          .value['username'],
+                                      controller.loginFormKey.currentState!
+                                          .value['password']);
+                                }
                               },
                               child: const AutoSizeText('Đăng nhập'),
                             ),
@@ -134,7 +138,9 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             BottomSceen(),
           ],
         ),

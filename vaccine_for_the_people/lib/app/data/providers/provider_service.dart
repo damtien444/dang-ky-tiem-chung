@@ -118,10 +118,8 @@ class ProviderService {
         headers: requestHeader,
         body: body);
     if (httpPost.statusCode == 200) {
-      print(httpPost.body);
       final data = json.decode(json.encode(httpPost.body));
       final dataInjectionStatistic = provinceFromJson(data);
-      print(dataInjectionStatistic.byArea?[1].sId);
       return dataInjectionStatistic;
     } else {}
   }
@@ -166,7 +164,7 @@ class ProviderService {
         headers: <String, String>{'authorization': basicAuth},
       );
       if (response.statusCode == 200) {
-        final token = jsonDecode(response.body);
+        final token = response.body;
         return token;
       }
       return '';

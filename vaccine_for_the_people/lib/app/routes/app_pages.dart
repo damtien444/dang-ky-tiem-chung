@@ -1,11 +1,9 @@
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/binding/create_injection_campaign_binding.dart';
-import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/controller/create_injection_campaign_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/view/create_injection_campaign_view.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/bindings/admin_navigation_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/view/navigation_view.dart';
 
-import 'package:vaccine_for_the_people/app/modules/admin_navigation/view/navigation_view.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/bindings/feedback_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/home/binding/home_binding.dart';
@@ -50,15 +48,13 @@ class AppPages {
       binding: CreateInjectionCampaignBinding(),
     ),
     GetPage(
-      name: Routes.NAVIGATION,
-      page: () => NavigationScreen(),
-      binding: NavigationBinding()
-    ),
+        name: Routes.NAVIGATION,
+        page: () => NavigationScreen(),
+        binding: NavigationBinding()),
     GetPage(
-      name: Routes.NAVIGATIONADMIN,
-      page: () => AdminNavigationScreen(),
-      binding: AdminNavigationBinding()
-    ),
+        name: Routes.NAVIGATIONADMIN,
+        page: () => AdminNavigationScreen(),
+        binding: AdminNavigationBinding()),
     GetPage(
       name: Routes.STATEMENT_DATA,
       page: () => StatementDataView(),
