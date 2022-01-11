@@ -13,7 +13,6 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/components
 class InjectionStatisticView extends GetView<InjectionStatisticController> {
   InjectionStatisticView({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
