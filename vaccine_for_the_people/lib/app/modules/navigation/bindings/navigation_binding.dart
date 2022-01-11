@@ -6,8 +6,8 @@ import 'package:vaccine_for_the_people/app/modules/home/controller/home_controll
 import 'package:vaccine_for_the_people/app/modules/login/controllers/login_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/navigation/controller/navigation_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/data/providers/viet_nam_provider.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/data/services/viet_nam_repository.dart';
+import 'package:vaccine_for_the_people/app/data/providers/viet_nam_provider.dart';
+import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
 
 class NavigationBinding extends Bindings{
   @override

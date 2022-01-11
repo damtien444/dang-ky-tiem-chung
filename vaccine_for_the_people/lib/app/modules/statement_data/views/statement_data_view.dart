@@ -8,8 +8,9 @@ import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/components/form_builder_options.dart';
-import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
+import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/form_builder_options.dart';
+import 'package:vaccine_for_the_people/app/modules/statement_data/widgets/data_injection.dart';
+import 'package:vaccine_for_the_people/app/modules/statement_data/widgets/lable_injection.dart';
 
 import '../controllers/statement_data_controller.dart';
 
@@ -18,6 +19,7 @@ class StatementDataView extends GetView<StatementDataController> {
 
   @override
   Widget build(BuildContext context) {
+    var size = Get.size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -54,8 +56,7 @@ class StatementDataView extends GetView<StatementDataController> {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 40, horizontal: 100),
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
               child: Obx(() {
                 return Column(
                   children: [
@@ -81,7 +82,7 @@ class StatementDataView extends GetView<StatementDataController> {
                           width: 20,
                         ),
                         Material(
-                          color:Colors.white,
+                          color: Colors.white,
                           child: InkWell(
                             onTap: () {},
                             child: Container(
@@ -112,38 +113,13 @@ class StatementDataView extends GetView<StatementDataController> {
                           child: Padding(
                             padding: const EdgeInsets.only(right: 20),
                             child: FormBuilderOptions(
-                                title: 'Tuổi',
-                                require: false,
-                                listOptions:
-                                    Get.find<RegisterInjectionController>()
-                                        .listAges,
-                                mode: FormBuilderMode.DROP_DOWN),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: FormBuilderOptions(
                                 title: 'Tỉnh/Thành phố',
-                                value: Get.find<RegisterInjectionController>()
-                                    .initialTinh
-                                    .value,
+                                value: controller.initialTinh.value,
                                 onPress: (data) =>
-                                    Get.find<RegisterInjectionController>()
-                                        .findListDistricts(data),
-                                listOptions:
-                                    Get.find<RegisterInjectionController>()
-                                        .listProvinces
-                                        .value,
+                                    controller.findListDistricts(data),
+                                listOptions: controller.listProvinces.value,
                                 mode: FormBuilderMode.DROP_DOWN),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
                         ),
                         Flexible(
                           flex: 1,
@@ -151,38 +127,32 @@ class StatementDataView extends GetView<StatementDataController> {
                             padding: const EdgeInsets.only(right: 20),
                             child: FormBuilderOptions(
                                 title: 'Quận/Huyện',
-                                value: Get.find<RegisterInjectionController>()
-                                    .initialHuyen
-                                    .value,
-                                listOptions:
-                                    Get.find<RegisterInjectionController>()
-                                        .listDistricts
-                                        .value,
+                                value: controller.initialHuyen.value,
+                                listOptions: controller.listDistricts.value,
                                 onPress: (data) =>
-                                    Get.find<RegisterInjectionController>()
-                                        .findListWards(data),
+                                    controller.findListWards(data),
                                 mode: FormBuilderMode.DROP_DOWN),
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
+                        Flexible(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: FormBuilderOptions(
+                                title: 'Phường/Xã',
+                                listOptions: controller.listWards.value,
+                                value: controller.initialXa.value,
+                                onPress: (data) =>
+                                    {controller.initialXa.value = data},
+                                mode: FormBuilderMode.DROP_DOWN),
+                          ),
                         ),
                         Flexible(
                           flex: 1,
                           child: FormBuilderOptions(
-                              title: 'Phường/Xã',
-                              listOptions:
-                                  Get.find<RegisterInjectionController>()
-                                      .listWards
-                                      .value,
-                              value: Get.find<RegisterInjectionController>()
-                                  .initialXa
-                                  .value,
-                              onPress: (data) => {
-                                    Get.find<RegisterInjectionController>()
-                                        .initialXa
-                                        .value = data
-                                  },
+                              title: 'Tuổi',
+                              require: false,
+                              listOptions: controller.listAges,
                               mode: FormBuilderMode.DROP_DOWN),
                         ),
                       ],
@@ -199,38 +169,62 @@ class StatementDataView extends GetView<StatementDataController> {
                             child: FormBuilderOptions(
                                 title: 'Loại mũi tiêm',
                                 require: false,
-                                listOptions:
-                                    Get.find<RegisterInjectionController>()
-                                        .typeVaccine,
+                                listOptions: controller.typeVaccine,
                                 mode: FormBuilderMode.DROP_DOWN),
                           ),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
                         Flexible(
                           flex: 1,
-                          child: FormBuilderOptions(
-                              title: 'Tiền sử bệnh',
-                              listOptions:
-                                  Get.find<RegisterInjectionController>()
-                                      .anamesis,
-                              mode: FormBuilderMode.DROP_DOWN),
-                        ),
-                        const SizedBox(
-                          width: 30,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: FormBuilderOptions(
+                                title: 'Tiền sử bệnh',
+                                listOptions: controller.anamesis,
+                                mode: FormBuilderMode.DROP_DOWN),
+                          ),
                         ),
                         Flexible(
                           flex: 1,
                           child: FormBuilderOptions(
                               title: 'Loại đối tượng',
-                              listOptions:
-                                  Get.find<RegisterInjectionController>()
-                                      .typeObject,
+                              listOptions: controller.typeObject,
                               mode: FormBuilderMode.DROP_DOWN),
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          height: 500,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: Colors.grey,
+                                    offset: Offset(0, 0),
+                                    blurRadius: 1,
+                                    spreadRadius: 1)
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              children: [
+                                LabelInjection(size: size),
+                                DataInjection(size: size, index: 0),
+                                DataInjection(size: size, index: 1),
+                                DataInjection(size: size, index: 2),
+                                DataInjection(size: size, index: 3),
+                                DataInjection(size: size, index: 4),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 );
               }),
