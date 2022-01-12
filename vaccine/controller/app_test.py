@@ -157,7 +157,7 @@ def login():
 
     if check_password_hash(user['password'], auth.password):
         token = jwt.encode({'_id': str(user['_id']),
-                            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+                            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=120)},
                            app.config['SECRET_KEY'])
 
         return {'token': token}
