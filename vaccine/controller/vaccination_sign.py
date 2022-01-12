@@ -2,6 +2,8 @@ from vaccine import app, request, ObjectId, Message, mail, url_for, render_templ
 from vaccine.model.sign import Sign
 from vaccine.controller.service import db
 from vaccine.controller.token import confirm_token, generate_confirmation_token
+
+
 @app.route('/vaccination-sign', methods=['GET', 'POST'])
 def insert_sign():
     sign_collection = db['vaccination_sign']
@@ -13,15 +15,13 @@ def insert_sign():
 
     verify = sign_collection.find_one({'CCCD': data['CCCD']})
 
-
     token = generate_confirmation_token('yaloto9504@zherben.com')
     email = confirm_token(token)
     print(email)
-    if(email=='yaloto9504@zherben.com'):
+    if (email == 'yaloto9504@zherben.com'):
         confirm_url = url_for('create_vaccination')
     html = render_template('/activate.html', confirm_url=confirm_url)
     send_email(email, html)
-
 
     if verify is not None:
         shot_num_in_db = len(verify['vaccine_shots'])
@@ -59,10 +59,9 @@ def get_news():
 
     return {'news': result}
 
+
 def send_email(to_email, template):
     subject = 'Please confirm your email'
     list_email = [to_email]
     msg = Message(subject, html=template, recipients=list_email)
     mail.send(msg)
-
-
