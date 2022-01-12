@@ -136,8 +136,8 @@ def create_campaign(user):
 # campaign/<campaign-id> PUT
 # TODO: update or promote a campaign
 @app.route('/campaign/<campaign_id>', methods=['PUT'])
-# @admin_required
-def update_and_promote_campaign(campaign_id):
+@admin_required
+def update_and_promote_campaign(user,campaign_id):
     print(campaign_id)
     try:
         data = request.get_json()
