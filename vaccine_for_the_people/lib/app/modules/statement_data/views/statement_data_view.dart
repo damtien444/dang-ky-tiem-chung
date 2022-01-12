@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/core/components/expansion_animation.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
@@ -61,50 +62,85 @@ class StatementDataView extends GetView<StatementDataController> {
                 return Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: 200,
-                          height: 35,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                prefixIcon: const Icon(
-                                  CupertinoIcons.search,
-                                  size: 18,
-                                )),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 80,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: CustomeColor.colorAppBar),
-                              child: const Center(
-                                child: Text(
-                                  "Tìm kiếm",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  !controller.isExpanded.value;
+                                },
+                                child: const AutoSizeText('Tạo đợt tiêm chủng'),
+                              ),
+                            ),
+                            SizedBox(
+                              width:60,
+                              child: ExpansionAnimation(
+                                shouldExpand: controller.isExpanded.value,
+                                child: const Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 20),
+                                    child: FormBuilderOptions(
+                                        title: 'Email',
+                                        inputMode: InputMode.EMAIL,
+                                        mode: FormBuilderMode.DEFAULT),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              width: 200,
+                              height: 35,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    prefixIcon: const Icon(
+                                      CupertinoIcons.search,
+                                      size: 18,
+                                    )),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Material(
+                              color: Colors.white,
+                              child: InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  width: 80,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: CustomeColor.colorAppBar),
+                                  child: const Center(
+                                    child: Text(
+                                      "Tìm kiếm",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 40,
                     ),
                     Row(
                       children: [
