@@ -127,10 +127,45 @@ def create_campaign(user):
 # Thịnh
 # campaign/ GET
 # TODO: get all campaign
+@app.route('/campaign/get-all-campaign/', methods=['GET'])
+@admin_required
+def get_all_campaign(user):
+    try:
+        shots_campaign = campaign.find({})
+        if shots_campaign:
+            dict_shots_campaign_id = {'_id_confirmed': [],
+                                      '_id_not_confirm': []}
+            for shot_campaign in shots_campaign:
+                if shot_campaign['status']:
+                    dict_shots_campaign_id['_id_confirmed'].append(shot_campaign['_id'])
+                else:
+                    dict_shots_campaign_id['_id_not_confirm'].append(shot_campaign['_id'])
+            return {'Status': 'Success',
+                    'Message': [f'list of shots campaign comfirmed {dict_shots_campaign_id["_id_confirmed"]}',
+                                f'List of shots campaign not comfirm {dict_shots_campaign_id["_id_not_confirm"]}']}
+        else:
+            return {'Status': 'Warning', 'Message': 'Do not hve any shot campaign! Please create shots campaign'}
+    except Exception as e:
+        return {'Status': 'Fail', 'Message': e}
+
 
 # Thịnh
 # campaign/<campaign-id> GET
 # TODO: get a campaign
+@app.route('/campaign/<string:campaign_id>', methods=['GET'])
+@admin_required
+def get_a_campaign(user, campaign_id):
+    try:
+        current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
+        if current_shot_campaign:
+            return {'Status': 'Success',
+                    'Current shot campaign': current_shot_campaign}
+        else:
+            return {'Status': 'Fail',
+                    'Message': f'Can not find campaign from {campaign_id}! Please check again'}
+    except Exception as e:
+        return {'Status': 'Error!',
+                'Message': e}
 
 # Tiến
 # campaign/<campaign-id> PUT
@@ -203,6 +238,21 @@ def update_and_promote_campaign(user,campaign_id):
 # Thịnh
 # campaign/<campaign-id> DELETE
 # TODO: delete a campaign
+@app.route('/campaign/<string:campaign_id>', methods=['DELETE'])
+@admin_required
+def delete_a_campaign(user, campaign_id):
+    try:
+        shot_campaign_deleted = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
+        if shot_campaign_deleted:
+            return {'Status': 'Success',
+                    'Message': f'Deleted {shot_campaign_deleted}'}
+        else:
+            return {'Status': 'Fail',
+                    'Message': f'Can not find campaign from {campaign_id}! Please check again'}
+    except Exception as e:
+        return {'Status': 'Error!',
+                'Message': e}
+
 
 # Huyền
 # campaign/<campaign-id>/user/<user-id> GET
