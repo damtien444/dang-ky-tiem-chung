@@ -1,3 +1,4 @@
+
 from vaccine import app, request, Message, mail, render_template
 from vaccine.controller.app_test import admin_required
 from vaccine.controller.service import db
@@ -9,7 +10,7 @@ sign = db['vaccination_sign']
 
 
 @app.route('/campaign-statistic', methods=['POST'])
-# @admin_required
+@admin_required
 def vaccine_statistic_gathering():
     try:
 
@@ -73,6 +74,7 @@ def vaccine_statistic_gathering():
         for thing in group_by_next_shot_time:
             by_next_shot_time.append(thing)
 
+
         by_next_shot_type = []
         for thing in group_by_next_shot_type:
             by_next_shot_type.append(thing)
@@ -87,8 +89,10 @@ def vaccine_statistic_gathering():
 
         return {'result': 'success', 'by_priority': by_priority, 'by_age': by_age,
                 'by_sex': by_sex, 'by_next_shot_time': by_next_shot_time, 'by_next_shot_type': by_next_shot_type,
-                'by_province': by_province, 'by_area': by_area}
+                'by_province': by_province, 'by_area': by_area}, 200
 
     except Exception as e:
         print(e)
-        return {'result': 'fail', 'message': 'not able to gather statistic information'}
+        return {'result': 'fail', 'message': 'not able to gather statistic information'}, 400
+
+

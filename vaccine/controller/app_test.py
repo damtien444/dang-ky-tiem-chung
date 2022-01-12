@@ -26,19 +26,19 @@ def admin_required(f):
             token = request.headers['x-access-token']
 
         if not token:
-            return {'result': "fail", 'message': "Token is not found"}
+            return {'result': "fail", 'message': "Token is not found"}, 401
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
             current_user = managers.find_one({"_id": ObjectId(data['_id'])})
 
             if not current_user['is_admin']:
-                return {'result': 'fail', 'message': 'not enough authority'}
+                return {'result': 'fail', 'message': 'not enough authority'}, 401
 
             print(current_user)
         except Exception as ignore:
             print(ignore)
-            return {'result': "fail", 'message': "Token is invalid"}
+            return {'result': "fail", 'message': "Token is invalid"}, 401
 
         return f(current_user, *args, **kwargs)
 
@@ -67,7 +67,7 @@ def get_all_users(current_user):
 
     except Exception as e:
         print(e)
-        return {"result": 'fail', 'message': 'Unable to find user'}
+        return {"result": 'fail', 'message': 'Unable to find user'}, 400
 
 
 @app.route('/user/<user_id>', methods=['GET'])
@@ -78,15 +78,16 @@ def get_one_user(current_user, user_id):
         if user:
             return {"result": 'success', "user": user}
         else:
-            return {"result": 'fail', 'message': 'Unable to find user'}
+            return {"result": 'fail', 'message': 'Unable to find user'}, 400
     except Exception as e:
         print(e)
-        return {"result": 'fail', 'message': 'Unable to find user'}
+        return {"result": 'fail', 'message': 'Unable to find user'}, 400
 
 
 @app.route('/user', methods=['POST'])
 @admin_required
 def create_user(current_user):
+
     is_admin = False
 
     data = request.get_json()
@@ -99,14 +100,14 @@ def create_user(current_user):
     verify = managers.find_one({'username': new_user.username})
     if verify is not None:
         print(verify)
-        return {'result': 'fail', 'reason': 'username is not unique!'}
+        return {'result': 'fail', 'reason': 'username is not unique!'}, 400
 
     try:
         managers.insert_one(new_user.gen_dict())
         return {'result': 'success', 'user': new_user.gen_dict()}
     except Exception as e:
         print(e)
-        return {'result': 'fail', 'reason': 'not able to add'}
+        return {'result': 'fail', 'reason': 'not able to add'}, 400
 
 
 @app.route('/user/<user_id>', methods=['PUT'])
@@ -120,11 +121,11 @@ def promote_user(current_user, user_id):
             if user:
                 return {"result": 'success', "user": user}
             else:
-                return {"result": 'fail', 'message': 'Unable to find user'}
+                return {"result": 'fail', 'message': 'Unable to find user'}, 400
 
     except Exception as e:
         print(e)
-        return {"result": 'fail', 'message': 'Unable to find user (1)'}
+        return {"result": 'fail', 'message': 'Unable to find user (1)'}, 400
 
 
 @app.route('/user/<user_id>', methods=['DELETE'])
@@ -135,11 +136,11 @@ def delete_user(current_user, user_id):
         if user:
             return {"result": 'success', "user_deleted": user}
         else:
-            return {"result": 'fail', 'message': 'Unable to find user'}
+            return {"result": 'fail', 'message': 'Unable to find user'}, 400
 
     except Exception as e:
         print(e)
-        return {"result": 'fail', 'message': 'Unable to find user (1)'}
+        return {"result": 'fail', 'message': 'Unable to find user (1)'}, 400
 
 
 @app.route('/login')
