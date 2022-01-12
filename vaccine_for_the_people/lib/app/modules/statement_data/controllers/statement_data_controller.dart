@@ -49,6 +49,7 @@ class StatementDataController extends GetxController {
   final initialTinh = 'Tất cả'.obs;
   final initialHuyen = 'Tất cả'.obs;
   final initialXa = 'Tất cả'.obs;
+  final isExpanded = false.obs;
 
   Future<void> getProvinces() async {
     final data = await VietNamRepository.getProvinces();
