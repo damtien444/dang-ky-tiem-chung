@@ -10,7 +10,7 @@ sign = db['vaccination_sign']
 
 
 @app.route('/campaign-statistic', methods=['POST'])
-@admin_required
+# @admin_required
 def vaccine_statistic_gathering(user):
     try:
 
