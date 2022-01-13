@@ -4,7 +4,7 @@ from vaccine.controller.service import db
 from vaccine.controller.token import confirm_token, generate_confirmation_token
 
 
-@app.route('/vaccination-sign', methods=['GET', 'POST'])
+@app.route('/vaccination-sign-test', methods=['GET', 'POST'])
 def insert_sign():
     sign_collection = db['vaccination_sign']
     # data = request.get_json()
