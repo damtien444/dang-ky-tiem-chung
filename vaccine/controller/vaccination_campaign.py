@@ -257,18 +257,101 @@ def delete_a_campaign(user, campaign_id):
 # Huyền
 # campaign/<campaign-id>/user/<user-id> GET
 # TODO: get a person in campaign
+@app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['GET'])
+@admin_required
+def get_a_person_in_campaign(campaign_id, user_id):
+    try:
+        current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
+        list_of_people = current_shot_campaign['list_of_people']
+        for person in list_of_people:
+            if person['_id'] == ObjectId(user_id):
+                return {'Result': 'Success',
+                        'User': person}
+        return {'Result': 'Fail',
+                'Message': f'Can not find user from {campaign_id}! Please check again'}
+    except Exception as e:
+        print(e)
+        return {'Result': 'Error!',
+                'Message': 'Error!'}
+
 
 # Huyền
 # campaign/<campaign-id>/user/ POST
 # TODO: add a person to campaign
+@app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['POST'])
+@admin_required
+def add_a_person_to_campaign(campaign_id, user_id):
+    try:
+        current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
+        if current_shot_campaign is None:
+            return {'Result': 'Fail',
+                    'Message': f'Can not find campaign having id: {campaign_id}! Please check again'}
+        else:
+            list_of_people = current_shot_campaign['list_of_people']
+            for person in list_of_people:
+                if person['_id'] == ObjectId(user_id):
+                    return {'Result': 'Fail',
+                            'Message': 'This person was in campaign'}
+            try:
+                person = sign.find_one({'_id': ObjectId(user_id)})
+                if person is not None:
+                    birthday = person['birth_day']
+                    age = datetime.now().year - birthday.year
+                    new_person = {'_id': ObjectId(user_id),
+                                  'age': age,
+                                  'priority_group': person['priority_group'],
+                                  'next_expected_shot_date': person['next_expected_shot_date'],
+                                  'next_expected_shot_type': person['next_expected_shot_type']}
+                    list_of_people.append(new_person)
+                    try:
+                        campaign.find_one_and_update({'_id': ObjectId(campaign_id)},
+                                                     {"$set": {'list_of_people': list_of_people}})
+                        return {'Result': 'Success'}
+                    except Exception as e:
+                        print(e)
+                        return {'Result': 'Fail!',
+                                'Message': 'Can not add'}
+                else:
+                    return {'Result': 'Fail!',
+                            'Message': f'Can not find user having id {user_id}! Please check again'}
+            except Exception as e:
+                print(e)
+                return {'Result': 'Fail!',
+                        'Message': f'Can not find user having id {user_id}! Please check again'}
+    except Exception as e:
+        print(e)
+        return {'Result': 'Error!'}
 
 # Huyền
 # campaign/<campaign-id>/user/<user-id> DELETE
 # TODO: delete a person from campaign
+@app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['DELETE'])
+@admin_required
+def delete_a_person_from_campaign(campaign_id, user_id):
+    try:
+        current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
+        if current_shot_campaign['status'] is False:
+            list_of_people = current_shot_campaign['list_of_people']
+            for person in list_of_people:
+                if person['_id'] == ObjectId(user_id):
+                    list_of_people.remove(person)
+                    campaign.find_one_and_update({'_id': ObjectId(campaign_id)},
+                                                 {"$set": {'list_of_people': list_of_people}})
+                    return {'Result': 'Success',
+                            'Message': f'Deleted {person}'}
+            return {'Result': 'Fail',
+                    'Message': f'Can not find user from {campaign_id}! Please check again'}
+        else:
+            return {'Result': 'Fail',
+                    'Message': f'Campaign {campaign_id} was promoted'}
+    except Exception as e:
+        return {'Result': 'Error!'}
+
 
 # Huyền
 # campaign/<campaign-id>/user/<user-id> PUT
 # TODO: update a person in campaign
+
 
 def parse_to_date(date_json):
     try:
