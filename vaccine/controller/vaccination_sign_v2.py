@@ -25,6 +25,7 @@ def insert_vaccination_sign():
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
+                confirm_email(data['email'])
                 return {'result': 'success'}
             except Exception as e:
                 print(e)
@@ -54,7 +55,8 @@ def insert_vaccination_sign():
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
                                                         {"$set": {'vaccine_shots': vaccine_shots}})
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
-                                                        {"$set": {'user_expected_shot_date': data['expected_shot_date']}})
+                                                    {"$set": {'user_expected_shot_date': data['expected_shot_date']}})
+                    confirm_email(data['email'])
                     return {'result': 'success'}
                 except Exception as e:
                     print(e)
@@ -62,18 +64,21 @@ def insert_vaccination_sign():
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
+                confirm_email(data['email'])
                 return {'result': 'success'}
             except Exception as e:
                 print(e)
                 return fail_result_cannot_add
 
-    # token = generate_confirmation_token(data['email'])
-    # email = confirm_token(token)
-    # print(email)
-    # if (email == 'yaloto9504@zherben.com'):
-    #     confirm_url = url_for('create_vaccination')
-    # html = render_template('/activate.html', confirm_url=confirm_url)
-    # send_email(email, html)
+
+def confirm_email(email):
+    token = generate_confirmation_token(email)
+    email_confirm = confirm_token(token)
+    print(email_confirm)
+    if email_confirm == email:
+        confirm_url = url_for('create_vaccination')
+    html = render_template('/activate.html', confirm_url=confirm_url)
+    send_email_sign(email, html)
 
 
 def send_email_sign(to_email, template):
