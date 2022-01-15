@@ -3,7 +3,7 @@ from vaccine.model.sign import Sign
 from vaccine.controller.service import db
 from vaccine.controller.token import confirm_token, generate_confirmation_token
 from datetime import datetime
-
+from .email_confirm import confirm_email_sign
 
 @app.route('/vaccination-sign', methods=['POST'])
 def insert_vaccination_sign():
@@ -25,7 +25,7 @@ def insert_vaccination_sign():
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
-                confirm_email(data['email'])
+                confirm_email_sign(data['email'])
                 return {'result': 'success'}
             except Exception as e:
                 print(e)
@@ -56,7 +56,7 @@ def insert_vaccination_sign():
                                                         {"$set": {'vaccine_shots': vaccine_shots}})
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
                                                     {"$set": {'user_expected_shot_date': data['expected_shot_date']}})
-                    confirm_email(data['email'])
+                    confirm_email_sign(data['email'])
                     return {'result': 'success'}
                 except Exception as e:
                     print(e)
@@ -64,25 +64,10 @@ def insert_vaccination_sign():
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
-                confirm_email(data['email'])
+                confirm_email_sign(data['email'])
                 return {'result': 'success'}
             except Exception as e:
                 print(e)
                 return fail_result_cannot_add
 
 
-def confirm_email(email):
-    token = generate_confirmation_token(email)
-    email_confirm = confirm_token(token)
-    print(email_confirm)
-    if email_confirm == email:
-        confirm_url = url_for('create_vaccination')
-    html = render_template('/activate.html', confirm_url=confirm_url)
-    send_email_sign(email, html)
-
-
-def send_email_sign(to_email, template):
-    subject = 'Please confirm your email'
-    list_email = [to_email]
-    msg = Message(subject, html=template, recipients=list_email)
-    mail.send(msg)
