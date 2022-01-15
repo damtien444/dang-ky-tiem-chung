@@ -4,7 +4,7 @@ from vaccine import app, request, admin_required
 from vaccine.controller.service import db
 from vaccine.model.agregation_pipeline import create_list_people_in_campaign
 from vaccine.model.campaign import Campaign
-from .email_confirm import send_email_confirm_vaccination_campaign
+from .email_confirm import send_email_confirm_vaccination_campaign, send_email_notification_delete_campaign
 
 sign = db['vaccination_sign']
 campaign = db['shot_campaign']
@@ -361,14 +361,14 @@ def update_and_promote_campaign(campaign_id):
 # @admin_required
 def delete_a_campaign( campaign_id):
     try:
-        shot_campaign_deleted = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
-
-        # TODO: check status của chiến dịch,  nếu chiến dịch chính thức, phải  thông báo là xóa  chiến dịch cho người
-        #  dự tiêm, xóa các mũi dự tiêm ở trên vaccination_sign collections
-
-        if shot_campaign_deleted:
+        shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
+        if shot_campaign:
+            if(shot_campaign['status']):
+                log = send_email_notification_delete_campaign(shot_campaign)
+                campaign.delete_one({'_id': ObjectId(campaign_id)})
+                return {'log': log}
             return {'Status': 'Success',
-                    'Message': f'Deleted {shot_campaign_deleted}'}
+                    'Message': f'Deleted {shot_campaign}'}
         else:
             return {'Status': 'Fail',
                     'Message': f'Can not find campaign from {campaign_id}! Please check again'}

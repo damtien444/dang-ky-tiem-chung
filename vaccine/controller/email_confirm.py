@@ -105,6 +105,31 @@ def send_email_vaccination_campaign(person: dict,
     mail.send(msg)
 
 
+def send_email_delete_campaign(person: dict,
+                               date_start: str,
+                               date_end: str,
+                               place: str,
+                               vaccine_type: str,
+                               reason: str = ''):
+    try:
+        to_email = person['email']
+        name = person['name']
+        cccd = person['CCCD']
+        address = person['address']
+    except Exception as e:
+        return str(e)
+
+    subject = f'Thông báo hủy đợt tiêm chủng đến {"ông" if person["sex"] else "bà"} {name}'
+    content = f''' Kính gửi t đang {"ông" if person["sex"] else "bà"} {name}\n
+                    - CCCD: {cccd}\n
+                    - Địa chỉ: {address}\n
+                   Vì {reason} nên chúng tôi xin hủy đợt tiêm vaccine {vaccine_type} từ {date_start} đến {date_end} tại {place}\n
+                   Chúng tôi chân thành xin lỗi vì bất tiện này'''
+    msg = Message(subject, recipients=to_email)
+    msg.body = content
+    mail.send(msg)
+
+
 def send_email_confirm_vaccination_campaign(campaign: dict):
     sign = db['vaccination_sign']
     dict_people = campaign['list_of_people']
@@ -161,11 +186,93 @@ def send_email_confirm_vaccination_campaign(campaign: dict):
                 person_signed = None
                 # check person id
                 try:
-                    person_signed = sign.find_one({'_id': dict_people[position]['_id']})
+                    person_signed = sign.find_one({'_id': ObjectId(dict_people[position]['_id'])})
                     if person_signed:
                         log['_id'].append(person_signed['_id'])
                         try:
-                            error = send_email_vaccination_campaign(person_signed, date_start, date_end, place, vaccine_type)
+                            error = send_email_vaccination_campaign(person_signed, date_start, date_end, place,
+                                                                    vaccine_type)
+                        except:
+                            return {'Error': f'Error send email : {error}'}
+                    else:
+                        log['_id'].append(f'Can not find person {dict_people[position]["_id"]}')
+                except:
+                    log['_id'].append({'Error!': 'person_signed'})
+
+
+        else:
+            log = 'Do not have any person in this campaign'
+        return {'Result': log}
+    except:
+        return {'Error': log}
+
+
+def send_email_notification_delete_campaign(campaign: dict):
+    sign = db['vaccination_sign']
+    dict_people = campaign['list_of_people']
+    log = {'_id': [],
+           'date_start': [],
+           'date_end': [],
+           'place': [],
+           'vaccine_type': []}
+    try:
+        if dict_people:
+            date_start, date_end, place, vaccine_type = '', '', '', ''
+
+            # check place
+            try:
+                place = campaign['date_place']
+                if place:
+                    log['place'].append(place)
+                else:
+                    log['place'].append('Can not find place')
+            except:
+                log['place'].append({'Error!': 'place'})
+
+            # check date start
+            try:
+                date_start = campaign['date_start']
+                if date_start:
+                    log['date_start'].append(date_start)
+                else:
+                    log['date_start'].append('Can not find date start')
+            except:
+                log['date_start'].append({'Error!': 'date_start'})
+
+            # check date end
+            try:
+                date_end = campaign['date_end']
+                if date_end:
+                    log['date_end'].append(date_end)
+                else:
+                    log['date_end'].append('Can not find date end')
+            except:
+                log['date_end'].append({'Error!': 'date_end'})
+
+            # check vaccine type
+            try:
+                vaccine_type = campaign['type_of_people']['vaccine_type']
+                if vaccine_type:
+                    log['vaccine_type'].append(vaccine_type)
+                else:
+                    log['vaccine_type'].append('Can not find date end')
+            except:
+                log['vaccine_type'].append({'Error!': 'vaccine_type'})
+
+            for position in range(len(dict_people)):
+                person_signed = None
+                # check person id
+                try:
+                    person_signed = sign.find_one({'_id': ObjectId(dict_people[position]['_id'])})
+                    if person_signed:
+                        log['_id'].append(person_signed['_id'])
+
+                        #TODO xóa mũi dự tiêm hiện tại và cập nhập thông tin mũi tiêm dự kiến
+
+                        # gửi mail xác nhận
+                        try:
+                            error = send_email_delete_campaign(person_signed, date_start, date_end, place,
+                                                               vaccine_type)
                         except:
                             return {'Error': f'Error send email : {error}'}
                     else:
