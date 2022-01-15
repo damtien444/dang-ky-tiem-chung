@@ -10,7 +10,7 @@ class LoginController extends GetxController {
 
   LoginController({required this.repository});
 
-  final loginFormKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> loginFormKey = GlobalKey<FormBuilderState>();
   final ready = true.obs;
 
   Future<void> login(String username, String password) async {
@@ -31,6 +31,10 @@ class LoginController extends GetxController {
   }
 
   void _showDialog() {
-    Get.dialog(const MyDialog());
+    Get.dialog(const MyDialog(
+      isSuccess: false,
+      title: '',
+      failedTitle: 'Đăng nhập thất bại, xin vui lòng thử lại',
+    ));
   }
 }

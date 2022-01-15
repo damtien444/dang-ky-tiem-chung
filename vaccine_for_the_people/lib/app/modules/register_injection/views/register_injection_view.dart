@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/core/components/loading_view.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
@@ -16,313 +18,427 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() {
-        return ListView(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-              color: kHeaderPage,
-              child: Row(
-                children: [
-                  AutoSizeText(
-                    'Đăng kí tiêm cá nhân',
-                    style: Get.textTheme.headline5,
-                  ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  AutoSizeText.rich(
-                    TextSpan(
-                      style: Get.textTheme.bodyText2,
-                      children: [
-                        TextSpan(
-                          text: 'Trang chủ',
-                          style: noteStyle,
-                          recognizer: TapGestureRecognizer()..onTap = () {},
-                        ),
-                        const TextSpan(text: '  /  Đăng kí tiêm'),
-                      ],
+      body: Stack(
+        children: [
+          Positioned.fill(child: Obx(() {
+            return !controller.ready.value
+                ? Container(
+                    color: Colors.black45,
+                    child: Center(
+                      child: SizedBox(
+                          width: 50, height: 50, child: LoadingWidget()),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: Get.width * 0.15,
-                        child: FormBuilderOptions(
-                            title: 'Đăng kí mũi tiêm',
-                            listOptions: controller.orderInjection,
-                            mode: FormBuilderMode.DROP_DOWN),
-                      ),
-                      const SizedBox(height: 20),
-                      AutoSizeText('1. Thông tin người đăng ký tiêm',
-                          style: labelStyle),
-                      const SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  )
+                : const SizedBox.shrink();
+          })),
+          Obx(() {
+            return Positioned(
+              child: FormBuilder(
+                key: controller.regInjectionFormKey,
+                child: ListView(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60, vertical: 20),
+                      color: !controller.ready.value
+                          ? Colors.black.withOpacity(0.05)
+                          : kHeaderPage,
+                      child: Row(
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Họ và tên',
-                                  mode: FormBuilderMode.DEFAULT),
-                            ),
+                          AutoSizeText(
+                            'Đăng kí tiêm cá nhân',
+                            style: Get.textTheme.headline5,
                           ),
-                          const Flexible(
+                          const Spacer(
                             flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Ngày sinh',
-                                  mode: FormBuilderMode.DATE_PICKER),
-                            ),
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Giới tính',
-                                  listOptions: controller.genders,
-                                  mode: FormBuilderMode.DROP_DOWN),
+                          AutoSizeText.rich(
+                            TextSpan(
+                              style: Get.textTheme.bodyText2,
+                              children: [
+                                TextSpan(
+                                  text: 'Trang chủ',
+                                  style: noteStyle,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {},
+                                ),
+                                const TextSpan(text: '  /  Đăng kí tiêm'),
+                              ],
                             ),
-                          ),
-                          const Flexible(
-                            flex: 1,
-                            child: FormBuilderOptions(
-                                title: 'Số điện thoại',
-                                inputMode: InputMode.PHONE,
-                                mode: FormBuilderMode.DEFAULT),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
                         children: [
-                          const Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Email',
-                                  inputMode: InputMode.EMAIL,
-                                  mode: FormBuilderMode.DEFAULT),
-                            ),
-                          ),
-                          const Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'CCCD/Mã định danh công dân/Hộ chiếu',
-                                  mode: FormBuilderMode.DEFAULT),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Loại vaccine',
-                                  listOptions: controller.typeVaccine,
-                                  mode: FormBuilderMode.DROP_DOWN),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: FormBuilderOptions(
-                                title: 'Nhóm ưu tiên',
-                                listOptions: controller.typeObject,
-                                mode: FormBuilderMode.DROP_DOWN),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Tỉnh/Thành phố',
-                                  value: controller.initialTinh.value,
-                                  onPress: (data) =>
-                                      controller.findListDistricts(data),
-                                  listOptions: controller.listProvinces.value,
-                                  mode: FormBuilderMode.DROP_DOWN),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Quận/Huyện',
-                                  value: controller.initialHuyen.value,
-                                  listOptions: controller.listDistricts.value,
-                                  onPress: (data) =>
-                                      controller.findListWards(data),
-                                  mode: FormBuilderMode.DROP_DOWN),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: FormBuilderOptions(
-                                title: 'Phường/Xã',
-                                listOptions: controller.listWards.value,
-                                value: controller.initialXa.value,
-                                onPress: (data) =>
-                                    {controller.initialXa.value = data},
-                                mode: FormBuilderMode.DROP_DOWN),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Địa chỉ hiện tại',
-                                  require: false,
-                                  mode: FormBuilderMode.DEFAULT),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Tuổi',
-                                  listOptions: controller.listAges,
-                                  mode: FormBuilderMode.DROP_DOWN),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: FormBuilderOptions(
-                                title: 'Tiền sử bệnh',
-                                listOptions: controller.anamesis,
-                                mode: FormBuilderMode.DROP_DOWN),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      AutoSizeText('2. Thông tin đăng ký tiêm chủng',
-                          style: labelStyle),
-                      const SizedBox(height: 20),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Ngày muốn được tiêm(dự kiến)',
-                                  mode: FormBuilderMode.DATE_PICKER),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: FormBuilderOptions(
-                                  title: 'Buổi muốn được tiêm',
-                                  listOptions: controller.listSession,
-                                  mode: FormBuilderMode.DROP_DOWN),
-                            ),
-                          ),
-                          const Spacer(flex: 2),
-                        ],
-                      ),
-                      const SizedBox(height: 50),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              // controller.regInjectionFormKey.currentState!
-                              //     .reset();
-                            },
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<
-                                      EdgeInsetsGeometry>(
-                                  const EdgeInsets.symmetric(horizontal: 50)),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  kOnPrimaryColor),
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(kWarning),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                const RoundedRectangleBorder(
-                                  side: BorderSide(color: kWarning),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                    bottomRight: Radius.circular(12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: Get.width * 0.15,
+                                child: FormBuilderOptions(
+                                    title: 'Đăng kí mũi tiêm',
+                                    onPress: (orderShot) {
+                                      controller.orderShot.value = orderShot ==
+                                              controller.orderInjection[0]
+                                          ? 1
+                                          : 2;
+                                    },
+                                    listOptions: controller.orderInjection,
+                                    mode: FormBuilderMode.DROP_DOWN),
+                              ),
+                              const SizedBox(height: 20),
+                              AutoSizeText('1. Thông tin người đăng ký tiêm',
+                                  style: labelStyle),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Họ và tên',
+                                          onPress: (name) {
+                                            controller.name.value = name;
+                                          },
+                                          mode: FormBuilderMode.DEFAULT),
+                                    ),
                                   ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Ngày sinh',
+                                          onPress: (birthDay) {
+                                            controller.birthDay.value =
+                                                birthDay;
+                                          },
+                                          mode: FormBuilderMode.DATE_PICKER),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: FormBuilderOptions(
+                                        title: 'Giới tính',
+                                        onPress: (sex) {
+                                          controller.sex.value = sex;
+                                        },
+                                        listOptions: controller.genders,
+                                        mode: FormBuilderMode.DROP_DOWN),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Email',
+                                          inputMode: InputMode.EMAIL,
+                                          onPress: (email) {
+                                            controller.email.value = email;
+                                          },
+                                          mode: FormBuilderMode.DEFAULT),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title:
+                                              'CCCD/Mã định danh công dân/Hộ chiếu',
+                                          onPress: (identificationCard) {
+                                            controller.identificationCard
+                                                .value = identificationCard;
+                                          },
+                                          mode: FormBuilderMode.DEFAULT),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: FormBuilderOptions(
+                                        title: 'Nhóm ưu tiên',
+                                        onPress: (type) {
+                                          controller.priorityType.value =
+                                              (controller.typeObject
+                                                          .indexOf(type) +
+                                                      1)
+                                                  .toString();
+                                        },
+                                        listOptions: controller.typeObject,
+                                        mode: FormBuilderMode.DROP_DOWN),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Tỉnh/Thành phố',
+                                          value: controller.initialTinh.value,
+                                          onPress: (data) {
+                                            controller.province.value = data;
+                                            controller.findListDistricts(data);
+                                          },
+                                          listOptions:
+                                              controller.listProvinces.value,
+                                          mode: FormBuilderMode.DROP_DOWN),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Quận/Huyện',
+                                          value: controller.initialHuyen.value,
+                                          listOptions:
+                                              controller.listDistricts.value,
+                                          onPress: (data) {
+                                            controller.district.value = data;
+                                            controller.findListWards(data);
+                                          },
+                                          mode: FormBuilderMode.DROP_DOWN),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: FormBuilderOptions(
+                                        title: 'Phường/Xã',
+                                        listOptions: controller.listWards.value,
+                                        value: controller.initialXa.value,
+                                        onPress: (data) {
+                                          controller.initialXa.value = data;
+                                          controller.ward.value = data;
+                                        },
+                                        mode: FormBuilderMode.DROP_DOWN),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Địa chỉ hiện tại',
+                                          onPress: (data) {
+                                            controller.stNo.value = data;
+                                          },
+                                          mode: FormBuilderMode.DEFAULT),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Số điện thoại',
+                                          inputMode: InputMode.PHONE,
+                                          onPress: (phone) {
+                                            controller.phone.value = phone;
+                                          },
+                                          mode: FormBuilderMode.DEFAULT),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: FormBuilderOptions(
+                                        title: 'Tiền sử bệnh',
+                                        listOptions: controller.anamesis,
+                                        onPress: (illnessHistory) {
+                                          controller.illnessHistory.value =
+                                              illnessHistory;
+                                        },
+                                        mode: FormBuilderMode.DROP_DOWN),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              AutoSizeText('2. Thông tin đăng ký tiêm chủng',
+                                  style: labelStyle),
+                              const SizedBox(height: 20),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: FormBuilderOptions(
+                                          title: 'Ngày muốn được tiêm(dự kiến)',
+                                          onPress: (injectionDay) {
+                                            controller.injectionDay.value =
+                                                injectionDay;
+                                          },
+                                          mode: FormBuilderMode.DATE_PICKER),
+                                    ),
+                                  ),
+                                  const Spacer(flex: 2),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Visibility(
+                                visible: controller.orderShot.value == 2
+                                    ? true
+                                    : false,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText('3. Lịch sử tiêm mũi 1',
+                                        style: labelStyle),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Flexible(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            child: FormBuilderOptions(
+                                                title: 'Địa chỉ tiêm mũi 1',
+                                                onPress: (data) {
+                                                },
+                                                mode: FormBuilderMode.DEFAULT),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            child: FormBuilderOptions(
+                                                title: 'Thời gian tiêm mũi 1',
+                                                onPress: (data) {
+                                                },
+                                                mode: FormBuilderMode.DEFAULT),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            child: FormBuilderOptions(
+                                                title: 'Loại vaccine mũi 1',
+                                                onPress: (data) {
+                                                },
+                                                mode: FormBuilderMode.DEFAULT),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            child: const AutoSizeText('Hủy bỏ'),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<
-                                      EdgeInsetsGeometry>(
-                                  const EdgeInsets.symmetric(horizontal: 30)),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    topRight: Radius.circular(12),
-                                    bottomRight: Radius.circular(12),
+                              const SizedBox(height: 50),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    width: 20,
                                   ),
-                                ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      if (controller
+                                          .regInjectionFormKey.currentState!
+                                          .validate()) {
+                                        await controller.vaccinationSign({
+                                          "order_shot":
+                                              controller.orderShot.value,
+                                          "name": controller.name.value,
+                                          "birth_day":
+                                              controller.birthDay.value,
+                                          "sex": controller.sex.value == "Nam"
+                                              ? true
+                                              : false,
+                                          "phone": controller.phone.value,
+                                          "email": controller.email.value,
+                                          "CCCD": controller
+                                              .identificationCard.value,
+                                          "BHXH_id": '',
+                                          "address": {
+                                            "province":
+                                                controller.province.value,
+                                            "district":
+                                                controller.district.value,
+                                            "ward": controller.initialXa.value,
+                                            "st_no": controller.stNo.value
+                                          },
+                                          "priority_group": int.parse(
+                                              controller.priorityType.value),
+                                          "illness_history":
+                                              controller.illnessHistory.value ==
+                                                      "Có"
+                                                  ? true
+                                                  : false,
+                                          "expected_shot_date":
+                                              controller.injectionDay.value
+                                        });
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all<
+                                              EdgeInsetsGeometry>(
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 30)),
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(12),
+                                            topRight: Radius.circular(12),
+                                            bottomRight: Radius.circular(12),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    child: const AutoSizeText('Đăng kí tiêm'),
+                                  )
+                                ],
                               ),
-                            ),
-                            child: const AutoSizeText('Đăng kí tiêm'),
-                          )
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const BottomSceen(),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const BottomSceen(),
-          ],
-        );
-      }),
+            );
+          }),
+        ],
+      ),
     );
   }
 

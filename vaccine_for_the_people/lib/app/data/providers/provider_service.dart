@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:http/http.dart' as http;
+import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
+import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
+import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_seven_day.dart';
@@ -168,6 +170,73 @@ class ProviderService {
         return token;
       }
       return '';
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ResponseSign?> vaccinationSign(Map<String, dynamic> infoSign) async {
+    try {
+      Map<String, String> requestHeader = {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
+      };
+      final body = jsonEncode(infoSign);
+      final response = await http.post(
+          Uri.parse(
+              'https://vaccine-for-the-people.herokuapp.com/vaccination-sign'),
+          headers: requestHeader,
+          body: body);
+      if (response.statusCode == 200) {
+        final result = responseSignFromJson(response.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<CreateCampaign?> createCampaign(
+      Map<String, dynamic> injectInformation) async {
+    try {
+      Map<String, String> requestHeader = {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
+      };
+      final body = jsonEncode(injectInformation);
+      final response = await http.post(
+          Uri.parse('https://vaccine-for-the-people.herokuapp.com/campaign'),
+          headers: requestHeader,
+          body: body);
+      if (response.statusCode == 200) {
+        final result = CreateCampaign.fromRawJson(response.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<InjectionRegistrant?> getListInjectionRegistrants(
+    Map<dynamic, dynamic> dataFilter,
+  ) async {
+    try {
+      final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+      final response = await http.post(
+          Uri.parse(
+              'https://vaccine-for-the-people.herokuapp.com/campaign-preview'),
+          headers: headers,
+          body: jsonEncode(dataFilter));
+      if (response.statusCode == 200) {
+        final data =
+            InjectionRegistrant.fromRawJson(utf8.decode(response.bodyBytes));
+        return data;
+      }
+      return null;
     } catch (e) {
       rethrow;
     }

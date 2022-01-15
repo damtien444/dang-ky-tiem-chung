@@ -1,4 +1,7 @@
+import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
+import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
+import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_seven_day.dart';
@@ -27,22 +30,36 @@ class Repository {
   }
 
   Future<Province?> getDataInjectionStatisticFull(
-      String province, String district, String wards) {
-    return providerService.getDataInjectionStatisticFull(
+      String province, String district, String wards) async {
+    return await providerService.getDataInjectionStatisticFull(
         province, district, wards);
   }
 
-  Future<Province?> getDataInjectionStatisticProvince(String province) {
-    return providerService.getDataInjectionStatisticProvince(province);
+  Future<Province?> getDataInjectionStatisticProvince(String province) async {
+    return await providerService.getDataInjectionStatisticProvince(province);
   }
 
   Future<Province?> getDataInjectionStatisticProvinceAnDistrict(
-      String province, String district) {
-    return providerService.getDataInjectionStatisticProvinceAndDistrict(
+      String province, String district) async {
+    return await providerService.getDataInjectionStatisticProvinceAndDistrict(
         province, district);
   }
 
   Future<String?> login(String username, String password) async {
     return await providerService.login(username, password);
+  }
+
+  Future<InjectionRegistrant?> getListInjectionRegistrants(
+      Map<dynamic, dynamic> dataFilter) async {
+    return await providerService.getListInjectionRegistrants(dataFilter);
+  }
+
+  Future<ResponseSign?> vaccinationSign(Map<String, dynamic> infoSign) async {
+    return await providerService.vaccinationSign(infoSign);
+  }
+
+  Future<CreateCampaign?> createCampaign(
+      Map<String, dynamic> injectInformation) async {
+    return await providerService.createCampaign(injectInformation);
   }
 }
