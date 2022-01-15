@@ -13,7 +13,7 @@ app.json_encoder = MyEncoder
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'luongbui711277@gmail.com'
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_PASSWORD'] = 'idanzfgjtaofcmuh'
 app.config['MAIL_DEFAULT_SENDER'] = 'luongbui711277@gmail.com'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
@@ -23,6 +23,8 @@ mail = Mail(app)
 CORS(app)
 
 from vaccine.controller.app_test import admin_required
-from vaccine.controller import home, vaccination_sign, confirm_vaccination, create_vaccination, statistic, app_test, vaccination_campaign, vaccination_sign_v2
+from vaccine.controller import home, confirm_vaccination, create_vaccination, \
+    statistic, app_test, email_confirm, vaccination_campaign, vaccination_sign_v2
+
 
 
