@@ -1,11 +1,11 @@
 from datetime import datetime
-
 from bson import ObjectId
 
 from vaccine import app, request, admin_required
 from vaccine.controller.service import db
 from vaccine.model.agregation_pipeline import create_list_people_in_campaign
 from vaccine.model.campaign import Campaign
+from .email_confirm import send_email_confirm_vaccination_campaign
 
 sign = db['vaccination_sign']
 campaign = db['shot_campaign']
@@ -127,7 +127,7 @@ def create_campaign(user):
 # Thịnh
 # campaign/ GET
 # TODO: get all campaign
-@app.route('/campaign/get-all-campaign/', methods=['GET'])
+@app.route('/campaign', methods=['GET'])
 @admin_required
 def get_all_campaign(user):
     try:
@@ -172,7 +172,7 @@ def get_a_campaign(user, campaign_id):
 # TODO: update or promote a campaign
 @app.route('/campaign/<campaign_id>', methods=['PUT'])
 @admin_required
-def update_and_promote_campaign(user,campaign_id):
+def update_and_promote_campaign(campaign_id):
     print(campaign_id)
     try:
         data = request.get_json()
@@ -184,13 +184,13 @@ def update_and_promote_campaign(user,campaign_id):
         if update_type == 'promote':
 
             response = campaign.find_one_and_update({'_id': ObjectId(campaign_id)}, {"$set": {'status': True}})
-
+            log_email = send_email_confirm_vaccination_campaign(response)
             if response:
-                return {'result': 'success', 'campaign_promoted': response}
+                return {'result': 'success', 'campaign_promoted': response, 'log_email': log_email}
             else:
-                return {'result': 'fail', 'message': 'unable to find the designated campaign'}, 400
+                return {'result': 'fail', 'message': 'unable to find the designated campaign',
+                        'log_email': log_email}, 400
 
-            # TODO: start batch-job gửi mail hàng loạt
 
         elif update_type == 'update':
 
