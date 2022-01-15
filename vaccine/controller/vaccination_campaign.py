@@ -127,7 +127,7 @@ def create_campaign(user):
 # Thịnh
 # campaign/ GET
 # TODO: get all campaign
-@app.route('/campaign/get-all-campaign/', methods=['GET'])
+@app.route('/campaign', methods=['GET'])
 @admin_required
 def get_all_campaign(user):
     try:
@@ -146,7 +146,8 @@ def get_all_campaign(user):
         else:
             return {'Status': 'Warning', 'Message': 'Do not hve any shot campaign! Please create shots campaign'}
     except Exception as e:
-        return {'Status': 'Fail', 'Message': e}
+        print(e)
+        return {'Status': 'Fail', 'Message': str(e)}
 
 
 # Thịnh
@@ -167,12 +168,13 @@ def get_a_campaign(user, campaign_id):
         return {'Status': 'Error!',
                 'Message': e}
 
+
 # Tiến
 # campaign/<campaign-id> PUT
 # TODO: update or promote a campaign
 @app.route('/campaign/<campaign_id>', methods=['PUT'])
 @admin_required
-def update_and_promote_campaign(user,campaign_id):
+def update_and_promote_campaign(user, campaign_id):
     print(campaign_id)
     try:
         data = request.get_json()
@@ -191,6 +193,7 @@ def update_and_promote_campaign(user,campaign_id):
                 return {'result': 'fail', 'message': 'unable to find the designated campaign'}, 400
 
             # TODO: start batch-job gửi mail hàng loạt
+            # TODO: thêm cái shot dự kiến tiêm vào cái vaccination_sign của người dân
 
         elif update_type == 'update':
 
@@ -243,6 +246,10 @@ def update_and_promote_campaign(user,campaign_id):
 def delete_a_campaign(user, campaign_id):
     try:
         shot_campaign_deleted = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
+
+        # TODO: check status của chiến dịch,  nếu chiến dịch chính thức, phải  thông báo là xóa  chiến dịch cho người
+        #  dự tiêm, xóa các mũi dự tiêm ở trên vaccination_sign collections
+
         if shot_campaign_deleted:
             return {'Status': 'Success',
                     'Message': f'Deleted {shot_campaign_deleted}'}
@@ -259,7 +266,7 @@ def delete_a_campaign(user, campaign_id):
 # TODO: get a person in campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['GET'])
 @admin_required
-def get_a_person_in_campaign(campaign_id, user_id):
+def get_a_person_in_campaign(user, campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         list_of_people = current_shot_campaign['list_of_people']
@@ -280,7 +287,7 @@ def get_a_person_in_campaign(campaign_id, user_id):
 # TODO: add a person to campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['POST'])
 @admin_required
-def add_a_person_to_campaign(campaign_id, user_id):
+def add_a_person_to_campaign(user, campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign is None:
@@ -322,12 +329,13 @@ def add_a_person_to_campaign(campaign_id, user_id):
         print(e)
         return {'Result': 'Error!'}
 
+
 # Huyền
 # campaign/<campaign-id>/user/<user-id> DELETE
 # TODO: delete a person from campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['DELETE'])
 @admin_required
-def delete_a_person_from_campaign(campaign_id, user_id):
+def delete_a_person_from_campaign(user, campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign['status'] is False:

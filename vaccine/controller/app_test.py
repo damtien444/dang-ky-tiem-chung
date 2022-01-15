@@ -30,12 +30,14 @@ def admin_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+
             current_user = managers.find_one({"_id": ObjectId(data['_id'])})
 
             if not current_user['is_admin']:
                 return {'result': 'fail', 'message': 'not enough authority'}, 401
 
             print(current_user)
+
         except Exception as ignore:
             print(ignore)
             return {'result': "fail", 'message': "Token is invalid"}, 401
