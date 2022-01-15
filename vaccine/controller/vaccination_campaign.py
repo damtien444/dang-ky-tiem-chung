@@ -172,7 +172,7 @@ def get_a_campaign(user, campaign_id):
 # TODO: update or promote a campaign
 @app.route('/campaign/<campaign_id>', methods=['PUT'])
 @admin_required
-def update_and_promote_campaign(campaign_id):
+def update_and_promote_campaign(user, campaign_id):
     print(campaign_id)
     try:
         data = request.get_json()
@@ -182,7 +182,6 @@ def update_and_promote_campaign(campaign_id):
         update = {}
 
         if update_type == 'promote':
-
             response = campaign.find_one_and_update({'_id': ObjectId(campaign_id)}, {"$set": {'status': True}})
             log_email = send_email_confirm_vaccination_campaign(response)
             if response:

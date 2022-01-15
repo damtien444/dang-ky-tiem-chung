@@ -1,3 +1,5 @@
+from bson import ObjectId
+
 from vaccine import app, request, Message, mail, url_for, render_template
 from vaccine.controller.token import confirm_token, generate_confirmation_token
 import time
@@ -83,16 +85,21 @@ def is_checked(email, token):
 def send_email_vaccination_campaign(person: dict,
                                     date_start: str,
                                     date_end: str,
-                                    place: str):
-    to_email = person['email']
-    name = person['name']
-    cccd = person['CCCD']
-    address = person['address']
+                                    place: str,
+                                    vaccine_type: str):
+    try:
+        to_email = person['email']
+        name = person['name']
+        cccd = person['CCCD']
+        address = person['address']
+    except Exception as e:
+        return str(e)
+
     subject = f'Thư mời tiêm vaccine '
     content = f''' Kính mời {"ông" if person["sex"] else "bà"} {name}\n
                     - CCCD: {cccd}\n
                     - Địa chỉ: {address}\n
-                    Vào lúc {date_start} đến {date_end} tại {place} để tham gia tiêm chủng '''
+                    Vào lúc {date_start} đến {date_end} tại {place} để tham gia tiêm vaccine {vaccine_type}'''
     msg = Message(subject, recipients=to_email)
     msg.body = content
     mail.send(msg)
@@ -104,10 +111,11 @@ def send_email_confirm_vaccination_campaign(campaign: dict):
     log = {'_id': [],
            'date_start': [],
            'date_end': [],
-           'place': []}
+           'place': [],
+           'vaccine_type': []}
     try:
         if dict_people:
-            date_start, date_end, place = '', '', ''
+            date_start, date_end, place, vaccine_type = '', '', '', ''
 
             # check place
             try:
@@ -116,8 +124,8 @@ def send_email_confirm_vaccination_campaign(campaign: dict):
                     log['place'].append(place)
                 else:
                     log['place'].append('Can not find place')
-            except Exception as e:
-                log['place'].append({'Error!': str(e)})
+            except:
+                log['place'].append({'Error!': 'place'})
 
             # check date start
             try:
@@ -126,8 +134,8 @@ def send_email_confirm_vaccination_campaign(campaign: dict):
                     log['date_start'].append(date_start)
                 else:
                     log['date_start'].append('Can not find date start')
-            except Exception as e:
-                log['date_start'].append({'Error!': str(e)})
+            except:
+                log['date_start'].append({'Error!': 'date_start'})
 
             # check date end
             try:
@@ -136,8 +144,18 @@ def send_email_confirm_vaccination_campaign(campaign: dict):
                     log['date_end'].append(date_end)
                 else:
                     log['date_end'].append('Can not find date end')
-            except Exception as e:
-                log['date_end'].append({'Error!': str(e)})
+            except:
+                log['date_end'].append({'Error!': 'date_end'})
+
+            # check vaccine type
+            try:
+                vaccine_type = campaign['type_of_people']['vaccine_type']
+                if vaccine_type:
+                    log['vaccine_type'].append(vaccine_type)
+                else:
+                    log['vaccine_type'].append('Can not find date end')
+            except:
+                log['vaccine_type'].append({'Error!': 'vaccine_type'})
 
             for position in range(len(dict_people)):
                 person_signed = None
@@ -146,15 +164,16 @@ def send_email_confirm_vaccination_campaign(campaign: dict):
                     person_signed = sign.find_one({'_id': dict_people[position]['_id']})
                     if person_signed:
                         log['_id'].append(person_signed['_id'])
+                        try:
+                            error = send_email_vaccination_campaign(person_signed, date_start, date_end, place, vaccine_type)
+                        except:
+                            return {'Error': f'Error send email : {error}'}
                     else:
-                        log['_id'].append(f'Can not find person {dict_people[position]["_i"]}')
-                except Exception as e:
-                    log['_id'].append({'Error!': str(e)})
+                        log['_id'].append(f'Can not find person {dict_people[position]["_id"]}')
+                except:
+                    log['_id'].append({'Error!': 'person_signed'})
 
-                try:
-                    send_email_vaccination_campaign(person_signed, date_start, date_end, place)
-                except Exception as e:
-                    return {'Error': str(e)}
+
         else:
             log = 'Do not have any person in this campaign'
         return {'Result': log}
