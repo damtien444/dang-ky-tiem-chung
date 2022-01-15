@@ -293,14 +293,25 @@ def sort_order(field, order):
 
 
 def create_list_people_in_campaign(time_range_start, time_range_finish, shot_type, city, district=None, ward=None,
-                                   min_age=0, max_age=150, priority_type=None):
+                                   min_age=0, max_age=150, priority_type=None, illness_history=False):
+
+
+
     pipeline = [match_area(city, district, ward)]
+
+    filter_illness =  {
+            '$match': {
+                'illness_history': illness_history
+            }
+        }
 
     calculate_age = {
         '$project': {
             'priority_group': 1,
             'next_expected_shot_date': 1,
             'next_expected_shot_type': 1,
+            'sex':1,
+            "illness_history":1,
             'age': {
                 '$divide': [
                     {
@@ -357,6 +368,9 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
             ]
         }
     }
+    if illness_history is not None:
+        pipeline.append(filter_illness)
+
     pipeline.append(calculate_age)
     pipeline.append(filter_age_range)
     if priority_type is not None:
@@ -374,7 +388,6 @@ def filter_priority_group(priority):
             'priority_group': priority
         }
     }
-
 
 # print(create_list_people_in_campaign("Thành phố Đà Nẵng"))
 # print(by_next_shot_time_distribution())
