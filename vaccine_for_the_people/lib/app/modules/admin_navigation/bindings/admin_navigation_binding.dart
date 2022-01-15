@@ -7,15 +7,15 @@ import 'package:vaccine_for_the_people/app/modules/admin_navigation/controller/a
 import 'package:vaccine_for_the_people/app/modules/injection_statistic/controller/injection_statistic_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/statement_data/controllers/statement_data_controller.dart';
 
-class AdminNavigationBinding extends Bindings{
+class AdminNavigationBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
     Get.lazyPut<AdminNavigationController>(() => AdminNavigationController());
-    Get.put(StatementDataController(
-        vietNamRepository: VietNamRepository(vnProvider: VnProvider())
-    ));
-    Get.put(InjectionStatisticController(repository: Repository(providerService: ProviderService())));
+    Get.lazyPut<StatementDataController>(() => StatementDataController(
+        vietNamRepository: VietNamRepository(vnProvider: VnProvider()),
+        repository: Repository(providerService: ProviderService())));
+    Get.put(InjectionStatisticController(
+        repository: Repository(providerService: ProviderService())));
   }
-
 }

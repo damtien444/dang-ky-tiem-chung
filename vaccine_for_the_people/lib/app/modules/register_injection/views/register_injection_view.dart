@@ -202,7 +202,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                               padding: EdgeInsets.only(right: 20),
                               child: FormBuilderOptions(
                                   title: 'Địa chỉ hiện tại',
-                                  require: false,
                                   mode: FormBuilderMode.DEFAULT),
                             ),
                           ),

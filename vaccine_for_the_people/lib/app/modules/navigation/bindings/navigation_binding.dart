@@ -17,7 +17,8 @@ class NavigationBinding extends Bindings {
     Get.put<HomeController>(HomeController(
         repository: Repository(providerService: ProviderService())));
     Get.put(RegisterInjectionController(
-        vietNamRepository: VietNamRepository(vnProvider: VnProvider())));
+        vietNamRepository: VietNamRepository(vnProvider: VnProvider()),
+        repository: Repository(providerService: ProviderService())));
     Get.put(LoginController(
         repository: Repository(providerService: ProviderService())));
     Get.put(FeedbackController());

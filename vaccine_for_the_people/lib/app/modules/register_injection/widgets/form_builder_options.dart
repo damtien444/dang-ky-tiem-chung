@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:vaccine_for_the_people/app/core/components/datetime_picker_formfield.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
@@ -167,7 +167,9 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                           ),
                         );
                       }).toList(),
-                      onChanged: (_) {},
+                      onChanged: (newValue) {
+                        widget.onPress!(newValue!);
+                      },
                     );
             case FormBuilderMode.DATE_PICKER:
               return DateTimeField(
@@ -177,6 +179,9 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                       firstDate: DateTime(1900),
                       initialDate: currentValue ?? DateTime.now(),
                       lastDate: DateTime(2100));
+                },
+                onChanged: (dateTime) {
+                  widget.onPress!(formatterFullDate(dateTime!));
                 },
                 autovalidateMode: widget.require
                     ? AutovalidateMode.onUserInteraction
