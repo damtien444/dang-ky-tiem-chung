@@ -25,8 +25,8 @@ class LoginController extends GetxController {
       await Get.offAndToNamed(Routes.NAVIGATIONADMIN);
       ready.value = true;
     } catch (e) {
-      _showDialog();
       ready.value = true;
+      _showDialog();
     }
   }
 
