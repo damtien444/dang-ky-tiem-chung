@@ -23,6 +23,7 @@ mail = Mail(app)
 CORS(app)
 
 from vaccine.controller.app_test import admin_required
-from vaccine.controller import home, confirm_vaccination, create_vaccination, statistic, app_test, vaccination_campaign, vaccination_sign_v2
+from vaccine.controller import home, confirm_vaccination, create_vaccination, statistic, app_test, \
+                                email_confirm, vaccination_campaign, vaccination_sign
 
 
