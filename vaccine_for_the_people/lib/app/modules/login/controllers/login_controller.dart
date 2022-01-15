@@ -17,12 +17,13 @@ class LoginController extends GetxController {
     try {
       ready.value = false;
       final response = await repository.login(username, password);
-      ready.value = true;
+
       if (response!.isEmpty) {
         _showDialog();
         return;
       }
-      Get.offAndToNamed(Routes.NAVIGATIONADMIN);
+      await Get.offAndToNamed(Routes.NAVIGATIONADMIN);
+      ready.value = true;
     } catch (e) {
       _showDialog();
       ready.value = true;
