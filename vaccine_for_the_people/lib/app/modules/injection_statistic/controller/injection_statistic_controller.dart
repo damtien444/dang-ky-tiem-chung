@@ -44,6 +44,7 @@ class InjectionStatisticController extends GetxController{
     '15. Người lao động tự do',
     '16. Các đối tượng khác',
   ];
+  RxBool isLoading=false.obs;
   final listVietNam = RxList<VietNam>();
   final listProvinces = RxList<String>();
   final listDistricts = RxList<String>();
@@ -148,32 +149,39 @@ class InjectionStatisticController extends GetxController{
     return utf8.decode(bytes);
   }
   void fillDataChartProvince(){
-        for(var data in listDataAge){
-          listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+    Future.delayed(const Duration(seconds: 4),() {
+      for (var data in listDataAge) {
+        listDataChartByAge.add(
+            SalesData(utf8convert(data.sId.toString()), data.count!));
+      }
+      for (var data in listDataArea) {
+        listDataChartByArea.add(
+            SalesData(utf8convert(data.sId.toString()), data.count!));
+      }
+      for (var data in listDataByNextShotTime) {
+        listDataChartByAreaNextShotTime.add(
+            SalesData(utf8convert(data.sId.toString()), data.count!));
+      }
+      for (var data in listDataByNextShotType) {
+        listDataChartByNextShotType.add(
+            SalesData(utf8convert(data.sId.toString()), data.count!));
+      }
+      for (var data in listDataPriority) {
+        listDataChartByPriority.add(
+            SalesData(utf8convert(data.iId.toString()), data.count!));
+      }
+      for (var data in listDataBySex) {
+        if (data.bId!) {
+          listDataChartByGender.add(SalesData("Nam", data.count!));
+        } else {
+          listDataChartByGender.add(SalesData("Nữ", data.count!));
         }
-        for(var data in listDataArea){
-          listDataChartByArea.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-        }
-        for(var data in listDataByNextShotTime){
-          listDataChartByAreaNextShotTime.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-        }
-        for(var data in listDataByNextShotType){
-          listDataChartByNextShotType.add(SalesData(utf8convert(data.sId.toString()), data.count!));
-        }
-        for(var data in listDataPriority){
-          listDataChartByPriority.add(SalesData(utf8convert(data.iId.toString()), data.count!));
-        }
-        for(var data in listDataBySex){
-          if(data.bId!){
-            listDataChartByGender.add(SalesData( "Nam", data.count!));
-          }else{
-            listDataChartByGender.add(SalesData( "Nữ", data.count!));
-          }
-        }
-
+      }
+      isLoading.value=false;
+    });
   }
   void fillDataChartProvinceAndDistrict(){
-    Future.delayed(const Duration(seconds: 2),(){
+    Future.delayed(const Duration(seconds: 4),() {
       for(var data in listDataAge){
         listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
@@ -196,10 +204,11 @@ class InjectionStatisticController extends GetxController{
           listDataChartByGender.add(SalesData( "Nữ", data.count!));
         }
       }
+      isLoading.value=false;
     });
   }
   void fillDataChartAll(){
-    Future.delayed(const Duration(seconds: 2),(){
+    Future.delayed(const Duration(seconds: 4),() {
       for(var data in listDataAge){
         listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
@@ -222,6 +231,7 @@ class InjectionStatisticController extends GetxController{
           listDataChartByGender.add(SalesData( "Nữ", data.count!));
         }
       }
+      isLoading.value=false;
     });
   }
 }

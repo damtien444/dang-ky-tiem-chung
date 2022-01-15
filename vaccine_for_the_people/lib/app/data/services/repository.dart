@@ -27,18 +27,18 @@ class Repository {
   }
 
   Future<Province?> getDataInjectionStatisticFull(
-      String province, String district, String wards) {
-    return providerService.getDataInjectionStatisticFull(
+      String province, String district, String wards) async{
+    return await providerService.getDataInjectionStatisticFull(
         province, district, wards);
   }
 
-  Future<Province?> getDataInjectionStatisticProvince(String province) {
-    return providerService.getDataInjectionStatisticProvince(province);
+  Future<Province?> getDataInjectionStatisticProvince(String province) async{
+    return await providerService.getDataInjectionStatisticProvince(province);
   }
 
   Future<Province?> getDataInjectionStatisticProvinceAnDistrict(
-      String province, String district) {
-    return providerService.getDataInjectionStatisticProvinceAndDistrict(
+      String province, String district) async{
+    return await providerService.getDataInjectionStatisticProvinceAndDistrict(
         province, district);
   }
 
