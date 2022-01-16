@@ -83,11 +83,16 @@ def create_campaign_preview():
             if age_range is not None:
                 min_age, max_age = age_range.split("-")
 
-                print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
+                draft = sign.aggregate(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
                                                      district, ward, min_age=int(min_age),
                                                      max_age=int(max_age),
                                                      priority_type=priority_type,
                                                      illness_history=illness_history))
+                # print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
+                #                                      district, ward, min_age=int(min_age),
+                #                                      max_age=int(max_age),
+                #                                      priority_type=priority_type,
+                #                                      illness_history=illness_history))
 
 
 
