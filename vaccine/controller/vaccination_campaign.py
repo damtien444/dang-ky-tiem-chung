@@ -1,6 +1,8 @@
 from datetime import datetime
 from bson import ObjectId
 from vaccine import app, request, admin_required
+from vaccine.controller.email_confirm import send_email_confirm_vaccination_campaign, \
+    send_email_notification_delete_campaign
 from vaccine.controller.service import db
 from vaccine.model.agregation_pipeline import create_list_people_in_campaign
 from vaccine.model.campaign import Campaign
