@@ -385,13 +385,17 @@ def delete_a_campaign( campaign_id):
 def get_a_person_in_campaign( campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
-        list_of_people = current_shot_campaign['list_of_people']
-        for person in list_of_people:
-            if person['_id'] == ObjectId(user_id):
+        if current_shot_campaign is None:
+            return {'Result': 'Fail',
+                    'Message': f'Can not find campaign having id: {campaign_id}! Please check again'}
+        else:
+            person = sign.find_one({'_id': ObjectId(user_id)})
+            if person is not None:
                 return {'Result': 'Success',
-                        'User': person}
-        return {'Result': 'Fail',
-                'Message': f'Can not find user from {campaign_id}! Please check again'}
+                        'User Information': person}
+            else:
+                 return {'Result': 'Fail',
+                         'Message': f'Can not find user from {campaign_id}! Please check again'}
     except Exception as e:
         print(e)
         return {'Result': 'Error!',
@@ -463,6 +467,7 @@ def delete_a_person_from_campaign( campaign_id, user_id):
                                                  {"$set": {'list_of_people': list_of_people}})
                     return {'Result': 'Success',
                             'Message': f'Deleted {person}'}
+
             return {'Result': 'Fail',
                     'Message': f'Can not find user from {campaign_id}! Please check again'}
         else:
@@ -475,7 +480,29 @@ def delete_a_person_from_campaign( campaign_id, user_id):
 # Huyền
 # campaign/<campaign-id>/user/<user-id> PUT
 # TODO: update a person in campaign
-
+@app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['PUT'])
+# @admin_required
+def update_a_person_in_campaign(campaign_id, user_id):
+    data = request.get_json()
+    update = {
+            'name': data['name'],
+            'birth_day': data['birth_day'],
+            'sex': data['sex'],
+            'phone': data['phone'],
+            'email': data['email'],
+            'CCCD': data['CCCD'],
+            'BHXH_id': data['BHXH_id'],
+            'address': data['address'],
+            'priority_group': data['priority_group'],
+            'illness_history': data['illness_history'],
+        }
+    try:
+        sign.find_one_and_update({'_id': ObjectId(user_id)},
+                                 {"$set": update})
+        return {'Result': 'Success'}
+    except Exception as e:
+        print(e)
+        return {'Result': 'Error'}
 
 def parse_to_date(date_json):
     try:

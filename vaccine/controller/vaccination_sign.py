@@ -5,6 +5,23 @@ from vaccine.controller.token import confirm_token, generate_confirmation_token
 from datetime import datetime
 from .email_confirm import confirm_email_sign
 
+
+@app.route('/vaccination-sign', methods=['GET'])
+def get_vaccination_sign():
+    sign_collection = db['vaccination_sign']
+    try:
+        list_of_people = sign_collection.find({})
+        people = []
+        for person in list_of_people:
+            people.append(person)
+        return {'Result': 'Success',
+                'List of people': f'{people}'}
+    except Exception as e:
+        print(e)
+        return {'Result': 'Fail',
+                'Message': 'Can not get data'}
+
+
 @app.route('/vaccination-sign', methods=['POST'])
 def insert_vaccination_sign():
     sign_collection = db['vaccination_sign']
@@ -55,7 +72,8 @@ def insert_vaccination_sign():
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
                                                         {"$set": {'vaccine_shots': vaccine_shots}})
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
-                                                    {"$set": {'user_expected_shot_date': data['expected_shot_date']}})
+                                                        {"$set": {
+                                                            'user_expected_shot_date': data['expected_shot_date']}})
                     confirm_email_sign(data['email'])
                     return {'result': 'success'}
                 except Exception as e:
@@ -69,5 +87,3 @@ def insert_vaccination_sign():
             except Exception as e:
                 print(e)
                 return fail_result_cannot_add
-
-
