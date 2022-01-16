@@ -4,13 +4,13 @@ from vaccine import app, request, admin_required
 from vaccine.controller.service import db
 from vaccine.model.agregation_pipeline import create_list_people_in_campaign
 from vaccine.model.campaign import Campaign
-from .email_confirm import send_email_confirm_vaccination_campaign, send_email_notification_delete_campaign
 
 sign = db['vaccination_sign']
 campaign = db['shot_campaign']
 
-@app.route('/campaign-stat', methods=['GET'])
-def get_stat():
+
+@app.route('/campaign-preview', methods=['POST'])
+def create_campaign_preview():
     try:
 
         log = []
@@ -82,15 +82,10 @@ def get_stat():
                 min_age, max_age = age_range.split("-")
 
                 print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
-                                                                      district, ward, min_age=int(min_age),
-                                                                      max_age=int(max_age),
-                                                                      priority_type=priority_type,
-                                                                      illness_history=illness_history))
-                draft = sign.aggregate(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
-                                                                      district, ward, min_age=int(min_age),
-                                                                      max_age=int(max_age),
-                                                                      priority_type=priority_type,
-                                                                      illness_history=illness_history))
+                                                     district, ward, min_age=int(min_age),
+                                                     max_age=int(max_age),
+                                                     priority_type=priority_type,
+                                                     illness_history=illness_history))
 
 
 
@@ -99,7 +94,6 @@ def get_stat():
                                                                       district, ward,
                                                                       priority_type=priority_type,
                                                                       illness_history=illness_history))
-
 
             # DONE: đăng ký đợt tiêm nháp lên campaign collection
 
@@ -120,12 +114,13 @@ def get_stat():
             # result = campaign.insert_one(campaign_draft.to_json())
 
             # Done: trả lại id đợt tiêm nháp đã tao cùng danh sách của đợt tiêm
-            return {'result': 'success','list':  list_of_people,
-                    'count': len(list_of_people), 'log': log}
+            return {'result': 'success', 'list': list_of_people,
+                    'count': len(list_of_people), 'log': log}, 200
 
     except Exception as e:
         print(e)
         return {'result': 'fail', 'message': 'not able to create new campaign'}, 400
+
 
 # Tiến
 # campaign/ POST
@@ -403,7 +398,7 @@ def get_a_person_in_campaign( campaign_id, user_id):
 # TODO: add a person to campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['POST'])
 # @admin_required
-def add_a_person_to_campaign( campaign_id, user_id):
+def add_a_person_to_campaign(campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign is None:
@@ -451,7 +446,7 @@ def add_a_person_to_campaign( campaign_id, user_id):
 # TODO: delete a person from campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['DELETE'])
 # @admin_required
-def delete_a_person_from_campaign( campaign_id, user_id):
+def delete_a_person_from_campaign(campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign['status'] is False:
