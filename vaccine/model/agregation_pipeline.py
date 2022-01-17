@@ -311,6 +311,8 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
             'next_expected_shot_date': 1,
             'next_expected_shot_type': 1,
             'sex':1,
+            "address":1,
+            'name':1,
             "illness_history":1,
             'age': {
                 '$divide': [
