@@ -310,6 +310,7 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
             'priority_group': 1,
             'next_expected_shot_date': 1,
             'next_expected_shot_type': 1,
+            'vaccine_shots':1,
             'sex':1,
             "address":1,
             'name':1,
@@ -322,7 +323,24 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
                         ]
                     }, 1000 * 86400 * 365
                 ]
+            },
+            'last_shot': {
+                '$arrayElemAt': [
+                    '$vaccine_shots', -1
+                ]
             }
+        }
+    }
+
+    filter_scheduled = {
+        '$match': {
+            '$or': [
+                {
+                    'last_shot.status': 'shotted'
+                }, {
+                    'last_shot.status': 'not_trusted'
+                }
+            ]
         }
     }
 
@@ -375,6 +393,7 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
 
     pipeline.append(calculate_age)
     pipeline.append(filter_age_range)
+    pipeline.append(filter_scheduled)
     if priority_type is not None:
         pipeline.append(filter_priority_group(priority_type))
 
