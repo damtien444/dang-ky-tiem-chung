@@ -253,9 +253,9 @@ def get_all_campaign():
                                       '_id_not_confirm': []}
             for shot_campaign in shots_campaign:
                 if shot_campaign['status']:
-                    dict_shots_campaign_id['_id_confirmed'].append(shot_campaign['_id'])
+                    dict_shots_campaign_id['_id_confirmed'].append(shot_campaign)
                 else:
-                    dict_shots_campaign_id['_id_not_confirm'].append(shot_campaign['_id'])
+                    dict_shots_campaign_id['_id_not_confirm'].append(shot_campaign)
             return {'Status': 'Success',
                     'Message': [f'list of shots campaign comfirmed {dict_shots_campaign_id["_id_confirmed"]}',
                                 f'List of shots campaign not comfirm {dict_shots_campaign_id["_id_not_confirm"]}']}
