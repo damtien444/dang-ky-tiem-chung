@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class Sign:
-    def __init__(self, _id, name, birthday, sex, phone, email, cccd, bhxh_id, address, priority_group,
+    def __init__(self, _id, name, birthday, sex, phone, email, cccd, address, priority_group, bhxh_id=None,
                  first_shot=None, next_expected_shot_date=None, next_expected_shot_type=None,
                  illness_history=False, user_expected_shot_date=None):
         self._id = _id
@@ -15,14 +15,25 @@ class Sign:
         self.bhxh_id = bhxh_id
         self.address = address
         self.priority_group = priority_group
+
         if first_shot is None:
             self.vaccine_shots = []
         else:
             self.vaccine_shots = []
             self.vaccine_shots.append(first_shot)
+
         self.confirm_otp = False
-        self.next_expected_shot_date = next_expected_shot_date
-        self.next_expected_shot_type = next_expected_shot_type
+
+        if next_expected_shot_date is None:
+            self.next_expected_shot_date = parse_to_date("1900-01-01")
+        else:
+            self.next_expected_shot_date = next_expected_shot_date
+
+        if next_expected_shot_type is None:
+            self.next_expected_shot_type = "NO_NEXT"
+        else:
+            self.next_expected_shot_type = next_expected_shot_type
+
         self.illness_history = illness_history
         self.user_expected_shot_date = parse_to_date(user_expected_shot_date)
 

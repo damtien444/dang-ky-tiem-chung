@@ -1,16 +1,18 @@
 from datetime import datetime
 from bson import ObjectId
 from vaccine import app, request, admin_required
+from vaccine.controller.email_confirm import send_email_confirm_vaccination_campaign, \
+    send_email_notification_delete_campaign
 from vaccine.controller.service import db
 from vaccine.model.agregation_pipeline import create_list_people_in_campaign
 from vaccine.model.campaign import Campaign
-from .email_confirm import send_email_confirm_vaccination_campaign, send_email_notification_delete_campaign
 
 sign = db['vaccination_sign']
 campaign = db['shot_campaign']
 
-@app.route('/campaign-stat', methods=['GET'])
-def get_stat():
+
+@app.route('/campaign-preview', methods=['POST'])
+def create_campaign_preview():
     try:
 
         log = []
@@ -81,16 +83,16 @@ def get_stat():
             if age_range is not None:
                 min_age, max_age = age_range.split("-")
 
-                print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
-                                                                      district, ward, min_age=int(min_age),
-                                                                      max_age=int(max_age),
-                                                                      priority_type=priority_type,
-                                                                      illness_history=illness_history))
                 draft = sign.aggregate(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
-                                                                      district, ward, min_age=int(min_age),
-                                                                      max_age=int(max_age),
-                                                                      priority_type=priority_type,
-                                                                      illness_history=illness_history))
+                                                     district, ward, min_age=int(min_age),
+                                                     max_age=int(max_age),
+                                                     priority_type=priority_type,
+                                                     illness_history=illness_history))
+                # print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
+                #                                      district, ward, min_age=int(min_age),
+                #                                      max_age=int(max_age),
+                #                                      priority_type=priority_type,
+                #                                      illness_history=illness_history))
 
 
 
@@ -99,7 +101,6 @@ def get_stat():
                                                                       district, ward,
                                                                       priority_type=priority_type,
                                                                       illness_history=illness_history))
-
 
             # DONE: đăng ký đợt tiêm nháp lên campaign collection
 
@@ -120,12 +121,13 @@ def get_stat():
             # result = campaign.insert_one(campaign_draft.to_json())
 
             # Done: trả lại id đợt tiêm nháp đã tao cùng danh sách của đợt tiêm
-            return {'result': 'success','list':  list_of_people,
-                    'count': len(list_of_people), 'log': log}
+            return {'result': 'success', 'list': list_of_people,
+                    'count': len(list_of_people), 'log': log}, 200
 
     except Exception as e:
         print(e)
         return {'result': 'fail', 'message': 'not able to create new campaign'}, 400
+
 
 # Tiến
 # campaign/ POST
@@ -385,13 +387,17 @@ def delete_a_campaign( campaign_id):
 def get_a_person_in_campaign( campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
-        list_of_people = current_shot_campaign['list_of_people']
-        for person in list_of_people:
-            if person['_id'] == ObjectId(user_id):
+        if current_shot_campaign is None:
+            return {'Result': 'Fail',
+                    'Message': f'Can not find campaign having id: {campaign_id}! Please check again'}
+        else:
+            person = sign.find_one({'_id': ObjectId(user_id)})
+            if person is not None:
                 return {'Result': 'Success',
-                        'User': person}
-        return {'Result': 'Fail',
-                'Message': f'Can not find user from {campaign_id}! Please check again'}
+                        'User Information': person}
+            else:
+                 return {'Result': 'Fail',
+                         'Message': f'Can not find user from {campaign_id}! Please check again'}
     except Exception as e:
         print(e)
         return {'Result': 'Error!',
@@ -403,7 +409,7 @@ def get_a_person_in_campaign( campaign_id, user_id):
 # TODO: add a person to campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['POST'])
 # @admin_required
-def add_a_person_to_campaign( campaign_id, user_id):
+def add_a_person_to_campaign(campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign is None:
@@ -451,7 +457,7 @@ def add_a_person_to_campaign( campaign_id, user_id):
 # TODO: delete a person from campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['DELETE'])
 # @admin_required
-def delete_a_person_from_campaign( campaign_id, user_id):
+def delete_a_person_from_campaign(campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign['status'] is False:
@@ -463,6 +469,7 @@ def delete_a_person_from_campaign( campaign_id, user_id):
                                                  {"$set": {'list_of_people': list_of_people}})
                     return {'Result': 'Success',
                             'Message': f'Deleted {person}'}
+
             return {'Result': 'Fail',
                     'Message': f'Can not find user from {campaign_id}! Please check again'}
         else:
@@ -475,7 +482,29 @@ def delete_a_person_from_campaign( campaign_id, user_id):
 # Huyền
 # campaign/<campaign-id>/user/<user-id> PUT
 # TODO: update a person in campaign
-
+@app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['PUT'])
+# @admin_required
+def update_a_person_in_campaign(campaign_id, user_id):
+    data = request.get_json()
+    update = {
+            'name': data['name'],
+            'birth_day': data['birth_day'],
+            'sex': data['sex'],
+            'phone': data['phone'],
+            'email': data['email'],
+            'CCCD': data['CCCD'],
+            'BHXH_id': data['BHXH_id'],
+            'address': data['address'],
+            'priority_group': data['priority_group'],
+            'illness_history': data['illness_history'],
+        }
+    try:
+        sign.find_one_and_update({'_id': ObjectId(user_id)},
+                                 {"$set": update})
+        return {'Result': 'Success'}
+    except Exception as e:
+        print(e)
+        return {'Result': 'Error'}
 
 def parse_to_date(date_json):
     try:
