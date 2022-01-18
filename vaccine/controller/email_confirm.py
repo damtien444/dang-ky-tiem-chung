@@ -1,40 +1,46 @@
 from bson import ObjectId
 
-from vaccine import app, request, Message, mail, url_for, render_template
+from vaccine import app, request, Message, mail, url_for, render_template, redirect
 from vaccine.controller.token import confirm_token, generate_confirmation_token
 import time
 from vaccine.controller.service import db
+from vaccine.model.email_sign import email_sign
 
 # confirm email for sign vaccination
 my_token = 0
 
+email_confirm = db['email_confirm']
 
-def confirm_email_sign(email, waiting_time=60):
+
+def confirm_email_sign(email):
     global my_token
     token = generate_confirmation_token(email)
     confirmed_url = url_for('confirmed_email', token=token, email=email, _external=True)
     html = render_template('/activate.html', confirmed_url=confirmed_url)
     send_email_sign(email, html)
-    while waiting_time:
-        if my_token:
-            return {'Results': 'Success',
-                    'Token': my_token}
-        waiting_time -= 1
-        time.sleep(1)
-    return {'Status': 'Request timeout',
-            'Message': 'Please check your email'}
+
+    # save email register to database
+    current_email = email_sign(email=email, status=False)
+    email_confirm.insert_one(current_email.to_dict())
+
+    return {'Message': 'Please check your email'}
 
 
 @app.route("/confirmed_email/", methods=['GET'])
 def confirmed_email():
     global my_token
+
     bar = request.args.to_dict()
     token, email = bar['token'], bar['email']
     try:
         if (is_checked(email, token)):
-            my_token = token
-            return {'Result': 'Success',
-                    'Message': f'Confirmed your email: {email}'}
+            current_email = email_confirm.find_one_and_update({'email': email,
+                                                               'status': False},
+                                                              {'$set': {'status': True}})
+            if current_email:
+                return redirect(url_for('helloWorld'))
+            else:
+                return {'Message': f'Can not find your email: {email} in database! please contact to admin to response'}
         else:
             return {'Result': 'Warning',
                     'Message': f'This is not your email: {email}'}
@@ -52,13 +58,11 @@ def confirm_email_check():
     html = render_template('/activate.html', confirmed_url=confirmed_url)
     send_email_sign(data['email'], html)
 
-    while data['waiting_time']:
-        if my_token:
-            return {'Results': 'Success',
-                    'Token': my_token}
-        data['waiting_time'] -= 1
-        time.sleep(1)
-    return {'Status': 'Request timeout',
+    # save email register to database
+    current_email = email_sign(email=data['email'], status=False)
+    email_confirm.insert_one(current_email.to_dict())
+
+    return {'Status': 'Send succeed',
             'Message': 'Please check your email'}
 
 
@@ -267,7 +271,7 @@ def send_email_notification_delete_campaign(campaign: dict):
                     if person_signed:
                         log['_id'].append(person_signed['_id'])
 
-                        #TODO xóa mũi dự tiêm hiện tại và cập nhập thông tin mũi tiêm dự kiến
+                        # TODO xóa mũi dự tiêm hiện tại và cập nhập thông tin mũi tiêm dự kiến
 
                         # gửi mail xác nhận
                         try:
