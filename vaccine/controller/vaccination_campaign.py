@@ -309,8 +309,8 @@ def update_and_promote_campaign(campaign_id):
                 return {'result': 'fail', 'message': 'unable to update or find the designated campaign'}, 400
 
             response = campaign.find_one_and_update({'_id': ObjectId(campaign_id)}, {"$set": {'status': True}})
-            # log_email = send_email_confirm_vaccination_campaign(response)
-            log_email = "send _email"
+            log_email = send_email_confirm_vaccination_campaign(response)
+            # log_email = "send _email"
 
             if response:
 
