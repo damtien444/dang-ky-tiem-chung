@@ -18,6 +18,11 @@ def confirm_email_sign(email):
     confirmed_url = url_for('confirmed_email', token=token, email=email, _external=True)
     html = render_template('/activate.html', confirmed_url=confirmed_url)
     send_email_sign(email, html)
+
+    # save email register to database
+    current_email = email_sign(email=email, status=False)
+    email_confirm.insert_one(current_email.to_dict())
+
     return {'Message': 'Please check your email'}
 
 
