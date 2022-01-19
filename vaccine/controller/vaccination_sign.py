@@ -42,7 +42,7 @@ def insert_vaccination_sign():
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
-                confirm_email_sign(data['email'])
+                # confirm_email_sign(data['email'])
                 return {'result': 'success'}
             except Exception as e:
                 print(e)
@@ -74,7 +74,7 @@ def insert_vaccination_sign():
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
                                                         {"$set": {
                                                             'user_expected_shot_date': data['expected_shot_date']}})
-                    confirm_email_sign(data['email'])
+                    # confirm_email_sign(data['email'])
                     return {'result': 'success'}
                 except Exception as e:
                     print(e)
@@ -82,7 +82,7 @@ def insert_vaccination_sign():
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
-                confirm_email_sign(data['email'])
+                # confirm_email_sign(data['email'])
                 return {'result': 'success'}
             except Exception as e:
                 print(e)
