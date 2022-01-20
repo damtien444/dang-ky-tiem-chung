@@ -24,6 +24,6 @@ CORS(app)
 
 from vaccine.controller.app_test import admin_required
 from vaccine.controller import home, confirm_vaccination, create_vaccination, statistic, app_test, \
-                                email_confirm, vaccination_campaign, vaccination_sign
+                                email_confirm, vaccination_campaign, vaccination_sign, report
 
 

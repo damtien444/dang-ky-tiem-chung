@@ -14,7 +14,6 @@ campaign = db['shot_campaign']
 @app.route('/campaign-preview', methods=['POST'])
 def create_campaign_preview():
     try:
-
         log = []
         valid = True
 
@@ -333,7 +332,7 @@ def update_and_promote_campaign(campaign_id):
                 return {'result': 'fail', 'message': 'unable to find the designated campaign',
                         'log_email': log_email}, 400
 
-            # TODO: thêm cái shot dự kiến tiêm vào cái vaccination_sign của người dân
+            # DONE: thêm cái shot dự kiến tiêm vào cái vaccination_sign của người dân
 
         elif update_type == 'update':
 
