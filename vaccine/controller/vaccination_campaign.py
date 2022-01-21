@@ -251,16 +251,18 @@ def get_all_campaign():
     try:
         shots_campaign = campaign.find({})
         if shots_campaign:
-            dict_shots_campaign_id = {'_id_confirmed': [],
-                                      '_id_not_confirm': []}
+            dict_shots_campaign_id = {'_id_confirmed': {},
+                                      '_id_not_confirm': {}}
+            idx1, idx2 = 0, 0
             for shot_campaign in shots_campaign:
+
                 if shot_campaign['status']:
-                    dict_shots_campaign_id['_id_confirmed'].append(shot_campaign)
+                    dict_shots_campaign_id['_id_confirmed'] = {idx1: shot_campaign}
+                    idx1 += 1
                 else:
-                    dict_shots_campaign_id['_id_not_confirm'].append(shot_campaign)
-            return {'Status': 'Success',
-                    'Message': [f'list of shots campaign comfirmed {dict_shots_campaign_id["_id_confirmed"]}',
-                                f'List of shots campaign not comfirm {dict_shots_campaign_id["_id_not_confirm"]}']}
+                    dict_shots_campaign_id['_id_not_confirm'] = {idx2: shot_campaign}
+                    idx2 += 1
+            return dict_shots_campaign_id
         else:
             return {'Status': 'Warning', 'Message': 'Do not hve any shot campaign! Please create shots campaign'}
     except Exception as e:
