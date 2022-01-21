@@ -104,10 +104,38 @@ def send_email_vaccination_campaign(person: dict,
                     - CCCD: {cccd}\n
                     - Địa chỉ: {address}\n
                     Vào lúc {date_start} đến {date_end} tại {place} để tham gia tiêm vaccine {vaccine_type}'''
-    msg = Message(subject, recipients=to_email)
+    msg = Message(subject, recipients=[to_email])
     msg.body = content
     mail.send(msg)
 
+
+def send_email_confirm_report(name, content, date_created, email, id):
+    subject = f'Confirm your report'
+    content = f''' \tMời ông/bà {name}\n
+                Đã gửi một phàn hồi đến hệ thống tiêm chủng nội dung như sau:\n
+                \t {content}\n
+                Gửi lúc {str(date_created)}.\n
+                Ông/bà vui lòng bấm đường link sau để xác nhận địa chỉ email của ông bà là đúng để nhận phản hồi của cơ quan có thẩm quyền\n
+                http://vaccine-for-the-people.herokuapp.com/report-public/{str(id)} \n
+                Trân trọng cảm ơn!'''
+
+    msg = Message(subject, recipients=[email])
+    msg.body = content
+    mail.send(msg)
+
+
+def send_email_announce_response_report(name, content, email, response):
+    subject = f'Announce that your problem has been solve'
+    content = f''' Kính gửi ông/bà {name}\n
+                Đã gửi một phản hồi đến hệ thống tiêm chủng nội dung như sau:\n
+                \t {content}\n
+                Cơ quan quản lý tiêm chủng phản hồi như sau:\n
+                \t {response}
+                Trân trọng cảm ơn!'''
+
+    msg = Message(subject, recipients=[email])
+    msg.body = content
+    mail.send(msg)
 
 def send_email_delete_campaign(person: dict,
                                date_start: str,
@@ -129,7 +157,7 @@ def send_email_delete_campaign(person: dict,
                     - Địa chỉ: {address}\n
                    Vì {reason} nên chúng tôi xin hủy đợt tiêm vaccine {vaccine_type} từ {date_start} đến {date_end} tại {place}\n
                    Chúng tôi chân thành xin lỗi vì bất tiện này'''
-    msg = Message(subject, recipients=to_email)
+    msg = Message(subject, recipients=[to_email])
     msg.body = content
     mail.send(msg)
 

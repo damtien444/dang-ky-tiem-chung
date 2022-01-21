@@ -14,7 +14,6 @@ campaign = db['shot_campaign']
 @app.route('/campaign-preview', methods=['POST'])
 def create_campaign_preview():
     try:
-
         log = []
         valid = True
 
@@ -84,15 +83,15 @@ def create_campaign_preview():
                 min_age, max_age = age_range.split("-")
 
                 draft = sign.aggregate(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
+                                                                      district, ward, min_age=int(min_age),
+                                                                      max_age=int(max_age),
+                                                                      priority_type=priority_type,
+                                                                      illness_history=illness_history))
+                print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
                                                      district, ward, min_age=int(min_age),
                                                      max_age=int(max_age),
                                                      priority_type=priority_type,
                                                      illness_history=illness_history))
-                # print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
-                #                                      district, ward, min_age=int(min_age),
-                #                                      max_age=int(max_age),
-                #                                      priority_type=priority_type,
-                #                                      illness_history=illness_history))
 
 
 
@@ -194,7 +193,7 @@ def create_campaign():
             place = data['place']
         except Exception as e:
             valid = False
-            log.append("Vaccine_type is a require argument")
+            log.append("vaccine_type and place is a require argument")
 
         if not valid:
             return {'result': "fail", 'log': log}, 400
@@ -305,15 +304,37 @@ def update_and_promote_campaign(campaign_id):
 
         if update_type == 'promote':
 
+            response = campaign.find_one({'_id': ObjectId(campaign_id)})
+
+            if response['status']:
+                return {'result': 'fail', 'message': 'unable to update or find the designated campaign'}, 400
+
             response = campaign.find_one_and_update({'_id': ObjectId(campaign_id)}, {"$set": {'status': True}})
             log_email = send_email_confirm_vaccination_campaign(response)
+            # log_email = "send _email"
+
             if response:
+
+                for people in response['list_of_people']:
+                    shot = {
+                        'type_name': response['type_of_people']['next_vaccine_type'],
+                        'shot_num': len(people['vaccine_shots']) + 1,
+                        'shot_date': people['next_expected_shot_date'],
+                        'shot_place': response['date_place'],
+                        'status': 'scheduled'
+                    }
+
+                    update = sign.find_one_and_update({'_id': ObjectId(people['_id'])},
+                                                      {'$push': {'vaccine_shots': shot}})
+
+                    print(update)
+
                 return {'result': 'success', 'campaign_promoted': response, 'log_email': log_email}
             else:
                 return {'result': 'fail', 'message': 'unable to find the designated campaign',
                         'log_email': log_email}, 400
 
-            # TODO: thêm cái shot dự kiến tiêm vào cái vaccination_sign của người dân
+            # DONE: thêm cái shot dự kiến tiêm vào cái vaccination_sign của người dân
 
         elif update_type == 'update':
 
@@ -363,11 +384,11 @@ def update_and_promote_campaign(campaign_id):
 # TODO: delete a campaign
 @app.route('/campaign/<string:campaign_id>', methods=['DELETE'])
 # @admin_required
-def delete_a_campaign( campaign_id):
+def delete_a_campaign(campaign_id):
     try:
         shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if shot_campaign:
-            if(shot_campaign['status']):
+            if (shot_campaign['status']):
                 log = send_email_notification_delete_campaign(shot_campaign)
                 campaign.delete_one({'_id': ObjectId(campaign_id)})
                 return {'log': log}
@@ -386,7 +407,7 @@ def delete_a_campaign( campaign_id):
 # TODO: get a person in campaign
 @app.route('/campaign/<string:campaign_id>/user/<string:user_id>', methods=['GET'])
 # @admin_required
-def get_a_person_in_campaign( campaign_id, user_id):
+def get_a_person_in_campaign(campaign_id, user_id):
     try:
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign is None:
@@ -398,8 +419,8 @@ def get_a_person_in_campaign( campaign_id, user_id):
                 return {'Result': 'Success',
                         'User Information': person}
             else:
-                 return {'Result': 'Fail',
-                         'Message': f'Can not find user from {campaign_id}! Please check again'}
+                return {'Result': 'Fail',
+                        'Message': f'Can not find user from {campaign_id}! Please check again'}
     except Exception as e:
         print(e)
         return {'Result': 'Error!',
@@ -489,17 +510,17 @@ def delete_a_person_from_campaign(campaign_id, user_id):
 def update_a_person_in_campaign(campaign_id, user_id):
     data = request.get_json()
     update = {
-            'name': data['name'],
-            'birth_day': data['birth_day'],
-            'sex': data['sex'],
-            'phone': data['phone'],
-            'email': data['email'],
-            'CCCD': data['CCCD'],
-            'BHXH_id': data['BHXH_id'],
-            'address': data['address'],
-            'priority_group': data['priority_group'],
-            'illness_history': data['illness_history'],
-        }
+        'name': data['name'],
+        'birth_day': data['birth_day'],
+        'sex': data['sex'],
+        'phone': data['phone'],
+        'email': data['email'],
+        'CCCD': data['CCCD'],
+        'BHXH_id': data['BHXH_id'],
+        'address': data['address'],
+        'priority_group': data['priority_group'],
+        'illness_history': data['illness_history'],
+    }
     try:
         sign.find_one_and_update({'_id': ObjectId(user_id)},
                                  {"$set": update})
@@ -507,6 +528,7 @@ def update_a_person_in_campaign(campaign_id, user_id):
     except Exception as e:
         print(e)
         return {'Result': 'Error'}
+
 
 def parse_to_date(date_json):
     try:

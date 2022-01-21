@@ -2,6 +2,7 @@ import datetime
 import random
 import string
 
+from bson import ObjectId
 from vietnam_provinces import Province, District, Ward
 from vietnam_provinces.enums import ProvinceEnum, ProvinceDEnum, DistrictEnum, DistrictDEnum
 from vietnam_provinces.enums.wards import WardEnum, WardDEnum
@@ -126,14 +127,26 @@ def random_sign():
     return sign
 
 
-fake_sign = []
-for i in range(20000):
-    try:
-        fake_sign.append(random_sign())
-    except Exception as ignore:
-        pass
+# fake_sign = []
+# for i in range(20000):
+#     try:
+#         fake_sign.append(random_sign())
+#     except Exception as ignore:
+#         pass
 
 from vaccine.controller.service import db
 
-sign = db['vaccination_sign']
-sign.insert_many(fake_sign)
+# sign = db['vaccination_sign']
+# sign.insert_many(fake_sign)
+report = db['report']
+
+# report.create_index('date_created', expireAfterSeconds=30)
+
+# report.insert_one({"test": "ghaha", "date_created": datetime.datetime.utcnow()})
+# report.insert_one({"test": "ghaha"})
+
+# report.find_one_and_update({'_id': ObjectId('61e976d07a077b6a49a7c7f6')}, {'$unset': {'date_created': 1}})
+#
+# res = report.find({'date_created': {'$exists': False}})
+# for thing in res:
+#     print(thing)
