@@ -21,16 +21,17 @@ def create_report():
         status = 'NOT_SOLVE'
         content = data['content']
         date_created = datetime.datetime.utcnow()
+        date_created_vn = date_created + datetime.timedelta(hours=7)
         has_reponse = False
 
         res = report.insert_one({'name': name, 'email': email, 'status': status, 'content': content,
-                                 'date_created': date_created, 'has_response': has_reponse})
+                                 'date_created': date_created, 'has_response': has_reponse,
+                                 'date_created_vn': date_created_vn})
 
         # invoke an email to confirm
         id = res.inserted_id
         print(email, id)
-        send_email_confirm_report(name, content, date_created, email, id)
-
+        send_email_confirm_report(name, content, date_created_vn, email, id)
 
         return {'result': 'success', 'message': 'go to email to verify email', 'report_id': id}
 
@@ -48,7 +49,7 @@ def confirm(report_id):
 
             return {"result": 'success', "report": rep}
         else:
-            return {"result": 'fail', 'message': 'Unable to find report'}, 400
+            return {"result": 'fail', 'message': 'Phản hồi không khả dụng, có thể đã bị quá hạn'}, 400
     except Exception as e:
         print(e)
         return {'result': 'fail', 'message': 'unable to create report'}, 400
@@ -112,7 +113,7 @@ def update_report(report_id):
         response = data['response']
 
         res = report.find_one_and_update({'_id': ObjectId(report_id)}, {'$set': {'status': status, 'response': response,
-                                                                        'has_response': True}})
+                                                                                 'has_response': True}})
 
         if res:
             if response:
@@ -125,7 +126,7 @@ def update_report(report_id):
     except Exception as e:
         print(e)
         return {"result": 'fail', 'message': 'Unable to update designated report or wrong request body',
-                'err': e.with_traceback()}, 400
+                'err': e}, 400
 
 
 # /report/id delete

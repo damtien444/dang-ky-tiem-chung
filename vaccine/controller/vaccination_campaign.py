@@ -307,8 +307,8 @@ def update_and_promote_campaign(campaign_id):
                 return {'result': 'fail', 'message': 'unable to update or find the designated campaign'}, 400
 
             response = campaign.find_one_and_update({'_id': ObjectId(campaign_id)}, {"$set": {'status': True}})
-            log_email = send_email_confirm_vaccination_campaign(response)
-            # log_email = "send _email"
+            # log_email = send_email_confirm_vaccination_campaign(response)
+            log_email = "send _email"
 
             if response:
 
@@ -351,18 +351,15 @@ def update_and_promote_campaign(campaign_id):
                     log.append("Not update campaign's name")
 
                 try:
-                    time_range = data['time_range']
 
-                    time_range = time_range.split('-')
-                    start_, end_ = str(time_range[0]), str(time_range[1])
-                    update['date_start'] = parse_to_date(start_)
-                    update['date_end'] = parse_to_date(end_)
+                    update['date_start'] = parse_to_date(data['date_start'])
+                    update['date_end'] = parse_to_date(data['date_end'])
                 except Exception as e:
                     log.append("Not update campaign's time")
 
                 try:
                     place = data['place']
-                    update['place'] = place
+                    update['date_place'] = place
                 except Exception as e:
                     log.append("Not update campaign's place")
 
