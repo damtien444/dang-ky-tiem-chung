@@ -15,13 +15,17 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ratio = mini ? 0.05 : 0.15;
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: Lottie.asset(
-          'loading.json',
-          fit: BoxFit.cover,
-          width: size * ratio,
-          height: size * ratio,
+      child: SizedBox(
+        width: 50,
+        height: 50,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Lottie.asset(
+            'loading.json',
+            fit: BoxFit.cover,
+            width: size * ratio,
+            height: size * ratio,
+          ),
         ),
       ),
     );

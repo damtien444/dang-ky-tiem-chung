@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
+import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
+import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
@@ -151,6 +152,86 @@ class ProviderService {
       print(dataInjectionStatistic);
       return dataInjectionStatistic;
     } else {}
+  }
+
+  static Future<CampaignInjection> getDataCampaignInjection() async {
+    const baseUrl =
+        "https://vaccine-for-the-people.herokuapp.com/campaign";
+    final url = Uri.parse(baseUrl);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = campaignInjectionFromJson(response.body);
+      return data;
+    } else {
+      return throw ("error");
+    }
+  }
+
+  static Future<DetailCampaignInjection> getDetailOneDataCampaignInjection(String id) async {
+     final baseUrl =
+        "https://vaccine-for-the-people.herokuapp.com/campaign/${id.toString()}";
+    final url = Uri.parse(baseUrl);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = detailCampaignInjectionFromJson(response.body);
+      return data;
+    } else {
+      return throw ("error");
+    }
+  }
+
+  static Future<bool> deletePeopleInCampaignInjection(String idCampaign,String idPeople) async {
+    print("idcampaign: "+idCampaign +" id people"+idPeople);
+    final baseUrl =
+        "https://vaccine-for-the-people.herokuapp.com/campaign/${idCampaign.toString()}/user/${idPeople.toString()}";
+    final url = Uri.parse(baseUrl);
+    final response = await http.delete(url);
+    print("status code la: "+response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("xoa thanh cong");
+      return true;
+    } else {
+      print("xoa that bai");
+      return false;
+    }
+  }
+
+  static Future<bool> deleteCampaignInjection(String idCampaign) async {
+    final baseUrl =
+        "https://vaccine-for-the-people.herokuapp.com/campaign/${idCampaign.toString()}";
+    final url = Uri.parse(baseUrl);
+    final response = await http.delete(url);
+    print("status code la: "+response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("xoa thanh cong");
+      return true;
+    } else {
+      print("xoa that bai");
+      return false;
+    }
+  }
+
+  static Future<bool> promoteOneCampaignInjection(String id)async{
+    Map<String, String> requestHeader = {
+      'Content-Type': 'application/json'
+    };
+    print("id: "+id.toString());
+    final body = jsonEncode({
+      "update_type": "promote"
+    });
+    final httpUrl="https://vaccine-for-the-people.herokuapp.com/campaign/${id.toString()}";
+    var httpPost = await http.put(
+      Uri.parse(httpUrl),
+      body: body,
+      headers: requestHeader,
+      encoding: Encoding.getByName("utf-8"),
+    );
+    print("status code: "+httpPost.statusCode.toString());
+    if (httpPost.statusCode == 200) {
+      return true;
+    }else{
+      return false;
+    }
   }
 
   Future<String?> login(
