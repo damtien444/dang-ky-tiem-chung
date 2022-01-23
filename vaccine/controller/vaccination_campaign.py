@@ -383,9 +383,9 @@ def delete_a_campaign(campaign_id):
         shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if shot_campaign:
             if (shot_campaign['status']):
-                log = send_email_notification_delete_campaign(shot_campaign)
+                # log = send_email_notification_delete_campaign(shot_campaign)
                 campaign.delete_one({'_id': ObjectId(campaign_id)})
-                return {'log': log}
+                return {'message': "ok"}
             return {'Status': 'Success',
                     'Message': f'Deleted {shot_campaign}'}
         else:
