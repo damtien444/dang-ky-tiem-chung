@@ -115,6 +115,8 @@ def update_report(report_id):
         res = report.find_one_and_update({'_id': ObjectId(report_id)}, {'$set': {'status': status, 'response': response,
                                                                                  'has_response': True}})
 
+        res = report.find_one({'_id': ObjectId(report_id)})
+
         if res:
             if response:
                 send_email_announce_response_report(res['name'], res['content'], res['email'], response)
@@ -135,7 +137,11 @@ def update_report(report_id):
 def delete_a_report(report_id):
     try:
         res = report.find_one_and_delete({'_id': ObjectId(report_id)})
-        return {'result': 'success', 'message': 'delete successfully', 'report': res}
+        if res:
+
+            return {'result': 'success', 'message': 'delete successfully', 'report': res}
+        else:
+            return {"result": 'fail', 'message': 'Unable to delete designated report'}, 400
     except Exception as e:
         print(e)
         return {"result": 'fail', 'message': 'Unable to delete designated report',
