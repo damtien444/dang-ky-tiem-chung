@@ -421,12 +421,6 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                                 ),
                                 const SizedBox(height: 20,),
                                 controller.listDataChartByArea.isNotEmpty?
-                                const Padding(
-                                  padding:  EdgeInsets.symmetric(horizontal: 40),
-                                  child:  Text("Lưu ý:", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.red)),
-                                ):
-                                const SizedBox.shrink(),
-                                controller.listDataChartByArea.isNotEmpty?
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 20),
                                   child: SizedBox(
@@ -435,7 +429,7 @@ class InjectionStatisticView extends GetView<InjectionStatisticController> {
                                       scrollDirection: Axis.vertical,
                                       itemCount: controller.typeObject.length,
                                         itemBuilder: (context,index){
-                                          return Text("  -  "+controller.typeObject[index],style: TextStyle(fontSize: 15,color: Colors.red,));
+                                          return Text(controller.typeObject[index],textAlign: TextAlign.center,style: TextStyle(fontSize: 15,color: Colors.red,));
                                         }
                                     ),
                                   ),

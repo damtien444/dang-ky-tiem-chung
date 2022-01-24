@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dartz/dartz_streaming.dart';
 import 'package:http/http.dart' as http;
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
@@ -243,16 +244,15 @@ class ProviderService {
     print(id+" "+name+" "+place);
     Map<String, String> requestHeader = {
       'Content-Type': 'application/json;charset=utf-8',
-
     };
     print("id: "+id.toString());
     final body = jsonEncode(
         {
           "update_type": "update",
-          "name": name,
-          "date_start": start,
-          "date_end": end,
-          "place": place
+          "name": name.toString(),
+          "date_start": start.toString(),
+          "date_end": end.toString(),
+          "place": place.toString()
         }
     );
     final httpUrl="https://vaccine-for-the-people.herokuapp.com/campaign/${id.toString()}";
