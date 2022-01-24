@@ -167,7 +167,7 @@ class LoginView extends GetView<LoginController> {
                           const SizedBox(
                             height: 20,
                           ),
-                          BottomSceen(),
+                          const BottomSceen(),
                         ],
                       ),
                     ),

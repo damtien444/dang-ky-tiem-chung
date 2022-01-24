@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/my_dialog.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
-import 'package:vaccine_for_the_people/app/data/providers/provider_service.dart';
-import 'package:vaccine_for_the_people/app/data/providers/viet_nam_provider.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
 import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
@@ -25,6 +23,7 @@ class StatementDataController extends GetxController {
     'Janssen',
     'Abdala'
   ];
+
   final List<String> listAges = List.generate(99, (index) => '${++index}');
   final List<String> anamesis = ['Có', 'Không'];
   final List<String> typeObject = [

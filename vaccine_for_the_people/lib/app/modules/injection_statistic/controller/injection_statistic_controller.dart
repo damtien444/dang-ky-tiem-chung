@@ -27,22 +27,10 @@ class InjectionStatisticController extends GetxController{
   final List<String> listAges = List.generate(99, (index) => '${++index}');
   final List<String> anamesis = ['Có', 'Không'];
   final List<String> typeObject = [
-    '1. Nhân viên y tế ',
-    '2. Người tham gia phòng chống dịch',
-    '3. Lực lượng Quân đội',
-    '4. Lực lượng Công an',
-    '5. Nhân viên, cán bộ ngoại giao của Việt Nam',
-    '6. Hải quan, cán bộ làm công tác xuất nhập cảnh',
-    '7. Người cung cấp dịch vụ thiết yếu',
-    '8. Giáo viên, người làm việc, học sinh, sinh viên',
-    '9. Người mắc các bệnh mạn tính; Người trên 65 tuổi',
-    '10. Người sinh sống tại các vùng có dịch',
-    '11. Người nghèo, các đối tượng chính sách xã hội',
-    '12. Người công tác, học tập, lao động ở nước ngoài',
-    '13. Người lao động, thân nhân người lao động đang',
-    '14. Các chức sắc, chức việc các tôn giáo',
-    '15. Người lao động tự do',
-    '16. Các đối tượng khác',
+    'Lưu ý chú thích các loại đối tượng: 1. Nhân viên y tế, 2. Người tham gia phòng chống dịch, 3. Lực lượng Quân đội, 4. Lực lượng Công an, 5. Nhân viên, cán bộ ngoại giao của Việt Nam',
+    '6. Hải quan, cán bộ làm công tác xuất nhập cảnh, 7. Người cung cấp dịch vụ thiết yếu, 8. Giáo viên, người làm việc, học sinh, sinh viên, 9. Người mắc các bệnh mạn tính; Người trên 65 tuổi',
+    '10. Người sinh sống tại các vùng có dịch, 11. Người nghèo, các đối tượng chính sách xã hội, 12. Người công tác, học tập, lao động ở nước ngoài, 13. Người lao động, thân nhân người lao động đang',
+    '14. Các chức sắc, chức việc các tôn giáo, 15. Người lao động tự do, 16. Các đối tượng khác',
   ];
   RxBool isLoading=false.obs;
   final listVietNam = RxList<VietNam>();

@@ -69,7 +69,7 @@ class _HeaderInjectionCampaignState extends State<HeaderInjectionCampaign> {
                   child: c.textDisplay.value.isNotEmpty ? Text(
                     c.textDisplay.toString(),
                     style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 14),
-                  ):Text(" Trống "),
+                  ):const Text(""),
                 ),
               ),
               Container(

@@ -31,6 +31,7 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         child: Column(
@@ -303,7 +304,19 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                           ],
                         ),
                       ),
-                      const SizedBox(height: 105,),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40,bottom: 20),
+                        child: SizedBox(
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: controller.typeObject.length,
+                              itemBuilder: (context,index){
+                                return Text(controller.typeObject[index],textAlign: TextAlign.center,style: TextStyle(fontSize: 14,color: Colors.red,));
+                              }
+                          ),
+                        ),
+                      ),
                       const BottomSceen()
                     ],
                   )

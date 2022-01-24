@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -564,11 +566,12 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: (){
-                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name=c.utf8convert(c.nameCp.value);
-                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign=c.utf8convert(c.placeCp.value);
-                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign=c.utf8convert(c.startCp.value);
-                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign=c.utf8convert(c.endCP.value);
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name=c.nameCp.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign=c.placeCp.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign=c.startCp.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign=c.endCP.value;
                                 c.listBtnNotConfirm.refresh();
+                                print( c.nameCp.toString()+""+c.placeCp.toString());
                                 c.updateCampaignInjection(
                                     c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString(),
                                     c.nameCp.toString(),
