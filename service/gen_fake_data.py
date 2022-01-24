@@ -139,7 +139,9 @@ from vaccine.controller.service import db
 # sign = db['vaccination_sign']
 # sign.insert_many(fake_sign)
 report = db['report']
-
+sign = db['vaccination_sign']
+update = sign.find_one_and_update({'_id': ObjectId('61dee1edf2cd403b79cd1daf')},
+                                  {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
 # report.create_index('date_created', expireAfterSeconds=30)
 
 # report.insert_one({"test": "ghaha", "date_created": datetime.datetime.utcnow()})

@@ -387,7 +387,10 @@ def delete_a_campaign(campaign_id):
             #     # campaign.delete_one({'_id': ObjectId(campaign_id)})
             #     return {'message': "ok"}
 
-            campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
+            res = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
+            for people in res['list_of_people']:
+                sign.find_one_and_update({'_id': ObjectId(people['_id'])},
+                                         {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
             return {'Status': 'Success',
                     'Message': f'Deleted {shot_campaign}'}
         else:
