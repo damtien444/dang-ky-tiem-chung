@@ -37,6 +37,8 @@ class FormBuilderOptions extends StatefulWidget {
 }
 
 class _FormBuilderOptionsState extends State<FormBuilderOptions> {
+  GlobalKey<FormState> nameFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController textController=TextEditingController(text:  widget.value);
@@ -238,7 +240,7 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                     FormBuilderValidators.required(
                       context,
                       errorText: '${widget.title} không được bỏ trống',
-                    )
+                    ),
                   ],
                 ),
                 format: DateFormat("dd/MM/yyyy"),

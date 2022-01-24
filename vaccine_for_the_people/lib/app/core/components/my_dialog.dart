@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MyDialog extends StatelessWidget {
-  const MyDialog({Key? key}) : super(key: key);
+  const MyDialog(
+      {Key? key,
+      required this.isSuccess,
+      required this.title,
+      required this.failedTitle,
+      this.onDismissListen})
+      : super(key: key);
+  final bool isSuccess;
+  final String title;
+  final String failedTitle;
+  final Function? onDismissListen;
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +24,12 @@ class MyDialog extends StatelessWidget {
   }
 
   _buildChild(BuildContext context) => Container(
-        width: 350,
-        height: 210,
-        decoration: const BoxDecoration(
-            color: Colors.redAccent,
+        width: 360,
+        height: 220,
+        decoration: BoxDecoration(
+            color: isSuccess ? Colors.green : Colors.redAccent,
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+            borderRadius: const BorderRadius.all(Radius.circular(12))),
         child: Column(
           children: <Widget>[
             Container(
@@ -42,11 +52,11 @@ class MyDialog extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 16, left: 16),
+            Padding(
+              padding: const EdgeInsets.only(right: 16, left: 16),
               child: Text(
-                'Đăng nhập thất bại, xin vui lòng thử lại',
-                style: TextStyle(color: Colors.white,fontSize: 16),
+                isSuccess ? title : failedTitle,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -60,12 +70,17 @@ class MyDialog extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       onPrimary: Colors.black, // foreground
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      textStyle:
-                          const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      textStyle: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold)),
                   child: const Text('Đồng ý'),
-                  onPressed: () => {Navigator.of(context).pop()},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    if (isSuccess) {
+                      onDismissListen!();
+                    }
+                  },
                 )
               ],
             )

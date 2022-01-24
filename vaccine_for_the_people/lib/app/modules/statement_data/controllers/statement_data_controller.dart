@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/my_dialog.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
+import 'package:vaccine_for_the_people/app/data/providers/provider_service.dart';
+import 'package:vaccine_for_the_people/app/data/providers/viet_nam_provider.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
 import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
+import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class StatementDataController extends GetxController {
   VietNamRepository vietNamRepository;
@@ -56,11 +59,14 @@ class StatementDataController extends GetxController {
   final vaccineType = ''.obs;
   final startDate = ''.obs;
   final endDate = ''.obs;
+  final place = ''.obs;
   var priorityType = -1.obs;
   var illnessHistory = -1.obs;
+  var nameInjection = ''.obs;
   final isExpanded = false.obs;
   final address = Address(district: '', province: '', stNo: '', ward: '').obs;
   final RxMap dataFilter = {}.obs;
+  Map<String, dynamic> injectInformation = {};
   final ready = true.obs;
   final listInjectors = RxList<ListElement>();
 
@@ -80,14 +86,12 @@ class StatementDataController extends GetxController {
       final response = await repository.getListInjectionRegistrants(dataFilter);
       if (response == null) {
         ready.value = true;
-        _showDialog();
         return;
       }
       listInjectors.value = response.list;
       ready.value = true;
     } catch (e) {
       ready.value = true;
-      _showDialog();
     }
   }
 
@@ -119,8 +123,43 @@ class StatementDataController extends GetxController {
     await getListInjectionRegistrants(dataFilter);
   }
 
-  void _showDialog() {
-    Get.dialog(const MyDialog());
+  void _showDialog(bool isSuccess) {
+    Get.dialog(MyDialog(
+      isSuccess: isSuccess,
+      title: 'Tạo đợt tiêm thành công',
+      failedTitle: 'Tạo đợt tiêm thất bại, vui lòng kiểm tra lại',
+      onDismissListen: () {
+
+      },
+    ));
+  }
+
+  Future<void> createCampaign() async {
+    injectInformation = {
+      "address": {
+        "province": province.value.isEmpty ? null : province.value,
+      },
+      "age_range": "18-65",
+      "name": nameInjection.value.isEmpty ? null : province.value,
+      "priority_type": priorityType == -1 ? null : priorityType,
+      "date_of_shot": {
+        "start_date": startDate.value.isEmpty ? null : startDate.value,
+        "end_date": endDate.value.isEmpty ? null : endDate.value,
+      },
+      "vaccine_type": vaccineType.value.isEmpty ? null : vaccineType.value,
+      "place": place.value.isEmpty ? null : place.value,
+      "illness_history":
+          illnessHistory == -1 ? null : (illnessHistory == 1 ? true : false),
+    };
+    try {
+      final response = await repository.createCampaign(injectInformation);
+      if (response?.result == 'success') {
+        _showDialog(true);
+        return;
+      }
+    } catch (e) {
+      _showDialog(false);
+    }
   }
 
   void findListDistricts(String data) {

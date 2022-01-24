@@ -13,7 +13,7 @@ class NavigationBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.lazyPut<NavigationController>(() => NavigationController());
+    Get.put<NavigationController>(NavigationController());
     Get.put<HomeController>(HomeController(
         repository: Repository(providerService: ProviderService())));
     Get.put(RegisterInjectionController(

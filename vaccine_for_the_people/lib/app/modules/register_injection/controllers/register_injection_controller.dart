@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/my_dialog.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
@@ -7,6 +9,8 @@ import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dar
 class RegisterInjectionController extends GetxController {
   VietNamRepository vietNamRepository;
   Repository repository;
+  GlobalKey<FormBuilderState> regInjectionFormKey =
+      GlobalKey<FormBuilderState>();
 
   RegisterInjectionController(
       {required this.vietNamRepository, required this.repository});
@@ -55,6 +59,20 @@ class RegisterInjectionController extends GetxController {
   final initialHuyen = 'Tất cả'.obs;
   final initialXa = 'Tất cả'.obs;
   final ready = true.obs;
+  final orderShot = 0.obs;
+  final name = ''.obs;
+  final birthDay = ''.obs;
+  final injectionDay = ''.obs;
+  final phone = ''.obs;
+  final email = ''.obs;
+  final sex = ''.obs;
+  final identificationCard = ''.obs;
+  var priorityType = ''.obs;
+  final province = ''.obs;
+  final district = ''.obs;
+  final ward = ''.obs;
+  final stNo = ''.obs;
+  final illnessHistory = ''.obs;
 
   Future<void> getProvinces() async {
     final data = await VietNamRepository.getProvinces();
@@ -66,41 +84,28 @@ class RegisterInjectionController extends GetxController {
   }
 
   @override
+  void onClose() {
+    super.onClose();
+  }
+
+  @override
   Future<void> onInit() async {
     super.onInit();
     await getProvinces();
-    await vaccinationSign({
-      "order_shot": 1,
-      "name": "Minh",
-      "birth_day": "2000-04-08",
-      "sex": true,
-      "phone": "0347813454",
-      "email": "minh@gmail.com",
-      "CCCD": "12423123456",
-      "BHXH_id": "SV1233455666",
-      "address": {
-        "province": "Da Nang",
-        "district": "Lien Chieu",
-        "ward": "Hoa Khanh Bac",
-        "st_no": "20 Nguyen Luong Bang"
-      },
-      "priority_group": 1,
-      "illness_history": false,
-      "expected_shot_date": "2021-06-20"
-    });
   }
 
   Future<void> vaccinationSign(Map<String, dynamic> infoSign) async {
     try {
+      ready.value = false;
       final response = await repository.vaccinationSign(infoSign);
-      if (response != null) {
+      if (response?.result == 'success') {
+        _showDialog(true);
         ready.value = true;
-        // _showDialog();
         return;
       }
     } catch (e) {
       ready.value = true;
-    //  _showDialog();
+      _showDialog(false);
     }
   }
 
@@ -134,7 +139,14 @@ class RegisterInjectionController extends GetxController {
     initialXa.value = listWards.first;
   }
 
-  void _showDialog() {
-    Get.dialog(const MyDialog());
+  void _showDialog(bool isSuccess) {
+    Get.dialog(MyDialog(
+      isSuccess: isSuccess,
+      title: 'Đăng kí tiêm thành công, vui lòng kiểm tra email',
+      failedTitle: 'Đăng kí tiêm thât bại, xin vui lòng thử lại',
+      onDismissListen: () {
+
+      },
+    ));
   }
 }

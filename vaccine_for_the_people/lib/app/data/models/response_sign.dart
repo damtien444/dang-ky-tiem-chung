@@ -1,27 +1,26 @@
-
-
 import 'dart:convert';
 
-ResponseSign responseSignFromJson(String str) => ResponseSign.fromJson(json.decode(str));
+ResponseSign responseSignFromJson(String str) =>
+    ResponseSign.fromJson(json.decode(str));
 
 String responseSignToJson(ResponseSign data) => json.encode(data.toJson());
 
 class ResponseSign {
   ResponseSign({
-    required this.reason,
+    this.reason,
     required this.result,
   });
 
-  String reason;
+  String? reason;
   String result;
 
   factory ResponseSign.fromJson(Map<String, dynamic> json) => ResponseSign(
-    reason: json["reason"],
-    result: json["result"],
-  );
+        reason: json["reason"],
+        result: json["result"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "reason": reason,
-    "result": result,
-  };
+        "reason": reason,
+        "result": result,
+      };
 }

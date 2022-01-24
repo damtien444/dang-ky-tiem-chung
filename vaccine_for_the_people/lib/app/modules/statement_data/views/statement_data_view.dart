@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/core/components/loading_view.dart';
@@ -185,7 +186,7 @@ class StatementDataView extends GetView<StatementDataController> {
                         Flexible(
                           flex: 1,
                           child: Padding(
-                            padding: EdgeInsets.only(right: 20),
+                            padding: const EdgeInsets.only(right: 20),
                             child: FormBuilderOptions(
                                 title: 'Ngày bắt đầu tiêm',
                                 require: false,
@@ -278,7 +279,7 @@ class StatementDataView extends GetView<StatementDataController> {
                                                 "Không tìm thấy kết quả ",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 20,
+                                                    fontSize: 18,
                                                     color: Colors.red,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -291,10 +292,13 @@ class StatementDataView extends GetView<StatementDataController> {
                             ],
                           ),
                     controller.listInjectors.isNotEmpty
-                        ? Padding(
+                        ?
+                    Padding(
                             padding: const EdgeInsets.all(30),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                _showInputDialog(context);
+                              },
                               child: const AutoSizeText('Tạo đợt tiêm chủng'),
                             ),
                           )
@@ -311,6 +315,76 @@ class StatementDataView extends GetView<StatementDataController> {
         ),
       ),
     );
+  }
+
+  void _showInputDialog(BuildContext context) {
+    Get.defaultDialog(
+        title: '',
+        content: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+          width: 350,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              TextFormField(
+                onChanged: (newValue) {
+                  controller.nameInjection.value = newValue;
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                style: Get.textTheme.headline6,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(
+                      context,
+                      errorText: 'Tên đợt tiêm chủng không được bỏ trống',
+                    ),
+                  ],
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Tên đợt tiêm chủng',
+                  hintMaxLines: 1,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                onChanged: (newValue) {
+                  controller.place.value = newValue;
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                style: Get.textTheme.headline6,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(
+                      context,
+                      errorText: 'Địa điểm tiêm không được bỏ trống',
+                    ),
+                  ],
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Địa điểm tiêm chủng',
+                  hintMaxLines: 1,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  controller.createCampaign();
+                },
+                child: const Text(
+                  'Tạo đợt tiêm',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ),
+              )
+            ],
+          ),
+        ),
+        radius: 10.0);
   }
 
   final labelStyle = Get.textTheme.headline6!.copyWith(
