@@ -204,11 +204,6 @@ class CreateInjectionCampaignController extends GetxController{
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
-      textDisplay.value=
-      "* Tên đợt tiêm: ${nameCp.toString()})}"
-          ", Ngày bắt đầu: ${startCp.toString()}"
-          ", Ngày kết thúc: ${endCP.toString()}"
-          ", Tại địa điểm: ${placeCp.toString()}";
     }
     else{
       isLoadingUpdate.value=false;

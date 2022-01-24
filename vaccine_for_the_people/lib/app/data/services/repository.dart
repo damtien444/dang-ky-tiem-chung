@@ -1,6 +1,8 @@
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
+import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
+import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
@@ -43,6 +45,30 @@ class Repository {
       String province, String district) async {
     return await providerService.getDataInjectionStatisticProvinceAndDistrict(
         province, district);
+  }
+
+  static Future<CampaignInjection> getDataCampaignInjection() {
+    return ProviderService.getDataCampaignInjection();
+  }
+
+  static Future<DetailCampaignInjection> getDetailOneDataCampaignInjection(String id) {
+    return ProviderService.getDetailOneDataCampaignInjection(id);
+  }
+
+  static Future<bool> deletePeopleInCampaignInjection(String idCampaign,String idPeople) async {
+    return ProviderService.deletePeopleInCampaignInjection(idCampaign, idPeople);
+  }
+
+  static Future<bool> deleteCampaignInjection(String idCampaign) async {
+    return ProviderService.deleteCampaignInjection(idCampaign);
+  }
+
+  static Future<bool> promoteOneCampaignInjection(String id) async {
+    return ProviderService.promoteOneCampaignInjection(id);
+  }
+
+  static Future<bool> updateCampaignInjection(String id,String name, String start,String end,String place) async {
+    return ProviderService.updateCampaignInjection(id,name,start,end,place);
   }
 
   Future<String?> login(String username, String password) async {
