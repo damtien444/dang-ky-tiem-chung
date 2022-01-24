@@ -26,6 +26,10 @@ class CreateInjectionCampaignController extends GetxController{
   final RxInt selectedIndexNotConfirm=1000.obs;
   final RxInt countPage=0.obs;
   final RxString textDisplay="".obs;
+  final RxString nameCp="".obs;
+  final RxString placeCp="".obs;
+  final RxString startCp="".obs;
+  final RxString endCP="".obs;
 
   String utf8convert(String text) {
     List<int> bytes = text.toString().codeUnits;
@@ -171,6 +175,49 @@ class CreateInjectionCampaignController extends GetxController{
         titleText: Text("Thêm vào đợt chính thức thất bại",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
         messageText: Text(
           "Vui lòng thử lại sau",
+          style: TextStyle(color: Colors.white),textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.TOP,
+        maxWidth: 200,
+        padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+        margin: EdgeInsets.only(top:10),
+      );
+    }
+  }
+
+  Future<void> updateCampaignInjection(String id,String name, String start,String end,String place)async{
+    bool checkData=await Repository.updateCampaignInjection(id,name,start,end,place);
+    if(checkData){
+      isLoadingUpdate.value=false;
+      Get.snackbar(
+        "Cập nhật thành công",
+        "Bạn đã cập nhật thành công chiến dịch",
+        titleText: Text("Cập nhật thành công",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+        messageText: Text(
+          "Bạn đã cập nhật thành công chiến dịch",
+          style: TextStyle(color: Colors.white),textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.TOP,
+        maxWidth: 200,
+        padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+        margin: EdgeInsets.only(top:10),
+      );
+      textDisplay.value=
+      "* Tên đợt tiêm: ${nameCp.toString()})}"
+          ", Ngày bắt đầu: ${startCp.toString()}"
+          ", Ngày kết thúc: ${endCP.toString()}"
+          ", Tại địa điểm: ${placeCp.toString()}";
+    }
+    else{
+      isLoadingUpdate.value=false;
+      Get.snackbar(
+        "Cập nhật thất bại",
+        "Có lỗi xảy ra, hãy thử lại sau",
+        titleText: Text("Cập nhật thất bại",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+        messageText: Text(
+          "Có lỗi xảy ra, hãy thử lại sau",
           style: TextStyle(color: Colors.white),textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.red,

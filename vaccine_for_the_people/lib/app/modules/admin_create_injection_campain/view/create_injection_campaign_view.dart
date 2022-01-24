@@ -26,8 +26,7 @@ class CreateInjectionCampaignView
         c.getDataConfirmed();
       },
       builder: (_) {
-        return c.listCampaignAlreadyConfirm.isNotEmpty
-            ? ListView(
+        return  ListView(
                 scrollDirection: Axis.vertical,
                 children: [
                   Column(
@@ -68,8 +67,8 @@ class CreateInjectionCampaignView
                                     SizedBox(
                                       width: 170,
                                       height: 300,
-                                      child: ListView.builder(
-                                        itemCount:c.listCampaignAlreadyConfirm.length,
+                                      child: c.listBtnConfirm.isNotEmpty ? ListView.builder(
+                                        itemCount:c.listBtnConfirm.length,
                                         itemBuilder: (context, index){
                                           return Padding(
                                             padding: const EdgeInsets.only(top: 2),
@@ -100,7 +99,7 @@ class CreateInjectionCampaignView
                                             ),
                                           );
                                         },
-                                      ),
+                                      ):SizedBox.shrink(),
                                     ):const SizedBox.shrink(),
                                   ],
                                 ),
@@ -133,8 +132,8 @@ class CreateInjectionCampaignView
                                     SizedBox(
                                       width: 170,
                                       height: 300,
-                                      child: ListView.builder(
-                                        itemCount:c.listCampaignNotConfirm.length,
+                                      child: c.listBtnNotConfirm.isNotEmpty ? ListView.builder(
+                                        itemCount:c.listBtnNotConfirm.length,
                                         itemBuilder: (context, index){
                                           return Padding(
                                             padding: const EdgeInsets.only(top: 2),
@@ -165,7 +164,7 @@ class CreateInjectionCampaignView
                                             ),
                                           );
                                         },
-                                      ),
+                                      ):const SizedBox.shrink(),
                                     ):const SizedBox.shrink(),
                                   ],
                                 ),
@@ -224,7 +223,7 @@ class CreateInjectionCampaignView
                                         (controller.selectedIndexNotConfirm.value!=1000 && controller.selectedIndexConfirm.value==1000 ))
                                     ?
                                     Padding(
-                                      padding: EdgeInsets.only(left: controller.isHaveBtnConfirm.value ? 435: 460),
+                                      padding: EdgeInsets.only(left: controller.isHaveBtnConfirm.value ? 390: 460),
                                       child: Row(
                                         children: [
                                           SizedBox(
@@ -248,7 +247,7 @@ class CreateInjectionCampaignView
                                           SizedBox(
                                             width: 100,
                                             height: 35,
-                                            child: ElevatedButton(
+                                            child: !controller.isHaveBtnConfirm.value ? ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors.green,
                                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -256,15 +255,14 @@ class CreateInjectionCampaignView
                                               child: const Text("Chỉnh Sửa",
                                                   style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: "impact", fontWeight: FontWeight.normal)),
                                               onPressed: () async {
-                                                c.isClickListConfirm.value ?
-                                                updateDialogConfirm0(context, c):
-                                                updateDialogConfirm1(context, c);
-                                              },
-                                            ),
+                                                updateDialogConfirm0(
+                                                    context, c);
+                                              }
+                                            ):const SizedBox.shrink(),
                                           ),
-                                          const SizedBox(
+                                          !controller.isHaveBtnConfirm.value ? const SizedBox(
                                             width: 30,
-                                          ),
+                                          ):const SizedBox.shrink(),
                                           SizedBox(
                                             width: 100,
                                             height: 35,
@@ -301,8 +299,7 @@ class CreateInjectionCampaignView
                   ],
                   )
                 ],
-              )
-            : LoadingWidget();
+              );
       },
     );
   }

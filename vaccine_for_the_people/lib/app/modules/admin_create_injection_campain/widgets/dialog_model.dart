@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:vaccine_for_the_people/app/core/components/loading_view.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_dropdown_button.dart';
@@ -237,7 +239,7 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                 c.listBtnConfirm.remove(c.listBtnConfirm[c.selectedIndexConfirm.value]);
                                 c.listBtnConfirm.refresh();
                                 c.deleteCampaignInjection(c.listCampaignAlreadyConfirm1[c.selectedIndexConfirm.value].sId.toString());
-                                c.listCampaignAlreadyConfirm.refresh();
+                                c.getListBtnData();
                                 c.selectedIndexConfirm.value=1000;
                                 Get.back();
                               }),
@@ -369,12 +371,12 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: () async{
-                                print("chi so: "+c.selectedIndexNotConfirm.value.toString());
                                 c.listCampaignNotConfirm.remove(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value]);
                                 c.listBtnNotConfirm.remove(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value]);
                                 c.listBtnNotConfirm.refresh();
                                 c.deleteCampaignInjection(c.listCampaignNotConfirm1[c.selectedIndexNotConfirm.value].sId.toString());
                                 c.listCampaignNotConfirm.refresh();
+                                // c.getListBtnData();
                                 c.selectedIndexNotConfirm.value=1000;
                                 Get.back();
                               }),
@@ -426,13 +428,21 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
         });
   }
   Future<dynamic> updateDialogConfirm0(BuildContext context, CreateInjectionCampaignController c) {
+    String nameCampaign=c.utf8convert(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name.toString());
+    String place = c.utf8convert(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign.toString());
+    String startDay =  DateFormat('yyyy-MM-dd').format(DateTime.parse(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign.toString()));
+    String endDay =  DateFormat('yyyy-MM-dd').format(DateTime.parse(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign.toString()));
+    c.nameCp.value=nameCampaign;
+    c.startCp.value=startDay;
+    c.endCP.value=endDay;
+    c.placeCp.value=place;
     return showDialog(
         context: context,
         builder: (context) {
           return Dialog(
             child: Container(
-              width: 800,
-              height: 800,
+              width: 500,
+              height: 600,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -453,27 +463,74 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                     const SizedBox(
                       height: 15,
                     ),
-                    const Text(
-                      "Thêm vào đợt chính thức",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "impact"),
+                    Center(
+                      child: Text("Chỉnh sửa thông tin chiến dịch",style: TextStyle(fontSize: 20),)
                     ),
                     const SizedBox(
                       height: 15,
                     ),
-                    Text(
-                      "Bạn chắc chắn muốn xác nhận đợt tiêm: ${c.utf8convert(c.listCampaignAlreadyConfirm[c.selectedIndexConfirm.value].name.toString())}  vào đợt tiêm chính thức không ??",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontFamily: "impact"),
+                    SizedBox(
+                      width: 400,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: FormBuilderOptions(
+                            title: "Tên chiến dịch",
+                            value: nameCampaign,
+                            onPress: (name) {
+                              c.nameCp.value = name;
+                            },
+                            mode: FormBuilderMode.DEFAULT1),
+                      ),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
+                    SizedBox(
+                      width: 400,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: FormBuilderOptions(
+                            title: "Địa điểm",
+                            value: place,
+                            onPress: (name) {
+                              c.placeCp.value = name;
+                            },
+                            mode: FormBuilderMode.DEFAULT1),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      width: 400,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: FormBuilderOptions(
+                            title: "Bắt đầu",
+                            value: startDay,
+                            onPress: (name) {
+                              c.startCp.value = name;
+                            },
+                            mode: FormBuilderMode.DEFAULT1),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      width: 400,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: FormBuilderOptions(
+                            title: "Kết thúc",
+                            value: endDay,
+                            onPress: (name) {
+                              c.endCP.value = name;
+                            },
+                            mode: FormBuilderMode.DEFAULT1),
+                      ),
+                    ),
+                    const SizedBox(height: 30,),
                     Row(
                       mainAxisAlignment:
                       MainAxisAlignment.center,
@@ -496,7 +553,7 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                         .circular(
                                         10)),
                               ),
-                              child: const Text("Thêm vào",
+                              child: const Text("Chỉnh Sửa",
                                   style: TextStyle(
                                       color:
                                       Colors.white,
@@ -507,7 +564,20 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: (){
-                                c.promoteOneCampaignInjection(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString());
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name=c.nameCp.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign=c.placeCp.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign=c.startCp.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign=c.endCP.value;
+                                c.listBtnNotConfirm.refresh();
+                                c.updateCampaignInjection(
+                                    c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString(),
+                                    c.nameCp.toString(),
+                                    c.startCp.toString(),
+                                    c.endCP.toString(),
+                                    c.placeCp.toString()
+                                );
+                                c.textDisplay.refresh();
+
                               }),
                         ),
                         const SizedBox(
@@ -547,135 +617,7 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                       ],
                     ),
                     const SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
-  Future<dynamic> updateDialogConfirm1(BuildContext context, CreateInjectionCampaignController c) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              width: 800,
-              height: 800,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Center(
-                      child: Image.asset(
-                        "assets/images/icon_heart.png",
-                        fit: BoxFit.contain,
-                        height: 70,
-                        width: 70,
-                        color: CustomeColor.colorAppBar,
-                      ),
-                    ),
-                    const SizedBox(
                       height: 15,
-                    ),
-                    const Text(
-                      "Thêm vào đợt chính thức",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "impact"),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      "Bạn chắc chắn muốn xác nhận đợt tiêm: ${c.utf8convert(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].name.toString())}  vào đợt tiêm chính thức không ??",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontFamily: "impact"),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          height: 35,
-                          child: ElevatedButton(
-                              style: ElevatedButton
-                                  .styleFrom(
-                                primary: CustomeColor
-                                    .colorAppBar,
-                                //background color of button
-                                // side: const BorderSide(width:1, color:Colors.grey), //border width and color//elevation of button
-                                shape:
-                                RoundedRectangleBorder(
-                                  //to set border radius to button
-                                    borderRadius:
-                                    BorderRadius
-                                        .circular(
-                                        10)),
-                              ),
-                              child: const Text("Thêm vào",
-                                  style: TextStyle(
-                                      color:
-                                      Colors.white,
-                                      fontSize: 15,
-                                      fontWeight:
-                                      FontWeight
-                                          .normal,
-                                      fontFamily:
-                                      "impact")),
-                              onPressed: (){
-                                c.promoteOneCampaignInjection(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString());
-                              }),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        SizedBox(
-                          width: 120,
-                          height: 35,
-                          child: ElevatedButton(
-                            style: ElevatedButton
-                                .styleFrom(
-                              primary: Colors.red,
-                              //background color of button
-                              // side: const BorderSide(width:1, color:Colors.grey), //border width and color//elevation of button
-                              shape:
-                              RoundedRectangleBorder(
-                                //to set border radius to button
-                                  borderRadius:
-                                  BorderRadius
-                                      .circular(
-                                      10)),
-                            ),
-                            child: const Text("Hủy bỏ",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontFamily:
-                                    "impact",
-                                    fontWeight:
-                                    FontWeight
-                                        .normal)),
-                            onPressed: () async {
-                              Get.back();
-                            },
-                          ),
-                        ),
-                      ],
                     ),
                     const SizedBox(
                       height: 10,

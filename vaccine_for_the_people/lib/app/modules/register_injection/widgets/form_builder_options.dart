@@ -6,10 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:vaccine_for_the_people/app/core/components/datetime_picker_formfield.dart';
 import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
+import 'package:vaccine_for_the_people/app/data/providers/provider_service.dart';
+import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/data/utils/formatters.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/controller/create_injection_campaign_controller.dart';
 
 class FormBuilderOptions extends StatefulWidget {
-  const FormBuilderOptions({
+    const FormBuilderOptions({
     Key? key,
     required this.title,
     this.require = true,
@@ -18,12 +21,14 @@ class FormBuilderOptions extends StatefulWidget {
     this.listOptions,
     this.onPress,
     this.value = '',
+    this.onTextChange,
   }) : super(key: key);
   final String title;
   final bool require;
   final FormBuilderMode mode;
   final InputMode inputMode;
   final Function(String)? onPress;
+  final Function(String)? onTextChange;
   final List<String>? listOptions;
   final String value;
 
@@ -34,6 +39,7 @@ class FormBuilderOptions extends StatefulWidget {
 class _FormBuilderOptionsState extends State<FormBuilderOptions> {
   @override
   Widget build(BuildContext context) {
+    final TextEditingController textController=TextEditingController(text:  widget.value);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,6 +65,9 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
           switch (widget.mode) {
             case FormBuilderMode.DEFAULT:
               return TextFormField(
+                onChanged: (newValue) {
+                  widget.onPress!(newValue);
+                },
                 autovalidateMode: widget.require
                     ? AutovalidateMode.onUserInteraction
                     : AutovalidateMode.disabled,
@@ -89,6 +98,40 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                 decoration: InputDecoration(
                   hintText: widget.title,
                   counterText: "",
+                ),
+              );
+            case FormBuilderMode.DEFAULT1:
+              return TextFormField(
+                onChanged: (newValue) {
+                  widget.onPress!(newValue);
+                },
+                controller: textController,
+                autovalidateMode: widget.require
+                    ? AutovalidateMode.onUserInteraction
+                    : AutovalidateMode.disabled,
+                style: Get.textTheme.headline6,
+                maxLength: widget.inputMode == InputMode.PHONE ? 10 : null,
+                validator: FormBuilderValidators.compose(
+                  [
+                    FormBuilderValidators.required(
+                      context,
+                      errorText: '${widget.title} không được bỏ trống',
+                    ),
+                    if (widget.inputMode == InputMode.NAME)
+                      ...[]
+                    else if (widget.inputMode == InputMode.EMAIL) ...[
+                      FormBuilderValidators.email(
+                        context,
+                        errorText: 'Vui lòng nhập đúng định dạng email',
+                      ),
+                    ] else if (widget.inputMode == InputMode.PHONE) ...[
+                      FormBuilderValidators.match(
+                        context,
+                        regexPhoneNumber,
+                        errorText: 'Số điện thoại sai định dạng',
+                      ),
+                    ],
+                  ],
                 ),
               );
             case FormBuilderMode.DROP_DOWN:
@@ -217,6 +260,7 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
 
 enum FormBuilderMode {
   DEFAULT,
+  DEFAULT1,
   DROP_DOWN,
   DATE_PICKER,
 }

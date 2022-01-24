@@ -233,6 +233,39 @@ class ProviderService {
       return false;
     }
   }
+  static String utf8convert(String text) {
+    List<int> bytes = text.toString().codeUnits;
+    return utf8.decode(bytes);
+  }
+  static Future<bool> updateCampaignInjection(String id,String name, String start,String end,String place)async{
+    Map<String, String> requestHeader = {
+      'Content-Type': 'application/json;charset=utf-8',
+
+    };
+    print("id: "+id.toString());
+    final body = jsonEncode(
+        {
+          "update_type": "update",
+          "name": name,
+          "date_start": start,
+          "date_end": end,
+          "place": place
+        }
+    );
+    final httpUrl="https://vaccine-for-the-people.herokuapp.com/campaign/${id.toString()}";
+    var httpPost = await http.put(
+      Uri.parse(httpUrl),
+      body: body,
+      headers: requestHeader,
+      encoding: Encoding.getByName("utf-8"),
+    );
+    print("status code: "+httpPost.statusCode.toString());
+    if (httpPost.statusCode == 200) {
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   Future<String?> login(
     String username,

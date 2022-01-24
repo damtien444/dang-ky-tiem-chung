@@ -67,6 +67,10 @@ class Repository {
     return ProviderService.promoteOneCampaignInjection(id);
   }
 
+  static Future<bool> updateCampaignInjection(String id,String name, String start,String end,String place) async {
+    return ProviderService.updateCampaignInjection(id,name,start,end,place);
+  }
+
   Future<String?> login(String username, String password) async {
     return await providerService.login(username, password);
   }
