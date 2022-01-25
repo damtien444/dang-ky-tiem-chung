@@ -273,6 +273,9 @@ def get_all_campaign():
 # @admin_required
 def get_a_campaign(campaign_id):
     try:
+        # offset = request.args.get('offset')
+        # limit = request.args.get('limit')
+        # current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)}).limit(limit).skip(offset)
         current_shot_campaign = campaign.find_one({'_id': ObjectId(campaign_id)})
         if current_shot_campaign:
             return {'Status': 'Success',
@@ -386,11 +389,11 @@ def delete_a_campaign(campaign_id):
             #     # log = send_email_notification_delete_campaign(shot_campaign)
             #     # campaign.delete_one({'_id': ObjectId(campaign_id)})
             #     return {'message': "ok"}
-
-            res = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
-            for people in res['list_of_people']:
-                sign.find_one_and_update({'_id': ObjectId(people['_id'])},
-                                         {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
+            if shot_campaign['status']:
+                res = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
+                for people in res['list_of_people']:
+                    sign.find_one_and_update({'_id': ObjectId(people['_id'])},
+                                             {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
             return {'Status': 'Success',
                     'Message': f'Deleted {shot_campaign}'}
         else:
