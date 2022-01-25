@@ -1,5 +1,7 @@
 from datetime import datetime
 from bson import ObjectId
+from pymongo import UpdateOne
+
 from vaccine import app, request, admin_required
 from vaccine.controller.email_confirm import send_email_confirm_vaccination_campaign, \
     send_email_notification_delete_campaign
@@ -314,7 +316,7 @@ def update_and_promote_campaign(campaign_id):
             log_email = "send _email"
 
             if response:
-
+                list_of_update = []
                 for people in response['list_of_people']:
                     shot = {
                         'type_name': response['type_of_people']['next_vaccine_type'],
@@ -324,12 +326,14 @@ def update_and_promote_campaign(campaign_id):
                         'status': 'scheduled'
                     }
 
-                    update = sign.find_one_and_update({'_id': ObjectId(people['_id'])},
-                                                      {'$push': {'vaccine_shots': shot}})
+                    update = UpdateOne({'_id': ObjectId(people['_id'])},
+                                       {'$push': {'vaccine_shots': shot}})
 
-                    print(update)
+                    list_of_update.append(update)
 
-                return {'result': 'success', 'campaign_promoted': response, 'log_email': log_email}
+                change = sign.bulk_write(list_of_update)
+
+                return {'result': 'success', 'campaign_promoted': response, 'log_email': log_email, 'change_db': change.bulk_api_result}
             else:
                 return {'result': 'fail', 'message': 'unable to find the designated campaign',
                         'log_email': log_email}, 400
@@ -389,13 +393,18 @@ def delete_a_campaign(campaign_id):
             #     # log = send_email_notification_delete_campaign(shot_campaign)
             #     # campaign.delete_one({'_id': ObjectId(campaign_id)})
             #     return {'message': "ok"}
+
             if shot_campaign['status']:
+                list_id = []
                 res = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
                 for people in res['list_of_people']:
-                    sign.find_one_and_update({'_id': ObjectId(people['_id'])},
-                                             {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
+                    list_id.append(ObjectId(people['_id']))
+
+                # print(list_id)
+                sign.update_many({'_id': {'$in': list_id}},
+                                 {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
             return {'Status': 'Success',
-                    'Message': f'Deleted {shot_campaign}'}
+                    'Message': f'Deleted {shot_campaign["_id"]}'}
         else:
             return {'Status': 'Fail',
                     'Message': f'Can not find campaign from {campaign_id}! Please check again'}
