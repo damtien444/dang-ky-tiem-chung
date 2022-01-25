@@ -7,6 +7,7 @@ import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/controller/create_injection_campaign_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/controller/admin_feedback_controller.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/dialog_model_feedback.dart';
 
 class DataRowTableFeedBackNotSolve extends StatefulWidget {
   DataRowTableFeedBackNotSolve({
@@ -62,25 +63,39 @@ class _DataRowTableState extends State<DataRowTableFeedBackNotSolve> {
             width: 150,
             height: 50,
             child: Center(
-              child: Text(c.utf8convert(widget.data.dateCreatedVn.toString()),textAlign: TextAlign.center),
+              child: Text(DateFormat('yyyy/MM/dd').format(DateTime.parse(c.utf8convert(widget.data.dateCreatedVn.toString()))),textAlign: TextAlign.center),
             ),
           ),
           const SizedBox(
             width: 50,
           ),
           SizedBox(
-            width: 500,
+            width: 400,
             height: 50,
             child: Center(
               child: Text(c.utf8convert(widget.data.content.toString()),textAlign: TextAlign.center),
             ),
           ),
           const SizedBox(
-            width: 50,
+            width: 60,
           ),
           c.isClickBtnNotSolve.value ?
-          Container(
+          SizedBox(
             width: 70,
+            height: 50,
+            child: Center(
+              child: IconButton(
+                  onPressed: (){
+                    confirmReplyFeedback(context,c,widget.index);
+                  },
+                  icon: const Icon(Icons.forward))
+            ),
+          ):const SizedBox.shrink(),
+          const SizedBox(
+            width: 50,
+          ),
+          Container(
+            width: 50,
             height: 50,
             decoration: const BoxDecoration(
               borderRadius:
@@ -88,10 +103,13 @@ class _DataRowTableState extends State<DataRowTableFeedBackNotSolve> {
             ),
             child: Center(
               child: IconButton(
-                  onPressed: (){},
-                  icon: const Icon(Icons.forward))
+                onPressed: (){
+                  DialogConfirmDeleteFeedback(context,c,c.listFeedbackNotSolve[widget.index].sId.toString(),c.listFeedbackNotSolve[widget.index].name.toString(),widget.index);
+                },
+                icon: const Icon(Icons.delete,color: Colors.red,),
+              ),
             ),
-          ):const SizedBox.shrink()
+          ),
         ],
       ),
     );

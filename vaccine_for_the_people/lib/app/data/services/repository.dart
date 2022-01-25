@@ -68,12 +68,20 @@ class Repository {
     return ProviderService.deleteCampaignInjection(idCampaign);
   }
 
+  static Future<bool> deleteFeedback(String id) async {
+    return ProviderService.deleteFeedback(id);
+  }
+
   static Future<bool> promoteOneCampaignInjection(String id) async {
     return ProviderService.promoteOneCampaignInjection(id);
   }
 
   static Future<bool> updateCampaignInjection(String id,String name, String start,String end,String place) async {
     return ProviderService.updateCampaignInjection(id,name,start,end,place);
+  }
+
+  static Future<bool> replyFeedback(String id, String content)async{
+    return ProviderService.replyFeedback(id, content);
   }
 
   Future<String?> login(String username, String password) async {

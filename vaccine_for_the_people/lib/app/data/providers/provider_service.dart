@@ -228,6 +228,21 @@ class ProviderService {
     }
   }
 
+  static Future<bool> deleteFeedback(String id) async {
+    final baseUrl =
+        "https://vaccine-for-the-people.herokuapp.com/report/${id.toString()}";
+    final url = Uri.parse(baseUrl);
+    final response = await http.delete(url);
+    print("status code la: "+response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("xoa thanh cong");
+      return true;
+    } else {
+      print("xoa that bai");
+      return false;
+    }
+  }
+
   static Future<bool> promoteOneCampaignInjection(String id)async{
     Map<String, String> requestHeader = {
       'Content-Type': 'application/json'
@@ -250,10 +265,30 @@ class ProviderService {
       return false;
     }
   }
-  static String utf8convert(String text) {
-    List<int> bytes = text.toString().codeUnits;
-    return utf8.decode(bytes);
+  static Future<bool> replyFeedback(String id, String content)async{
+    Map<String, String> requestHeader = {
+      'Content-Type': 'application/json'
+    };
+    print("id: "+id.toString());
+    final body = jsonEncode({
+      "status": "SOLVED",
+      "response": content.toString()
+    });
+    final httpUrl="https://vaccine-for-the-people.herokuapp.com/report/${id.toString()}";
+    var httpPost = await http.put(
+      Uri.parse(httpUrl),
+      body: body,
+      headers: requestHeader,
+      encoding: Encoding.getByName("utf-8"),
+    );
+    print("status code: "+httpPost.statusCode.toString());
+    if (httpPost.statusCode == 200) {
+      return true;
+    }else{
+      return false;
+    }
   }
+
   static Future<bool> updateCampaignInjection(String id,String name, String start,String end,String place)async{
     print(id+" "+name+" "+place);
     Map<String, String> requestHeader = {

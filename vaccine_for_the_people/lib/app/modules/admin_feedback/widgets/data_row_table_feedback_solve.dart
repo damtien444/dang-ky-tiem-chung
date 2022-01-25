@@ -7,6 +7,7 @@ import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/controller/create_injection_campaign_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/controller/admin_feedback_controller.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/dialog_model_feedback.dart';
 
 class DataRowTableFeedBackSolve extends StatefulWidget {
   DataRowTableFeedBackSolve({
@@ -48,7 +49,7 @@ class _DataRowTableState extends State<DataRowTableFeedBackSolve> {
             width: 200,
             height: 50,
             child: Center(
-              child: Text(c.utf8convert(widget.data.name.toString()),textAlign: TextAlign.center),
+              child: Text(c.utf8convert(widget.data.name.toString()),textAlign: TextAlign.start),
             ),
           ),
            SizedBox(
@@ -62,21 +63,37 @@ class _DataRowTableState extends State<DataRowTableFeedBackSolve> {
             width: 150,
             height: 50,
             child: Center(
-              child: Text(c.utf8convert(widget.data.dateCreatedVn.toString()),textAlign: TextAlign.center),
+              child: Text(DateFormat('yyyy/MM/dd').format(DateTime.parse(c.utf8convert(widget.data.dateCreatedVn.toString()))),textAlign: TextAlign.center),
             ),
           ),
           SizedBox(
-            width: 340,
+            width: 320,
             height: 50,
             child: Center(
               child: Text(c.utf8convert(widget.data.content.toString()),textAlign: TextAlign.center),
             ),
           ),
           SizedBox(
-            width: 350,
+            width: 320,
             height: 50,
             child: Center(
               child: Text(c.utf8convert(widget.data.response.toString()),textAlign: TextAlign.center),
+            ),
+          ),
+          Container(
+            width: 50,
+            height: 50,
+            decoration: const BoxDecoration(
+              borderRadius:
+              BorderRadius.only(topRight: Radius.circular(10)),
+            ),
+            child: Center(
+              child: IconButton(
+                onPressed: (){
+                  DialogConfirmDeleteFeedback(context,c,c.listFeedbackSolve[widget.index].sId.toString(),c.listFeedbackSolve[widget.index].name.toString(),widget.index);
+                },
+                icon: Icon(Icons.delete,color: Colors.red,),
+              ),
             ),
           ),
         ],

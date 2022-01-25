@@ -63,34 +63,45 @@ class _FirstRowTableState extends State<FirstRowTableFeedBack> {
             ),
           ),
           SizedBox(
-            width: c.isClickBtnNotSolve.value ? 590: 340,
+            width: c.isClickBtnNotSolve.value ? 500: 340,
             height: 50,
-            child: Center(
+            child: const Center(
               child: Text("Nội dung phản hồi",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
           !c.isClickBtnNotSolve.value ? const SizedBox(
-            width: 350,
+            width: 300,
             height: 50,
             child: Center(
               child: Text("Trả lời",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
-          ):SizedBox(
+          ):const SizedBox(
             width: 10,
             height: 50,
           ),
           c.isClickBtnNotSolve.value ?
-          Container(
+          const SizedBox(
             width: 70,
+            height: 50,
+            child: Center(
+              child: Text("Phản hồi",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ):SizedBox.shrink(),
+          c.isClickBtnNotSolve.value ?const SizedBox(
+            width: 50,
+            height: 50,
+          ):const SizedBox.shrink(),
+          Container(
+            width: 50,
             height: 50,
             decoration: const BoxDecoration(
               borderRadius:
               BorderRadius.only(topRight: Radius.circular(10)),
             ),
             child: const Center(
-              child: Text("Phản hồi",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Text("Xóa",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
-          ):SizedBox.shrink()
+          ),
         ],
       ),
     );
