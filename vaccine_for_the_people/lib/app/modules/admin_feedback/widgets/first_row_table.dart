@@ -31,14 +31,21 @@ class _FirstRowTableState extends State<FirstRowTableFeedBack> {
       child: Row(
         children: [
           Container(
-            width: 200,
+            width: 50,
             height: 50,
             decoration: const BoxDecoration(
               borderRadius:
               BorderRadius.only(topLeft: Radius.circular(10)),
             ),
             child: const Center(
-              child: Text("Tên",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+              child: Text("STT",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),),
+            ),
+          ),
+          const SizedBox(
+            width: 200,
+            height: 50,
+            child: Center(
+              child: Text("Họ Tên",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
           const SizedBox(
@@ -55,19 +62,22 @@ class _FirstRowTableState extends State<FirstRowTableFeedBack> {
               child: Text("Ngày Tháng",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
-          const SizedBox(
-            width: 350,
+          SizedBox(
+            width: c.isClickBtnNotSolve.value ? 590: 340,
             height: 50,
             child: Center(
               child: Text("Nội dung phản hồi",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
-          const SizedBox(
-            width: 300,
+          !c.isClickBtnNotSolve.value ? const SizedBox(
+            width: 350,
             height: 50,
             child: Center(
               child: Text("Trả lời",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
+          ):SizedBox(
+            width: 10,
+            height: 50,
           ),
           c.isClickBtnNotSolve.value ?
           Container(

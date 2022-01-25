@@ -5,9 +5,11 @@ import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/data/providers/provider_service.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/controller/admin_feedback_controller.dart';
-import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/data_row_table.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/data_row_table_feedback_notsolve.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/data_row_table_feedback_solve.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/first_row_table.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/widgets/header_page.dart';
+import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 
 class AdminFeedBackView extends GetView<AdminFeedBackController> {
   const AdminFeedBackView({Key? key}) : super(key: key);
@@ -107,12 +109,17 @@ class AdminFeedBackView extends GetView<AdminFeedBackController> {
                                   itemCount: controller.isClickBtnSolve.value ?
                                               controller.listFeedbackSolve.length :
                                               controller.isClickBtnNotSolve.value ?
-                                              controller.listFeedbackNotSolve.length :1 ,
+                                              controller.listFeedbackNotSolve.length :0 ,
                                   itemBuilder: (context, index) {
-                                    return DataRowTableFeedBack(
+                                    return controller.isClickBtnSolve.value ? DataRowTableFeedBackSolve(
                                       size: size,
                                       index: index,
-                                    );
+                                      data: controller.listFeedbackSolve[index]
+                                    ):controller.isClickBtnNotSolve.value ? DataRowTableFeedBackNotSolve(
+                                      size: size,
+                                      index: index,
+                                      data:controller.listFeedbackNotSolve[index]
+                                    ):SizedBox.shrink();
                                   }):SizedBox(
                                     width: 50,
                                     height: 50,
@@ -139,7 +146,11 @@ class AdminFeedBackView extends GetView<AdminFeedBackController> {
                   ),
                 ],
               ),
-            )
+            ),
+            const SizedBox(
+              height: 110,
+            ),
+            BottomSceen(),
           ],
         );
       },
