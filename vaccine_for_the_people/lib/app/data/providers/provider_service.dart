@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dartz/dartz_streaming.dart';
 import 'package:http/http.dart' as http;
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
+import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
@@ -164,6 +165,19 @@ class ProviderService {
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final data = campaignInjectionFromJson(response.body);
+      return data;
+    } else {
+      return throw ("error");
+    }
+  }
+
+  static Future<AllFeedback> getDataFeedback() async {
+    const baseUrl =
+        "https://vaccine-for-the-people.herokuapp.com/report";
+    final url = Uri.parse(baseUrl);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = allFeedBackFromJson(response.body);
       return data;
     } else {
       return throw ("error");

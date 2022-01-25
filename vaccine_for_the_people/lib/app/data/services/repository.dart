@@ -1,4 +1,5 @@
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
+import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
@@ -49,6 +50,10 @@ class Repository {
 
   static Future<CampaignInjection> getDataCampaignInjection() {
     return ProviderService.getDataCampaignInjection();
+  }
+
+  static Future<AllFeedback> getDataFeedback() {
+    return ProviderService.getDataFeedback();
   }
 
   static Future<DetailCampaignInjection> getDetailOneDataCampaignInjection(String id) {

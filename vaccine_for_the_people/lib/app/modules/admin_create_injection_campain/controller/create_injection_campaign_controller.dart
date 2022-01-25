@@ -29,7 +29,7 @@ class CreateInjectionCampaignController extends GetxController{
   final RxString nameCp="".obs;
   final RxString placeCp="".obs;
   final RxString startCp="".obs;
-  final RxString endCP="".obs;
+  final RxString endCp="".obs;
 
   final List<String> typeObject = [
     'Lưu ý chú thích các loại đối tượng: 1. Nhân viên y tế, 2. Người tham gia phòng chống dịch, 3. Lực lượng Quân đội, 4. Lực lượng Công an, 5. Nhân viên, cán bộ ngoại giao của Việt Nam',
