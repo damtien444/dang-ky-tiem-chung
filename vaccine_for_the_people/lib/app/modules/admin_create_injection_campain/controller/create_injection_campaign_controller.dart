@@ -22,6 +22,7 @@ class CreateInjectionCampaignController extends GetxController{
   final RxBool isHaveBtnConfirm=false.obs;
   final RxBool isLoadingWidget=false.obs;
   final RxBool isLoadingUpdate=false.obs;
+  final RxBool isLoadingClick=false.obs;
   final RxInt selectedIndexConfirm=1000.obs;
   final RxInt selectedIndexNotConfirm=1000.obs;
   final RxInt countPage=0.obs;
@@ -95,7 +96,7 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -111,7 +112,7 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -121,6 +122,21 @@ class CreateInjectionCampaignController extends GetxController{
   Future<void> deleteCampaignInjection(String idCampaign)async{
     bool checkData=await Repository.deleteCampaignInjection(idCampaign);
     if(checkData){
+      if(isHaveBtnConfirm.value){
+        listCampaignAlreadyConfirm.remove(listCampaignAlreadyConfirm[selectedIndexConfirm.value]);
+        listBtnConfirm.remove(listBtnConfirm[selectedIndexConfirm.value]);
+        listBtnConfirm.refresh();
+        listCampaignAlreadyConfirm.refresh();
+        selectedIndexConfirm.value=1000;
+      }
+      else{
+        listCampaignNotConfirm.remove(listCampaignNotConfirm[selectedIndexNotConfirm.value]);
+        listBtnNotConfirm.remove(listBtnNotConfirm[selectedIndexNotConfirm.value]);
+        listBtnNotConfirm.refresh();
+        listCampaignNotConfirm.refresh();
+        selectedIndexNotConfirm.value=1000;
+      }
+      Get.back();
       Get.snackbar(
         "Xóa thành công",
         "Bạn đã xóa thành công đợt tiêm",
@@ -131,12 +147,13 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
     }
     else{
+      Get.back();
       Get.snackbar(
         "Xóa thất bại",
         "Vui lòng thử lại sau",
@@ -147,7 +164,7 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -158,6 +175,23 @@ class CreateInjectionCampaignController extends GetxController{
     bool checkData=await Repository.promoteOneCampaignInjection(id);
     if(checkData){
       isLoadingUpdate.value=false;
+      Get.back();
+      listCampaignAlreadyConfirm.add(listCampaignNotConfirm[selectedIndexNotConfirm.value]);
+      listBtnConfirm.add(ModelDropdownBtn(
+          name: listCampaignNotConfirm[selectedIndexNotConfirm.value].name.toString(),
+          id: listCampaignNotConfirm[selectedIndexNotConfirm.value].sId.toString(),
+          dateStartCampaign: listCampaignNotConfirm[selectedIndexNotConfirm.value].dateStart.toString(),
+          dateEndCampaign: listCampaignNotConfirm[selectedIndexNotConfirm.value].dateEnd.toString(),
+          placeCampaign: listCampaignNotConfirm[selectedIndexNotConfirm.value].datePlace.toString()
+      ),
+      );
+      listCampaignNotConfirm.removeAt(selectedIndexNotConfirm.value);
+      listBtnNotConfirm.removeAt(selectedIndexNotConfirm.value);
+      listCampaignAlreadyConfirm.refresh();
+      listCampaignNotConfirm.refresh();
+      listBtnConfirm.refresh();
+      listBtnNotConfirm.refresh();
+      selectedIndexNotConfirm.value=1000;
       Get.snackbar(
         "Thêm vào đợt chính thức",
         "Bạn đã thêm vào đợt chính thức thành công",
@@ -168,14 +202,14 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
-
     }
     else{
       isLoadingUpdate.value=false;
+      Get.back();
       Get.snackbar(
         "Thêm vào đợt chính thức thất bại",
         "Vui lòng thử lại sau",
@@ -186,7 +220,7 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -197,6 +231,25 @@ class CreateInjectionCampaignController extends GetxController{
     bool checkData=await Repository.updateCampaignInjection(id,name,start,end,place);
     if(checkData){
       isLoadingUpdate.value=false;
+      listBtnNotConfirm[selectedIndexNotConfirm.value].name=nameCp.value;
+      listBtnNotConfirm[selectedIndexNotConfirm.value].placeCampaign=placeCp.value;
+      listBtnNotConfirm[selectedIndexNotConfirm.value].dateStartCampaign=startCp.value;
+      listBtnNotConfirm[selectedIndexNotConfirm.value].dateEndCampaign=endCp.value;
+
+      listCampaignNotConfirm[selectedIndexNotConfirm.value].name=nameCp.value;
+      listCampaignNotConfirm[selectedIndexNotConfirm.value].datePlace=placeCp.value;
+      listCampaignNotConfirm[selectedIndexNotConfirm.value].dateStart=startCp.value;
+      listCampaignNotConfirm[selectedIndexNotConfirm.value].dateEnd=endCp.value;
+      listBtnNotConfirm.refresh();
+      listCampaignNotConfirm.refresh();
+
+      textDisplay.value=
+      "* Tên đợt tiêm: ${nameCp.toString()}"
+          ", Ngày bắt đầu: ${startCp.toString()}"
+          ", Ngày kết thúc: ${endCp.toString()}"
+          ", Tại địa điểm: ${placeCp.toString()}";
+      textDisplay.refresh();
+      Get.back();
       Get.snackbar(
         "Cập nhật thành công",
         "Bạn đã cập nhật thành công chiến dịch",
@@ -214,6 +267,7 @@ class CreateInjectionCampaignController extends GetxController{
     }
     else{
       isLoadingUpdate.value=false;
+      Get.back();
       Get.snackbar(
         "Cập nhật thất bại",
         "Có lỗi xảy ra, hãy thử lại sau",

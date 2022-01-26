@@ -214,7 +214,7 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                             ):Center(
                                               child:!controller.isLoadingWidget.value ?
                                               const Padding(
-                                                padding: EdgeInsets.only(top: 50,bottom: 20),
+                                                padding: EdgeInsets.only(top: 70,bottom: 20),
                                                 child: Text("Chưa có dữ liêu"),
                                               ) :
                                               Padding(
@@ -243,7 +243,7 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                         child: const Text("Xác nhận",
                                                             style: TextStyle(color: Colors.white,fontSize: 12, fontWeight: FontWeight.normal, fontFamily: "impact")),
                                                         onPressed: (){
-                                                          DialogConfirm(context, c);
+                                                          dialogConfirm(context, c);
                                                         }):const SizedBox.shrink(),
                                                   ),
                                                   !controller.isHaveBtnConfirm.value ? const SizedBox(
@@ -279,7 +279,6 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                       child: const Text("Xóa Đợt",
                                                           style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: "impact", fontWeight: FontWeight.normal)),
                                                       onPressed: () {
-                                                        print(c.selectedIndexConfirm.value.toString());
                                                         c.isClickListConfirm.value ?
                                                         DialogConfirmDeleteCampaign0(context,c,c.selectedIndexConfirm.value):
                                                         DialogConfirmDeleteCampaign1(context,c,c.selectedIndexNotConfirm.value);

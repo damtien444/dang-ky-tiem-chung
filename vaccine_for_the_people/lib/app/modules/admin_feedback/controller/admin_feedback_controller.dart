@@ -43,6 +43,7 @@ class AdminFeedBackController extends GetxController{
           )
       );
       listFeedbackNotSolve.removeAt(index);
+      Get.back();
       Get.snackbar(
         "Phản hồi thành công",
         "Bạn đã phản hồi yêu cầu khách hàng",
@@ -53,12 +54,13 @@ class AdminFeedBackController extends GetxController{
         ),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
     }
     else{
+      Get.back();
       Get.snackbar(
         "Phản hồi thất bại",
         "Có lỗi xảy ra, hãy thử lại sau",
@@ -69,7 +71,7 @@ class AdminFeedBackController extends GetxController{
         ),
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -86,6 +88,7 @@ class AdminFeedBackController extends GetxController{
         listFeedbackNotSolve.removeAt(index);
         listFeedbackNotSolve.refresh();
       }
+      Get.back();
       Get.snackbar(
         "Xóa thành công",
         "Bạn đã xóa thành công phản hồi từ khách hàng",
@@ -96,12 +99,13 @@ class AdminFeedBackController extends GetxController{
         ),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
     }
     else{
+      Get.back();
       Get.snackbar(
         "Xóa thất bại",
         "Vui lòng thử lại sau",
@@ -112,7 +116,7 @@ class AdminFeedBackController extends GetxController{
         ),
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );

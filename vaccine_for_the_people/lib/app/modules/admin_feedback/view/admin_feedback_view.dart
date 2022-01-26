@@ -26,125 +26,66 @@ class AdminFeedBackView extends GetView<AdminFeedBackController> {
             HeaderPage(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment:MainAxisAlignment.start,
-                    children: [
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              c.isClickBtnSolve.value=true;
-                              c.isClickBtnNotSolve.value=false;
-                              c.isClickBtn.value=true;
-                              // c.isLoadingWidget.value=true;
-                            },
-                            child: Container(
-                              width: 170,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: controller.isClickBtnSolve.value ? Colors.green :CustomeColor.colorAppBar
-                              ),
-                              child: const Center(
-                                child: Text("Phản hồi đã xử lí",style: TextStyle(color: Colors.white),),
-                              ),
-                            ),
+              child: Expanded(
+                child: Container(
+                  height: controller.isClickBtn.value ? 500: 210,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0, 0),
+                            blurRadius: 1,
+                            spreadRadius: 1)
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        FirstRowTableFeedBack(size: size),
+                        controller.isClickBtn.value ? Expanded(
+                          child:!controller.isLoadingWidget.value ?
+                          ListView.builder(
+                              physics: const ClampingScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              itemCount: controller.isClickBtnSolve.value ?
+                                          controller.listFeedbackSolve.length :
+                                          controller.isClickBtnNotSolve.value ?
+                                          controller.listFeedbackNotSolve.length :0 ,
+                              itemBuilder: (context, index) {
+                                return controller.isClickBtnSolve.value ? DataRowTableFeedBackSolve(
+                                  size: size,
+                                  index: index,
+                                  data: controller.listFeedbackSolve[index]
+                                ):controller.isClickBtnNotSolve.value ? DataRowTableFeedBackNotSolve(
+                                  size: size,
+                                  index: index,
+                                  data:controller.listFeedbackNotSolve[index]
+                                ):SizedBox.shrink();
+                              }):SizedBox(
+                                width: 50,
+                                height: 50,
+                                child: LoadingWidget()
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 5,),
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              c.isClickBtnNotSolve.value=true;
-                              c.isClickBtnSolve.value=false;
-                              c.isClickBtn.value=true;
-                              // c.isLoadingWidget.value=true;
-                            },
-                            child: Container(
-                              width: 170,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: controller.isClickBtnNotSolve.value ? Colors.green :CustomeColor.colorAppBar
-                              ),
-                              child: const Center(
-                                child: Text("Phản hồi chưa xử lí",style: TextStyle(color: Colors.white),),
-                              ),
-                            ),
-                          )
-
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(width: 20,),
-                  Expanded(
-                    child: Container(
-                      height: controller.isClickBtn.value ? 500: 210,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(0, 0),
-                                blurRadius: 1,
-                                spreadRadius: 1)
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          children: [
-                            FirstRowTableFeedBack(size: size),
-                            controller.isClickBtn.value ? Expanded(
-                              child:!controller.isLoadingWidget.value ?
-                              ListView.builder(
-                                  physics: const ClampingScrollPhysics(),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: controller.isClickBtnSolve.value ?
-                                              controller.listFeedbackSolve.length :
-                                              controller.isClickBtnNotSolve.value ?
-                                              controller.listFeedbackNotSolve.length :0 ,
-                                  itemBuilder: (context, index) {
-                                    return controller.isClickBtnSolve.value ? DataRowTableFeedBackSolve(
-                                      size: size,
-                                      index: index,
-                                      data: controller.listFeedbackSolve[index]
-                                    ):controller.isClickBtnNotSolve.value ? DataRowTableFeedBackNotSolve(
-                                      size: size,
-                                      index: index,
-                                      data:controller.listFeedbackNotSolve[index]
-                                    ):SizedBox.shrink();
-                                  }):SizedBox(
-                                    width: 50,
-                                    height: 50,
-                                    child: LoadingWidget()
-                              ),
-                            ):Center(
-                              child:!controller.isLoadingWidget.value ?
-                              const Padding(
-                                padding: EdgeInsets.only(top: 70,bottom: 30),
-                                child: Text("Chưa có dữ liêu"),
-                              ) :
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 20),
-                                child: LoadingWidget(),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                          ],
+                        ):Center(
+                          child:!controller.isLoadingWidget.value ?
+                          const Padding(
+                            padding: EdgeInsets.only(top: 70,bottom: 30),
+                            child: Text("Chưa có dữ liêu"),
+                          ) :
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: LoadingWidget(),
+                          ),
                         ),
-                      ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
             const SizedBox(
