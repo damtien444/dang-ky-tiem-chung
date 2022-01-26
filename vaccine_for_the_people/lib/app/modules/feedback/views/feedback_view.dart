@@ -153,6 +153,7 @@ class FeedbackView extends GetView<FeedbackController> {
                                         .saveAndValidate()) {
                                       await controller.report(controller
                                           .feedBackFormKey.currentState!.value);
+                                      controller.feedBackFormKey.currentState!.reset();
                                     }
                                   },
                                   child: const AutoSizeText('Gửi phản hồi'),

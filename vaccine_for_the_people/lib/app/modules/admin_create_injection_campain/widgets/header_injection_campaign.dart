@@ -33,7 +33,7 @@ class _HeaderInjectionCampaignState extends State<HeaderInjectionCampaign> {
           child: Row(
             children: [
               AutoSizeText(
-                'Xác nhận tạo đợt tiêm chủng',
+                'Thống kê các đợt tiêm chủng',
                 style: Get.textTheme.headline5,
               ),
               const Spacer(

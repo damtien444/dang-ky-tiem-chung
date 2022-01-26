@@ -139,7 +139,7 @@ class StatementDataController extends GetxController {
         "province": province.value.isEmpty ? null : province.value,
       },
       "age_range": "18-65",
-      "name": nameInjection.value.isEmpty ? null : province.value,
+      "name": nameInjection.value.isEmpty ? null : nameInjection.value,
       "priority_type": priorityType == -1 ? null : priorityType,
       "date_of_shot": {
         "start_date": startDate.value.isEmpty ? null : startDate.value,

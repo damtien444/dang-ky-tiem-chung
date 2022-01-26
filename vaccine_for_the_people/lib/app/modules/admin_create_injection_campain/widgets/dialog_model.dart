@@ -91,7 +91,7 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: () async{
-                                c.listCampaignNotConfirm.removeAt(c.selectedIndexNotConfirm.value);
+                                c.promoteOneCampaignInjection(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString());
                                 c.listCampaignAlreadyConfirm.add(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value]);
                                 c.listBtnConfirm.add(ModelDropdownBtn(
                                     name: c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].name.toString(),
@@ -101,12 +101,13 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                     placeCampaign: c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].datePlace.toString()
                                   ),
                                 );
+                                c.listCampaignNotConfirm.removeAt(c.selectedIndexNotConfirm.value);
+                                c.listBtnNotConfirm.removeAt(c.selectedIndexNotConfirm.value);
                                 c.listCampaignAlreadyConfirm.refresh();
                                 c.listCampaignNotConfirm.refresh();
-                                c.promoteOneCampaignInjection(c.listCampaignNotConfirm1[c.selectedIndexNotConfirm.value].sId.toString());
+                                c.listBtnConfirm.refresh();
+                                c.listBtnNotConfirm.refresh();
                                 c.selectedIndexNotConfirm.value=1000;
-                                c.listCampaignAlreadyConfirm.refresh();
-                                c.listCampaignNotConfirm.refresh();
                                 Get.back();
                               }),
                         ),
@@ -237,11 +238,11 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: () async{
+                                c.deleteCampaignInjection(c.listCampaignAlreadyConfirm[c.selectedIndexConfirm.value].sId.toString());
                                 c.listCampaignAlreadyConfirm.remove(c.listCampaignAlreadyConfirm[c.selectedIndexConfirm.value]);
                                 c.listBtnConfirm.remove(c.listBtnConfirm[c.selectedIndexConfirm.value]);
                                 c.listBtnConfirm.refresh();
-                                c.deleteCampaignInjection(c.listCampaignAlreadyConfirm1[c.selectedIndexConfirm.value].sId.toString());
-                                c.getListBtnData();
+                                c.listCampaignAlreadyConfirm.refresh();
                                 c.selectedIndexConfirm.value=1000;
                                 Get.back();
                               }),
@@ -373,12 +374,11 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: () async{
+                                c.deleteCampaignInjection(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString());
                                 c.listCampaignNotConfirm.remove(c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value]);
                                 c.listBtnNotConfirm.remove(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value]);
                                 c.listBtnNotConfirm.refresh();
-                                c.deleteCampaignInjection(c.listCampaignNotConfirm1[c.selectedIndexNotConfirm.value].sId.toString());
                                 c.listCampaignNotConfirm.refresh();
-                                // c.getListBtnData();
                                 c.selectedIndexNotConfirm.value=1000;
                                 Get.back();
                               }),
@@ -430,21 +430,23 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
         });
   }
   Future<dynamic> updateDialogConfirm0(BuildContext context, CreateInjectionCampaignController c) {
-    String nameCampaign=c.utf8convert(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name.toString());
-    String place = c.utf8convert(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign.toString());
+    String nameCampaign=c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name.toString();
+    String place = c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign.toString();
     String startDay =  DateFormat('yyyy-MM-dd').format(DateTime.parse(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign.toString()));
     String endDay =  DateFormat('yyyy-MM-dd').format(DateTime.parse(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign.toString()));
-    c.nameCp.value=nameCampaign;
-    c.startCp.value=startDay;
-    c.endCP.value=endDay;
-    c.placeCp.value=place;
+
+    c.nameCp.value=c.utf8convert(nameCampaign);
+    c.startCp.value=c.utf8convert(startDay);
+    c.endCp.value=c.utf8convert(endDay);
+    c.placeCp.value=c.utf8convert(place);
+
     return showDialog(
         context: context,
         builder: (context) {
           return Dialog(
             child: Container(
               width: 500,
-              height: 600,
+              height: 610,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -477,9 +479,9 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                         padding: EdgeInsets.only(right: 20),
                         child: FormBuilderOptions(
                             title: "Tên chiến dịch",
-                            value: nameCampaign,
-                            onPress: (name) {
-                              c.nameCp.value = name;
+                            value: c.utf8convert(nameCampaign),
+                            onPress: (value1) {
+                              c.nameCp.value = value1;
                             },
                             mode: FormBuilderMode.DEFAULT1),
                       ),
@@ -493,11 +495,12 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                         padding: EdgeInsets.only(right: 20),
                         child: FormBuilderOptions(
                             title: "Địa điểm",
-                            value: place,
-                            onPress: (name) {
-                              c.placeCp.value = name;
+                            value: c.utf8convert(place),
+                            onPress: (value2) {
+                              c.placeCp.value = value2;
                             },
-                            mode: FormBuilderMode.DEFAULT1),
+                            mode: FormBuilderMode.DEFAULT1
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -509,9 +512,9 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                         padding: EdgeInsets.only(right: 20),
                         child: FormBuilderOptions(
                             title: "Bắt đầu",
-                            value: startDay,
-                            onPress: (name) {
-                              c.startCp.value = name;
+                            value: c.utf8convert(startDay),
+                            onPress: (value3) {
+                              c.startCp.value = value3;
                             },
                             mode: FormBuilderMode.DEFAULT1),
                       ),
@@ -525,9 +528,9 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                         padding: EdgeInsets.only(right: 20),
                         child: FormBuilderOptions(
                             title: "Kết thúc",
-                            value: endDay,
-                            onPress: (name) {
-                              c.endCP.value = name;
+                            value: c.utf8convert(endDay),
+                            onPress: (value4) {
+                              c.endCp.value = value4;
                             },
                             mode: FormBuilderMode.DEFAULT1),
                       ),
@@ -566,30 +569,42 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                                       fontFamily:
                                       "impact")),
                               onPressed: (){
+                                print("sau");
+                                print("tên: "+c.nameCp.value);
+                                print("địa chỉ: "+c.placeCp.value);
+                                print("ngày start: "+c.startCp.value);
+                                print("ngày end: "+c.endCp.value);
+
                                 c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].name=c.nameCp.value;
                                 c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].placeCampaign=c.placeCp.value;
                                 c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign=c.startCp.value;
-                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign=c.endCP.value;
+                                c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign=c.endCp.value;
+
+                                c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].name=c.nameCp.value;
+                                c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].datePlace=c.placeCp.value;
+                                c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].dateStart=c.startCp.value;
+                                c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].dateEnd=c.endCp.value;
+
                                 c.listBtnNotConfirm.refresh();
-                                print( c.nameCp.toString()+""+c.placeCp.toString());
+                                c.listCampaignNotConfirm.refresh();
                                 c.updateCampaignInjection(
                                     c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString(),
-                                    c.nameCp.toString(),
+                                    c.utf8convert(c.nameCp.toString()),
                                     c.startCp.toString(),
-                                    c.endCP.toString(),
-                                    c.placeCp.toString()
+                                    c.endCp.toString(),
+                                    c.utf8convert(c.placeCp.toString())
                                 );
                                 c.textDisplay.value=
                                 "* Tên đợt tiêm: ${c.nameCp.toString()}"
                                     ", Ngày bắt đầu: ${c.startCp.toString()}"
-                                    ", Ngày kết thúc: ${c.endCP.toString()}"
+                                    ", Ngày kết thúc: ${c.endCp.toString()}"
                                     ", Tại địa điểm: ${c.placeCp.toString()}";
                                 c.textDisplay.refresh();
                                 Get.back();
                               }),
                         ),
                         const SizedBox(
-                          width: 30,
+                          width: 20,
                         ),
                         SizedBox(
                           width: 120,
@@ -626,9 +641,6 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/fo
                     ),
                     const SizedBox(
                       height: 15,
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                   ],
                 ),

@@ -207,14 +207,14 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                       index: index, dataPeople: controller.listPeopleInCampaign[index],
                                                     );
                                                   }):SizedBox(
-                                                  width: 50,
-                                                  height: 50,
-                                                  child: LoadingWidget()
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: LoadingWidget()
                                               ),
                                             ):Center(
                                               child:!controller.isLoadingWidget.value ?
                                               const Padding(
-                                                padding: EdgeInsets.only(top: 70,bottom: 30),
+                                                padding: EdgeInsets.only(top: 50,bottom: 20),
                                                 child: Text("Chưa có dữ liêu"),
                                               ) :
                                               Padding(

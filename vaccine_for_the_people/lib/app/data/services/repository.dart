@@ -1,4 +1,5 @@
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
+import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
@@ -52,28 +53,36 @@ class Repository {
     return ProviderService.getDataCampaignInjection();
   }
 
-  static Future<DetailCampaignInjection> getDetailOneDataCampaignInjection(
-      String id) {
+  static Future<AllFeedback> getDataFeedback() {
+    return ProviderService.getDataFeedback();
+  }
+
+  static Future<DetailCampaignInjection> getDetailOneDataCampaignInjection(String id) {
     return ProviderService.getDetailOneDataCampaignInjection(id);
   }
 
-  static Future<bool> deletePeopleInCampaignInjection(
-      String idCampaign, String idPeople) async {
-    return ProviderService.deletePeopleInCampaignInjection(
-        idCampaign, idPeople);
+  static Future<bool> deletePeopleInCampaignInjection(String idCampaign,String idPeople) async {
+    return ProviderService.deletePeopleInCampaignInjection(idCampaign, idPeople);
   }
 
   static Future<bool> deleteCampaignInjection(String idCampaign) async {
     return ProviderService.deleteCampaignInjection(idCampaign);
   }
 
+  static Future<bool> deleteFeedback(String id) async {
+    return ProviderService.deleteFeedback(id);
+  }
+
   static Future<bool> promoteOneCampaignInjection(String id) async {
     return ProviderService.promoteOneCampaignInjection(id);
   }
 
-  static Future<bool> updateCampaignInjection(
-      String id, String name, String start, String end, String place) async {
-    return ProviderService.updateCampaignInjection(id, name, start, end, place);
+  static Future<bool> updateCampaignInjection(String id,String name, String start,String end,String place) async {
+    return ProviderService.updateCampaignInjection(id,name,start,end,place);
+  }
+
+  static Future<bool> replyFeedback(String id, String content)async{
+    return ProviderService.replyFeedback(id, content);
   }
 
   Future<String?> login(String username, String password) async {

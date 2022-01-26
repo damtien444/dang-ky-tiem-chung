@@ -53,7 +53,7 @@ class BottomSceen extends StatelessWidget {
               children: [
                 Container(
                     child: Text(
-                  "Phát triển bởi: Viettel",
+                  "Phát triển bởi: 5 anh em siêu nhân",
                   style: TextStyle(color: Colors.white),
                 )),
                 Container(
