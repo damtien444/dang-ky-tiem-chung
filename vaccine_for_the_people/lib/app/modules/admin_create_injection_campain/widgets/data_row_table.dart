@@ -49,11 +49,11 @@ class _DataRowTableState extends State<DataRowTable> {
               child: Text(widget.dataPeople.name.toString(),textAlign: TextAlign.center),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             width: 30,
             height: 40,
             child: Center(
-              child: Text("20",textAlign: TextAlign.center),
+              child: Text(widget.dataPeople.age!.toInt().toString(),textAlign: TextAlign.center),
             ),
           ),
           SizedBox(
