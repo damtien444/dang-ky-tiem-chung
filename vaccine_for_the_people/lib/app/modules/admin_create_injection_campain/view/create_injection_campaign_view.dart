@@ -215,7 +215,7 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                               child:!controller.isLoadingWidget.value ?
                                               const Padding(
                                                 padding: EdgeInsets.only(top: 70,bottom: 20),
-                                                child: Text("Chưa có dữ liêu"),
+                                                child: Text("Chưa có dữ liêu",style: TextStyle(color: Colors.red),),
                                               ) :
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 20),

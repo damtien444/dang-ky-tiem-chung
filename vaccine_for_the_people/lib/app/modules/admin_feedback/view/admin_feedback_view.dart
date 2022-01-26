@@ -72,7 +72,7 @@ class AdminFeedBackView extends GetView<AdminFeedBackController> {
                           child:!controller.isLoadingWidget.value ?
                           const Padding(
                             padding: EdgeInsets.only(top: 70,bottom: 30),
-                            child: Text("Chưa có dữ liêu"),
+                            child: Text("Chưa có dữ liêu",style: TextStyle(color: Colors.red)),
                           ) :
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
