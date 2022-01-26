@@ -10,6 +10,7 @@ from vaccine.model.email_sign import email_sign
 my_token = 0
 
 email_confirm = db['email_confirm']
+sign_collection = db['vaccination_sign']
 
 
 def confirm_email_sign(email):
@@ -23,7 +24,7 @@ def confirm_email_sign(email):
     current_email = email_sign(email=email, status=False)
     email_confirm.insert_one(current_email.to_dict())
 
-    return {'Message': 'Please check your email'}
+    return 'Please check your email'
 
 
 @app.route("/confirmed_email/", methods=['GET'])
@@ -37,6 +38,8 @@ def confirmed_email():
             current_email = email_confirm.find_one_and_update({'email': email,
                                                                'status': False},
                                                               {'$set': {'status': True}})
+            sign_collection.find_one_and_update({'email': email},
+                                                {'$set': {'confirm_email': True}})
             if current_email:
                 return redirect(url_for('helloWorld'))
             else:

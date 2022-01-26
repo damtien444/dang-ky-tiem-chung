@@ -4,7 +4,7 @@ from datetime import datetime
 class Sign:
     def __init__(self, _id, name, birthday, sex, phone, email, cccd, address, priority_group, bhxh_id=None,
                  first_shot=None, next_expected_shot_date=None, next_expected_shot_type=None,
-                 illness_history=False, user_expected_shot_date=None):
+                 illness_history=False, user_expected_shot_date=None, register_time=None, confirm_email=False):
         self._id = _id
         self.name = name
         self.birthday = parse_to_date(birthday)
@@ -37,6 +37,8 @@ class Sign:
         self.illness_history = illness_history
         self.user_expected_shot_date = parse_to_date(user_expected_shot_date)
 
+        self.register_time = datetime.utcnow()
+        self.confirm_email = confirm_email
     def gen_dict(self):
         return {
             'name': self.name,
@@ -53,7 +55,9 @@ class Sign:
             'next_expected_shot_date': self.next_expected_shot_date,
             'next_expected_shot_type': self.next_expected_shot_type,
             'illness_history': self.illness_history,
-            'user_expected_shot_date': self.user_expected_shot_date
+            'user_expected_shot_date': self.user_expected_shot_date,
+            'register_time': self.register_time,
+            'confirm_email': self.confirm_email
         }
 
     def append_vaccine_shots(self, vaccine_shot):
@@ -65,3 +69,4 @@ def parse_to_date(date_json):
         return datetime.strptime(date_json, "%Y-%m-%d")
     except:
         return False
+

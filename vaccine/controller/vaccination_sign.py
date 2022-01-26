@@ -5,10 +5,11 @@ from vaccine.controller.token import confirm_token, generate_confirmation_token
 from datetime import datetime
 from .email_confirm import confirm_email_sign
 
+sign_collection = db['vaccination_sign']
+
 
 @app.route('/vaccination-sign', methods=['GET'])
 def get_vaccination_sign():
-    sign_collection = db['vaccination_sign']
     try:
         list_of_people = sign_collection.find({})
         people = []
@@ -24,7 +25,6 @@ def get_vaccination_sign():
 
 @app.route('/vaccination-sign', methods=['POST'])
 def insert_vaccination_sign():
-    sign_collection = db['vaccination_sign']
     data = request.get_json()
     shot = data['order_shot']
     check = True
@@ -35,15 +35,17 @@ def insert_vaccination_sign():
         new_sign = Sign(_id=ObjectId, name=data['name'], birthday=data['birth_day'], sex=data['sex'],
                         phone=data['phone'], email=data['email'], cccd=data['CCCD'], bhxh_id=data['BHXH_id'],
                         address=data['address'], priority_group=data['priority_group'],
-                        illness_history=data['illness_history'], user_expected_shot_date=data['expected_shot_date'])
+                        illness_history=data['illness_history'], user_expected_shot_date=data['expected_shot_date'],
+                        confirm_email=False)
         verify = sign_collection.find_one({'CCCD': data['CCCD']})
         if verify is not None:
             return fail_result_signed
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
-                # confirm_email_sign(data['email'])
-                return {'result': 'success'}
+                message = confirm_email_sign(data['email'])
+                return {'result': 'success',
+                        'message': message}
             except Exception as e:
                 print(e)
                 return fail_result_cannot_add
@@ -57,7 +59,8 @@ def insert_vaccination_sign():
         new_sign = Sign(_id=ObjectId, name=data['name'], birthday=data['birth_day'], sex=data['sex'],
                         phone=data['phone'], email=data['email'], cccd=data['CCCD'], bhxh_id=data['BHXH_id'],
                         address=data['address'], priority_group=data['priority_group'], first_shot=first_shot,
-                        illness_history=data['illness_history'], user_expected_shot_date=data['expected_shot_date'])
+                        illness_history=data['illness_history'], user_expected_shot_date=data['expected_shot_date'],
+                        confirm_email=False)
 
         verify = sign_collection.find_one({'CCCD': data['CCCD']})
         if verify is not None:
@@ -74,16 +77,18 @@ def insert_vaccination_sign():
                     sign_collection.find_one_and_update({'CCCD': data['CCCD']},
                                                         {"$set": {
                                                             'user_expected_shot_date': data['expected_shot_date']}})
-                    # confirm_email_sign(data['email'])
-                    return {'result': 'success'}
+                    message = confirm_email_sign(data['email'])
+                    return {'result': 'success',
+                            'message': message}
                 except Exception as e:
                     print(e)
                     return fail_result_cannot_add
         else:
             try:
                 sign_collection.insert_one(new_sign.gen_dict())
-                # confirm_email_sign(data['email'])
-                return {'result': 'success'}
+                message = confirm_email_sign(data['email'])
+                return {'result': 'success',
+                        'message': message}
             except Exception as e:
                 print(e)
                 return fail_result_cannot_add
