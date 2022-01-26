@@ -31,7 +31,7 @@ class AdminNavigationScreen extends GetView<AdminNavigationController> {
     return SafeArea(child: GetX<AdminNavigationController>(
       builder: (_) {
         return DefaultTabController(
-          length: 3,
+          length: 4,
           child: Scaffold(
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(80.0),
@@ -50,7 +50,7 @@ class AdminNavigationScreen extends GetView<AdminNavigationController> {
                       ])),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 100),
+                        vertical: 15, horizontal: 50),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -83,7 +83,7 @@ class AdminNavigationScreen extends GetView<AdminNavigationController> {
                           ),
                         ),
                         SizedBox(
-                          width: screenSize.width * 0.19,
+                          width: screenSize.width * 0.15,
                         ),
                         Expanded(
                           child: TabBar(

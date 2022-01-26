@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/binding/create_injection_campaign_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/view/create_injection_campaign_view.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_feedback/bindings/admin_feedback_bindings.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_feedback/view/admin_feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/bindings/admin_navigation_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/view/navigation_view.dart';
 
@@ -59,6 +61,11 @@ class AppPages {
       name: Routes.STATEMENT_DATA,
       page: () => StatementDataView(),
       binding: StatementDataBinding(),
+    ),
+    GetPage(
+      name: Routes.ADMINFEEDBACK,
+      page: () => AdminFeedBackView(),
+      binding: AdminFeedBackBinding(),
     ),
   ];
 }

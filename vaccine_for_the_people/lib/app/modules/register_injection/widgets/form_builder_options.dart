@@ -19,6 +19,7 @@ class FormBuilderOptions extends StatefulWidget {
     this.onPress,
     this.value = '',
     this.formKey,
+    this.controller,
   }) : super(key: key);
   final String title;
   final bool require;
@@ -28,6 +29,7 @@ class FormBuilderOptions extends StatefulWidget {
   final List<String>? listOptions;
   final String? value;
   final GlobalKey<FormFieldState>? formKey;
+  final TextEditingController? controller;
 
   @override
   _FormBuilderOptionsState createState() => _FormBuilderOptionsState();
@@ -36,8 +38,6 @@ class FormBuilderOptions extends StatefulWidget {
 class _FormBuilderOptionsState extends State<FormBuilderOptions> {
   @override
   Widget build(BuildContext context) {
-    // TextEditingController textController =
-    //     TextEditingController(text: widget.value);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,10 +65,10 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
               return const SizedBox();
             case FormBuilderMode.DEFAULT:
               return TextFormField(
+                controller: widget.controller,
                 onChanged: (newValue) {
                   widget.onPress!(newValue);
                 },
-                // controller: textController,
                 autovalidateMode: AutovalidateMode.disabled,
                 style: Get.textTheme.headline6,
                 maxLength: widget.inputMode == InputMode.PHONE ? 10 : null,
@@ -182,6 +182,7 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                     );
             case FormBuilderMode.DATE_PICKER:
               return DateTimeField(
+                controller: widget.controller,
                 onShowPicker: (context, currentValue) {
                   return showDatePicker(
                       context: context,

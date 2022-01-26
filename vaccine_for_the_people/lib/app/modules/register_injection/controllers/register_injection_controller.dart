@@ -82,14 +82,34 @@ class RegisterInjectionController extends GetxController {
       GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> keyPriorityGroup =
       GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> typeVaccineKey =
+  GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> keySex = GlobalKey<FormFieldState>();
+  final TextEditingController emailEditingController = TextEditingController();
+  final TextEditingController addressEditingController =
+      TextEditingController();
+  final TextEditingController nameEditingController = TextEditingController();
+  final TextEditingController idEditingController = TextEditingController();
+  final TextEditingController phoneEditingController = TextEditingController();
+  final TextEditingController potentialDate = TextEditingController();
+  final TextEditingController placeEditingController = TextEditingController();
+  final TextEditingController dayFirstInjectionEditingController = TextEditingController();
+
 
   void resetData() {
+    placeEditingController.clear();
+    nameEditingController.clear();
+    dayFirstInjectionEditingController.clear();
+    potentialDate.clear();
+    emailEditingController.clear();
+    addressEditingController.clear();
+    phoneEditingController.clear();
+    idEditingController.clear();
     keyAnamesis.currentState!.reset();
     keyOrderInjection.currentState!.reset();
     keyPriorityGroup.currentState!.reset();
+    typeVaccineKey.currentState!.reset();
     keySex.currentState!.reset();
-    phone.value = '';
     init.value = '';
     initialTinh.value = 'Tất cả';
     listDistricts.value = [];
