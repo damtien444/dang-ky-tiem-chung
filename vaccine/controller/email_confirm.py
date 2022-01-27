@@ -16,7 +16,7 @@ sign_collection = db['vaccination_sign']
 def confirm_email_sign(email):
     global my_token
     token = generate_confirmation_token(email)
-    confirmed_url = url_for('confirmed_email', token=token, email=email, _external=True)
+    confirmed_url = url_for('confirmed_email', token=token, _external=True)
     html = render_template('/activate.html', confirmed_url=confirmed_url)
     send_email_sign(email, html)
 
@@ -32,16 +32,17 @@ def confirmed_email():
     global my_token
 
     bar = request.args.to_dict()
-    token, email = bar['token'], bar['email']
+    email = confirm_token(bar['token'])
+    check_mail = email_confirm.find_one({'email': email})
     try:
-        if (is_checked(email, token)):
+        if (check_mail):
             current_email = email_confirm.find_one_and_update({'email': email,
                                                                'status': False},
                                                               {'$set': {'status': True}})
             sign_collection.find_one_and_update({'email': email},
                                                 {'$set': {'confirm_email': True}})
             if current_email:
-                return redirect(url_for('helloWorld'))
+                return redirect(url_for('checked'))
             else:
                 return {'Message': f'Can not find your email: {email} in database! please contact to admin to response'}
         else:
@@ -49,6 +50,11 @@ def confirmed_email():
                     'Message': f'This is not your email: {email}'}
     except Exception as e:
         return {'Error': str(e)}
+
+
+@app.route("/confirmed_email/checked")
+def checked():
+    return 'You are registered successfully!'
 
 
 # check confirm email in postman
@@ -78,15 +84,6 @@ def send_email_sign(to_email, template):
         mail.send(msg)
     except Exception as e:
         return {'Error': str(e)}
-
-
-# check token email
-def is_checked(email, token):
-    email_truth = confirm_token(token)
-    if email_truth == email:
-        return True
-    else:
-        return False
 
 
 def send_email_vaccination_campaign(person: dict,
@@ -139,6 +136,7 @@ def send_email_announce_response_report(name, content, email, response):
     msg = Message(subject, recipients=[email])
     msg.body = content
     mail.send(msg)
+
 
 def send_email_delete_campaign(person: dict,
                                date_start: str,
