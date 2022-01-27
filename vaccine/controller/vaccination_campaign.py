@@ -393,16 +393,17 @@ def delete_a_campaign(campaign_id):
             #     # log = send_email_notification_delete_campaign(shot_campaign)
             #     # campaign.delete_one({'_id': ObjectId(campaign_id)})
             #     return {'message': "ok"}
-
+            res = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
             if shot_campaign['status']:
                 list_id = []
-                res = campaign.find_one_and_delete({'_id': ObjectId(campaign_id)})
+
                 for people in res['list_of_people']:
                     list_id.append(ObjectId(people['_id']))
 
                 # print(list_id)
                 sign.update_many({'_id': {'$in': list_id}},
                                  {'$pull': {'vaccine_shots': {'status': 'scheduled'}}})
+
             return {'Status': 'Success',
                     'Message': f'Deleted {shot_campaign["_id"]}'}
         else:
