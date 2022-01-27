@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
@@ -6,7 +7,7 @@ import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign
 import 'package:vaccine_for_the_people/app/data/models/model_dropdown_button.dart';
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 
-class CreateInjectionCampaignController extends GetxController{
+class CreateInjectionCampaignController extends GetxController  {
   Repository repository;
   CreateInjectionCampaignController({required this.repository});
   final listCampaignAlreadyConfirm = <IdConfirmed>[].obs;
@@ -49,8 +50,6 @@ class CreateInjectionCampaignController extends GetxController{
     final data=await Repository.getDataCampaignInjection();
     listCampaignAlreadyConfirm.value=data.lIdConfirmed!;
     listCampaignNotConfirm.value=data.lIdNotConfirm!;
-    listCampaignNotConfirm1.value=listCampaignNotConfirm;
-    listCampaignAlreadyConfirm1.value=listCampaignAlreadyConfirm;
   }
 
   Future<void> getListBtnData()async{
@@ -261,7 +260,7 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.green,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -279,7 +278,7 @@ class CreateInjectionCampaignController extends GetxController{
         ),
         backgroundColor: Colors.red,
         snackPosition: SnackPosition.TOP,
-        maxWidth: 200,
+        maxWidth: 300,
         padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
         margin: EdgeInsets.only(top:10),
       );
@@ -292,6 +291,8 @@ class CreateInjectionCampaignController extends GetxController{
     super.onInit();
     await getDataConfirmed();
     await getListBtnData();
+
+
   }
 
 }

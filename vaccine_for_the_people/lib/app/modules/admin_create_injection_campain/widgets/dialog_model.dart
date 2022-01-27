@@ -239,7 +239,7 @@ Future<dynamic> DialogConfirmDeleteCampaign0(BuildContext context, CreateInjecti
                                       "impact")),
                               onPressed: () async{
                                 dialogLoading(context);
-                                c.deleteCampaignInjection(c.listCampaignAlreadyConfirm[c.selectedIndexConfirm.value].sId.toString());
+                                await c.deleteCampaignInjection(c.listCampaignAlreadyConfirm[c.selectedIndexConfirm.value].sId.toString());
                               }),
                         ),
                         const SizedBox(
