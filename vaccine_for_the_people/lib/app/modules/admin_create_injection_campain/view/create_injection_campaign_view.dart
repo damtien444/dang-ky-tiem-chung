@@ -13,7 +13,7 @@ import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campai
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/widgets/header_injection_campaign.dart';
 import 'package:vaccine_for_the_people/app/modules/home/widgets/bottom_screen.dart';
 
-class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignController> {
+class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignController>{
   const CreateInjectionCampaignView({Key? key}) : super(key: key);
 
   @override
@@ -91,8 +91,8 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                         c.idCampaignClick.value=c.listBtnConfirm[index].id.toString();
                                                       },
                                                       child: Container(
-                                                        width: 150,
-                                                        height: 45,
+                                                        width: 100,
+                                                        height: 40,
                                                         decoration: BoxDecoration(
                                                             borderRadius: BorderRadius.circular(10),
                                                             color: controller.selectedIndexConfirm.value==index ? Colors.green:Colors.green.withOpacity(0.4)
@@ -156,8 +156,8 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                         c.idCampaignClick.value=c.listBtnNotConfirm[index].id.toString();
                                                       },
                                                       child: Container(
-                                                        width: 150,
-                                                        height: 45,
+                                                        width: 100,
+                                                        height: 40,
                                                         decoration: BoxDecoration(
                                                             borderRadius: BorderRadius.circular(10),
                                                             color: controller.selectedIndexNotConfirm.value==index ? Colors.green:Colors.green.withOpacity(0.4)
@@ -214,8 +214,8 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                             ):Center(
                                               child:!controller.isLoadingWidget.value ?
                                               const Padding(
-                                                padding: EdgeInsets.only(top: 50,bottom: 20),
-                                                child: Text("Chưa có dữ liêu"),
+                                                padding: EdgeInsets.only(top: 60,bottom: 20),
+                                                child: Text("Chưa có dữ liêu",style: TextStyle(color: Colors.red),),
                                               ) :
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 20),
@@ -243,7 +243,7 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                         child: const Text("Xác nhận",
                                                             style: TextStyle(color: Colors.white,fontSize: 12, fontWeight: FontWeight.normal, fontFamily: "impact")),
                                                         onPressed: (){
-                                                          DialogConfirm(context, c);
+                                                          dialogConfirm(context, c);
                                                         }):const SizedBox.shrink(),
                                                   ),
                                                   !controller.isHaveBtnConfirm.value ? const SizedBox(
@@ -279,7 +279,6 @@ class CreateInjectionCampaignView extends GetView<CreateInjectionCampaignControl
                                                       child: const Text("Xóa Đợt",
                                                           style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: "impact", fontWeight: FontWeight.normal)),
                                                       onPressed: () {
-                                                        print(c.selectedIndexConfirm.value.toString());
                                                         c.isClickListConfirm.value ?
                                                         DialogConfirmDeleteCampaign0(context,c,c.selectedIndexConfirm.value):
                                                         DialogConfirmDeleteCampaign1(context,c,c.selectedIndexNotConfirm.value);

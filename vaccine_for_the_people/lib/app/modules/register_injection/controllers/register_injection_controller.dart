@@ -82,8 +82,8 @@ class RegisterInjectionController extends GetxController {
       GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> keyPriorityGroup =
       GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> typeVaccineKey =
-  GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> typeVaccineKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> birthdayKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> keySex = GlobalKey<FormFieldState>();
   final TextEditingController emailEditingController = TextEditingController();
   final TextEditingController addressEditingController =
@@ -93,10 +93,15 @@ class RegisterInjectionController extends GetxController {
   final TextEditingController phoneEditingController = TextEditingController();
   final TextEditingController potentialDate = TextEditingController();
   final TextEditingController placeEditingController = TextEditingController();
-  final TextEditingController dayFirstInjectionEditingController = TextEditingController();
-
+  final TextEditingController dayFirstInjectionEditingController =
+      TextEditingController();
 
   void resetData() {
+    init.value = '';
+    initialTinh.value = 'Tất cả';
+    listDistricts.value = [];
+    listWards.value = [];
+    Future.delayed(const Duration(milliseconds: 1000));
     placeEditingController.clear();
     nameEditingController.clear();
     dayFirstInjectionEditingController.clear();
@@ -105,16 +110,15 @@ class RegisterInjectionController extends GetxController {
     addressEditingController.clear();
     phoneEditingController.clear();
     idEditingController.clear();
+    typeVaccineKey.currentState!.reset();
+    Future.delayed(const Duration(milliseconds: 1000));
+    keySex.currentState!.reset();
     keyAnamesis.currentState!.reset();
     keyOrderInjection.currentState!.reset();
     keyPriorityGroup.currentState!.reset();
-    typeVaccineKey.currentState!.reset();
-    keySex.currentState!.reset();
-    init.value = '';
-    initialTinh.value = 'Tất cả';
-    listDistricts.value = [];
-    listWards.value = [];
-    regInjectionFormKey.currentState!.reset();
+    birthdayKey.currentState!.reset();
+    Future.delayed(const Duration(milliseconds: 500));
+
   }
 
   Future<void> getProvinces() async {

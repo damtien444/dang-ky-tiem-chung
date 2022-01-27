@@ -182,6 +182,7 @@ class _FormBuilderOptionsState extends State<FormBuilderOptions> {
                     );
             case FormBuilderMode.DATE_PICKER:
               return DateTimeField(
+                key: widget.formKey,
                 controller: widget.controller,
                 onShowPicker: (context, currentValue) {
                   return showDatePicker(

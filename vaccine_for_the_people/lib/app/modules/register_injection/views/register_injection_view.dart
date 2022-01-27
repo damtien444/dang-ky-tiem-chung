@@ -171,6 +171,7 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                       padding: const EdgeInsets.only(right: 20),
                                       child: FormBuilderOptions(
                                           value: controller.init.value,
+                                          formKey: controller.birthdayKey,
                                           title: 'Ngày sinh',
                                           onPress: (birthDay) {
                                             controller.birthDay.value =
@@ -374,7 +375,6 @@ class RegisterInjectionView extends GetView<RegisterInjectionController> {
                                             padding: const EdgeInsets.only(
                                                 right: 20),
                                             child: FormBuilderOptions(
-                                                require: false,
                                                 formKey: controller.typeVaccineKey,
                                                 title: 'Loại vaccine mũi 1',
                                                 listOptions:

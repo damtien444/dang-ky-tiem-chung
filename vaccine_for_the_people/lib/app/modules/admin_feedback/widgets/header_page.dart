@@ -21,7 +21,7 @@ class _HeaderInjectionCampaignState extends State<HeaderPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final c=Get.find<AdminFeedBackController>();
+    final c=Get.find<AdminFeedBackController>();
     return Column(
       children: [
         const SizedBox(
@@ -61,8 +61,51 @@ class _HeaderInjectionCampaignState extends State<HeaderPage> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      c.isClickBtnSolve.value=true;
+                      c.isClickBtnNotSolve.value=false;
+                      c.isClickBtn.value=true;
+                      // c.isLoadingWidget.value=true;
+                    },
+                    child: Container(
+                      width: 170,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: c.isClickBtnSolve.value ? Colors.green :CustomeColor.colorAppBar
+                      ),
+                      child: const Center(
+                        child: Text("Phản hồi đã xử lí",style: TextStyle(color: Colors.white),),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10,),
+                  GestureDetector(
+                    onTap: (){
+                      c.isClickBtnNotSolve.value=true;
+                      c.isClickBtnSolve.value=false;
+                      c.isClickBtn.value=true;
+                      // c.isLoadingWidget.value=true;
+                    },
+                    child: Container(
+                      width: 170,
+                      height: 45,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: c.isClickBtnNotSolve.value ? Colors.green :CustomeColor.colorAppBar
+                      ),
+                      child: const Center(
+                        child: Text("Phản hồi chưa xử lí",style: TextStyle(color: Colors.white),),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               Row(
                 children: [
                   SizedBox(

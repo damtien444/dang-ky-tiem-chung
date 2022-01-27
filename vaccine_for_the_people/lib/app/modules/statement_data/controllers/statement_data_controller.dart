@@ -102,7 +102,6 @@ class StatementDataController extends GetxController {
         "ward": ward.value.isEmpty ? null : ward.value,
         "st_no": null
       },
-      "age_range": '18-65',
       "illness_history":
           illnessHistory == -1 ? null : (illnessHistory == 1 ? true : false),
       "priority_type": priorityType == -1 ? null : priorityType,

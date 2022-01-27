@@ -14,7 +14,7 @@ class AdminNavigationController extends GetxController{
   ].obs;
   final List<String> title = const [
     "Trang Chủ",
-    "Tạo đợt tiêm chủng",
+    "Thống kê tiêm chủng",
     "Thống kê phản hồi",
     "Thống kê tiêm chủng",
   ].obs;

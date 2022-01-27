@@ -66,15 +66,16 @@ class _DataRowTableState extends State<DataRowTableFeedBackSolve> {
               child: Text(DateFormat('yyyy/MM/dd').format(DateTime.parse(c.utf8convert(widget.data.dateCreatedVn.toString()))),textAlign: TextAlign.center),
             ),
           ),
+          const SizedBox(width: 30,),
           SizedBox(
-            width: 320,
+            width: 350,
             height: 50,
             child: Center(
               child: Text(c.utf8convert(widget.data.content.toString()),textAlign: TextAlign.center),
             ),
           ),
           SizedBox(
-            width: 320,
+            width: 450,
             height: 50,
             child: Center(
               child: Text(c.utf8convert(widget.data.response.toString()),textAlign: TextAlign.center),
@@ -90,7 +91,7 @@ class _DataRowTableState extends State<DataRowTableFeedBackSolve> {
             child: Center(
               child: IconButton(
                 onPressed: (){
-                  DialogConfirmDeleteFeedback(context,c,c.listFeedbackSolve[widget.index].sId.toString(),c.listFeedbackSolve[widget.index].name.toString(),widget.index);
+                  dialogConfirmDeleteFeedback(context,c,c.listFeedbackSolve[widget.index].sId.toString(),c.listFeedbackSolve[widget.index].name.toString(),widget.index);
                 },
                 icon: Icon(Icons.delete,color: Colors.red,),
               ),

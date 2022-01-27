@@ -70,7 +70,7 @@ class _DataRowTableState extends State<DataRowTableFeedBackNotSolve> {
             width: 50,
           ),
           SizedBox(
-            width: 400,
+            width: 600,
             height: 50,
             child: Center(
               child: Text(c.utf8convert(widget.data.content.toString()),textAlign: TextAlign.center),
@@ -104,7 +104,7 @@ class _DataRowTableState extends State<DataRowTableFeedBackNotSolve> {
             child: Center(
               child: IconButton(
                 onPressed: (){
-                  DialogConfirmDeleteFeedback(context,c,c.listFeedbackNotSolve[widget.index].sId.toString(),c.listFeedbackNotSolve[widget.index].name.toString(),widget.index);
+                  dialogConfirmDeleteFeedback(context,c,c.listFeedbackNotSolve[widget.index].sId.toString(),c.listFeedbackNotSolve[widget.index].name.toString(),widget.index);
                 },
                 icon: const Icon(Icons.delete,color: Colors.red,),
               ),
