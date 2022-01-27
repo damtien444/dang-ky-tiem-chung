@@ -273,13 +273,13 @@ class StatementDataView extends GetView<StatementDataController> {
                                             )
                                           : Container(
                                               padding: const EdgeInsets.only(
-                                                  top: 40),
+                                                  top: 65),
                                               alignment: Alignment.center,
                                               child: const Text(
                                                 "Không tìm thấy kết quả ",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 18,
+
                                                     color: Colors.red,
                                                     fontWeight:
                                                         FontWeight.bold),
