@@ -54,7 +54,7 @@ def confirmed_email():
 
 @app.route("/confirmed_email/checked")
 def checked():
-    return 'You are registered successfully!'
+    return 'You have been successfully validated!'
 
 
 # check confirm email in postman
