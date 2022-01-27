@@ -63,14 +63,17 @@ class _FirstRowTableState extends State<FirstRowTableFeedBack> {
             ),
           ),
           SizedBox(
-            width: c.isClickBtnNotSolve.value ? 500: 340,
+            width: 30,
+          ),
+          SizedBox(
+            width: c.isClickBtnNotSolve.value ? 670: 350,
             height: 50,
             child: const Center(
               child: Text("Nội dung phản hồi",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
           !c.isClickBtnNotSolve.value ? const SizedBox(
-            width: 300,
+            width: 450,
             height: 50,
             child: Center(
               child: Text("Trả lời",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
@@ -84,7 +87,7 @@ class _FirstRowTableState extends State<FirstRowTableFeedBack> {
             width: 70,
             height: 50,
             child: Center(
-              child: Text("Phản hồi",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Text("Trả lời",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ):SizedBox.shrink(),
           c.isClickBtnNotSolve.value ?const SizedBox(

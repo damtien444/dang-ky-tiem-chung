@@ -7,6 +7,7 @@ import 'package:vaccine_for_the_people/app/core/theme/colors.dart';
 import 'package:vaccine_for_the_people/app/core/theme/text_theme.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/controller/create_injection_campaign_controller.dart';
+import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/widgets/dialog_model.dart';
 
 class HeaderInjectionCampaign extends StatefulWidget {
   HeaderInjectionCampaign({
@@ -63,14 +64,73 @@ class _HeaderInjectionCampaignState extends State<HeaderInjectionCampaign> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 190),
-                child: Container(
-                  child: c.textDisplay.value.isNotEmpty ? Text(
-                    c.textDisplay.toString(),
-                    style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 14),
-                  ):const Text(""),
-                ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 170,
+                    height: 45,
+                    child: ElevatedButton(
+                      style: ElevatedButton
+                          .styleFrom(
+                        primary: CustomeColor.colorAppBar,
+                        //background color of button
+                        // side: const BorderSide(width:1, color:Colors.grey), //border width and color//elevation of button
+                        shape:
+                        RoundedRectangleBorder(
+                          //to set border radius to button
+                            borderRadius:
+                            BorderRadius
+                                .circular(
+                                10)),
+                      ),
+                      child: const Text("Làm mới dữ liệu",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontFamily:
+                              "impact",
+                              fontWeight:
+                              FontWeight
+                                  .normal)),
+                      onPressed: () async {
+                        dialogLoading(context);
+                        c.listCampaignAlreadyConfirm.clear();
+                        c.listCampaignNotConfirm.clear();
+                        c.listBtnConfirm.clear();
+                        c.listBtnNotConfirm.clear();
+                        await c.getDataConfirmed();
+                        await c.getListBtnData();
+                        Future.delayed(const Duration(seconds: 4),(){
+                          Get.back();
+                          Get.snackbar(
+                            "Cập nhật dữ liệu thành công",
+                            "Bạn đã cập nhật dữ liệu thành công",
+                            titleText: Text("Cập nhật dữ liệu thành công",style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                            messageText: Text(
+                              "Bạn đã cập nhật dữ liệu thành công",
+                              style: TextStyle(color: Colors.white),textAlign: TextAlign.center,
+                            ),
+                            backgroundColor: Colors.green,
+                            snackPosition: SnackPosition.TOP,
+                            maxWidth: 300,
+                            padding: EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+                            margin: EdgeInsets.only(top:10),
+                          );
+
+                        });
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Container(
+                      child: c.textDisplay.value.isNotEmpty ? Text(
+                        c.textDisplay.toString(),
+                        style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 14),
+                      ):const Text(""),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 child: Row(

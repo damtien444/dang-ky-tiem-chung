@@ -49,11 +49,11 @@ class _DataRowTableState extends State<DataRowTable> {
               child: Text(widget.dataPeople.name.toString(),textAlign: TextAlign.center),
             ),
           ),
-          const SizedBox(
+          SizedBox(
             width: 30,
             height: 40,
             child: Center(
-              child: Text("20",textAlign: TextAlign.center),
+              child: Text(widget.dataPeople.age!.toInt().toString(),textAlign: TextAlign.center),
             ),
           ),
           SizedBox(
@@ -135,7 +135,7 @@ class _DataRowTableState extends State<DataRowTable> {
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                  Text(
+                                  const Text(
                                     "Xác nhận xóa",
                                     style: TextStyle(
                                         fontSize: 17,
@@ -178,7 +178,7 @@ class _DataRowTableState extends State<DataRowTable> {
                                                       .circular(
                                                       10)),
                                             ),
-                                            child: Text("Xác nhận",
+                                            child: const Text("Xác nhận",
                                                 style: TextStyle(
                                                     color:
                                                     Colors.white,
@@ -217,7 +217,7 @@ class _DataRowTableState extends State<DataRowTable> {
                                                     .circular(
                                                     10)),
                                           ),
-                                          child: Text("Hủy bỏ",
+                                          child: const Text("Hủy bỏ",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 15,

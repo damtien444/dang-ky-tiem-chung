@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:vaccine_for_the_people/app/core/components/loading_view.dart';
 import 'package:vaccine_for_the_people/app/core/values/custome_colors.dart';
 import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/controller/admin_feedback_controller.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/widgets/form_builder_options.dart';
 
+Future<dynamic> dialogLoading(BuildContext context) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 750),
+          child: SizedBox(
+            width: 50,
+            height: 100,
+            child: LoadingWidget(),
+
+          ),
+        );
+      });
+}
 Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackController c, int index) {
   String name=c.utf8convert(c.listFeedbackNotSolve[index].name.toString());
   String email=c.utf8convert(c.listFeedbackNotSolve[index].email.toString());
@@ -16,7 +32,7 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
         return Dialog(
           child: SizedBox(
             width: 500,
-            height: 650,
+            height: 670,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Column(
@@ -58,9 +74,9 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                       ),
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("Email",style: TextStyle(fontSize: 15),),
+                    child: Text("Email",style: TextStyle(fontSize: 15),),
                   ),
                   SizedBox(
                     width: 400,
@@ -72,9 +88,9 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                       ),
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("Phản hồi từ khách hàng",style: TextStyle(fontSize: 15),),
+                    child: Text("Phản hồi từ khách hàng",style: TextStyle(fontSize: 15),),
                   ),
                   SizedBox(
                     width: 400,
@@ -87,9 +103,9 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: const Text("* Trả lời phản hồi",style: TextStyle(fontSize: 15),),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("* Trả lời phản hồi",style: TextStyle(fontSize: 15),),
                   ),
                   SizedBox(
                     width: 400,
@@ -133,9 +149,8 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                                     fontFamily:
                                     "impact")),
                             onPressed: (){
-                              print("gia tri: "+c.feedback.toString());
+                              dialogLoading(context);
                               c.replyFeedback(c.listFeedbackNotSolve[index].sId.toString(), c.feedback.value, index);
-                              Get.back();
                             }),
                       ),
                       const SizedBox(
@@ -184,7 +199,7 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
         );
       });
 }
-Future<dynamic> DialogConfirmDeleteFeedback(BuildContext context, AdminFeedBackController c, String id,String name,int index) {
+Future<dynamic> dialogConfirmDeleteFeedback(BuildContext context, AdminFeedBackController c, String id,String name,int index) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -265,8 +280,8 @@ Future<dynamic> DialogConfirmDeleteFeedback(BuildContext context, AdminFeedBackC
                                     fontFamily:
                                     "impact")),
                             onPressed: () async{
+                              dialogLoading(context);
                               c.deleteFeedback(id,index);
-                              Get.back();
                             }),
                       ),
                       const SizedBox(
