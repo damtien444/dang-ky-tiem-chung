@@ -10,6 +10,7 @@ import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
+import 'package:vaccine_for_the_people/app/data/models/report.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
@@ -158,9 +159,9 @@ class ProviderService {
       return dataInjectionStatistic;
     } else {}
   }
+
   static Future<CampaignInjection> getDataCampaignInjection() async {
-    const baseUrl =
-        "https://vaccine-for-the-people.herokuapp.com/campaign";
+    const baseUrl = "https://vaccine-for-the-people.herokuapp.com/campaign";
     final url = Uri.parse(baseUrl);
     final response = await http.get(url);
     if (response.statusCode == 200) {
@@ -197,13 +198,14 @@ class ProviderService {
     }
   }
 
-  static Future<bool> deletePeopleInCampaignInjection(String idCampaign,String idPeople) async {
-    print("idcampaign: "+idCampaign +" id people"+idPeople);
+  static Future<bool> deletePeopleInCampaignInjection(
+      String idCampaign, String idPeople) async {
+    print("idcampaign: " + idCampaign + " id people" + idPeople);
     final baseUrl =
         "https://vaccine-for-the-people.herokuapp.com/campaign/${idCampaign.toString()}/user/${idPeople.toString()}";
     final url = Uri.parse(baseUrl);
     final response = await http.delete(url);
-    print("status code la: "+response.statusCode.toString());
+    print("status code la: " + response.statusCode.toString());
     if (response.statusCode == 200) {
       print("xoa thanh cong");
       return true;
@@ -218,7 +220,7 @@ class ProviderService {
         "https://vaccine-for-the-people.herokuapp.com/campaign/${idCampaign.toString()}";
     final url = Uri.parse(baseUrl);
     final response = await http.delete(url);
-    print("status code la: "+response.statusCode.toString());
+    print("status code la: " + response.statusCode.toString());
     if (response.statusCode == 200) {
       print("xoa thanh cong");
       return true;
@@ -258,10 +260,10 @@ class ProviderService {
       headers: requestHeader,
       encoding: Encoding.getByName("utf-8"),
     );
-    print("status code: "+httpPost.statusCode.toString());
+    print("status code: " + httpPost.statusCode.toString());
     if (httpPost.statusCode == 200) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -311,10 +313,10 @@ class ProviderService {
       headers: requestHeader,
       encoding: Encoding.getByName("utf-8"),
     );
-    print("status code: "+httpPost.statusCode.toString());
+    print("status code: " + httpPost.statusCode.toString());
     if (httpPost.statusCode == 200) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -355,6 +357,29 @@ class ProviderService {
           body: body);
       if (response.statusCode == 200) {
         final result = responseSignFromJson(response.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Report?> report(Map<String, dynamic> infoUser) async {
+    try {
+      Map<String, String> requestHeader = {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept"
+      };
+      final body = jsonEncode(infoUser);
+      final response = await http.post(
+          Uri.parse(
+              'https://vaccine-for-the-people.herokuapp.com/report-public'),
+          headers: requestHeader,
+          body: body);
+      if (response.statusCode == 200) {
+        final result = Report.fromRawJson(response.body);
         return result;
       }
       return null;

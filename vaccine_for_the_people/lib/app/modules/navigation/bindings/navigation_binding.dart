@@ -21,6 +21,7 @@ class NavigationBinding extends Bindings {
         repository: Repository(providerService: ProviderService())));
     Get.put(LoginController(
         repository: Repository(providerService: ProviderService())));
-    Get.put(FeedbackController());
+    Get.put(FeedbackController(
+        repository: Repository(providerService: ProviderService())));
   }
 }

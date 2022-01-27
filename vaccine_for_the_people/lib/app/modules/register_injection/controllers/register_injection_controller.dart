@@ -29,6 +29,7 @@ class RegisterInjectionController extends GetxController {
     'Janssen',
     'Abdala'
   ];
+  final init = ''.obs;
   final bool isEnable = false;
   final List<String> listAges = List.generate(99, (index) => '${++index}');
   final List<String> anamesis = ['Có', 'Không'];
@@ -54,7 +55,6 @@ class RegisterInjectionController extends GetxController {
   final listProvinces = RxList<String>();
   final listDistricts = RxList<String>();
   final listWards = RxList<String>();
-
   final initialTinh = 'Tất cả'.obs;
   final initialHuyen = 'Tất cả'.obs;
   final initialXa = 'Tất cả'.obs;
@@ -72,7 +72,50 @@ class RegisterInjectionController extends GetxController {
   final district = ''.obs;
   final ward = ''.obs;
   final stNo = ''.obs;
+  final place = ''.obs;
+  final injectionFirstDay = ''.obs;
+  final typeFirstInjectionDay = ''.obs;
   final illnessHistory = ''.obs;
+
+  final GlobalKey<FormFieldState> keyAnamesis = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> keyOrderInjection =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> keyPriorityGroup =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> typeVaccineKey =
+  GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> keySex = GlobalKey<FormFieldState>();
+  final TextEditingController emailEditingController = TextEditingController();
+  final TextEditingController addressEditingController =
+      TextEditingController();
+  final TextEditingController nameEditingController = TextEditingController();
+  final TextEditingController idEditingController = TextEditingController();
+  final TextEditingController phoneEditingController = TextEditingController();
+  final TextEditingController potentialDate = TextEditingController();
+  final TextEditingController placeEditingController = TextEditingController();
+  final TextEditingController dayFirstInjectionEditingController = TextEditingController();
+
+
+  void resetData() {
+    placeEditingController.clear();
+    nameEditingController.clear();
+    dayFirstInjectionEditingController.clear();
+    potentialDate.clear();
+    emailEditingController.clear();
+    addressEditingController.clear();
+    phoneEditingController.clear();
+    idEditingController.clear();
+    keyAnamesis.currentState!.reset();
+    keyOrderInjection.currentState!.reset();
+    keyPriorityGroup.currentState!.reset();
+    typeVaccineKey.currentState!.reset();
+    keySex.currentState!.reset();
+    init.value = '';
+    initialTinh.value = 'Tất cả';
+    listDistricts.value = [];
+    listWards.value = [];
+    regInjectionFormKey.currentState!.reset();
+  }
 
   Future<void> getProvinces() async {
     final data = await VietNamRepository.getProvinces();
@@ -81,11 +124,6 @@ class RegisterInjectionController extends GetxController {
     for (var element in listVietNam) {
       listProvinces.add(element.name!);
     }
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   @override
@@ -144,9 +182,7 @@ class RegisterInjectionController extends GetxController {
       isSuccess: isSuccess,
       title: 'Đăng kí tiêm thành công, vui lòng kiểm tra email',
       failedTitle: 'Đăng kí tiêm thât bại, xin vui lòng thử lại',
-      onDismissListen: () {
-
-      },
+      onDismissListen: () {},
     ));
   }
 }

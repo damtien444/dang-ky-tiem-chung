@@ -39,6 +39,7 @@ class CreateInjectionCampaignController extends GetxController{
     '14. Các chức sắc, chức việc các tôn giáo, 15. Người lao động tự do, 16. Các đối tượng khác',
   ];
 
+
   String utf8convert(String text) {
     List<int> bytes = text.toString().codeUnits;
     return utf8.decode(bytes);

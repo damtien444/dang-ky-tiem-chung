@@ -4,6 +4,7 @@ import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart
 import 'package:vaccine_for_the_people/app/data/models/injection_statistic.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
+import 'package:vaccine_for_the_people/app/data/models/report.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
@@ -100,5 +101,9 @@ class Repository {
   Future<CreateCampaign?> createCampaign(
       Map<String, dynamic> injectInformation) async {
     return await providerService.createCampaign(injectInformation);
+  }
+
+  Future<Report?> report(Map<String, dynamic> infoUser) async {
+    return await providerService.report(infoUser);
   }
 }
