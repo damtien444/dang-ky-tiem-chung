@@ -17,5 +17,6 @@ class AdminNavigationBinding extends Bindings {
         repository: Repository(providerService: ProviderService())));
     Get.put(InjectionStatisticController(
         repository: Repository(providerService: ProviderService())));
+
   }
 }

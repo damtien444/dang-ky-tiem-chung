@@ -7,9 +7,11 @@ import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
 import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
 
-class InjectionStatisticController extends GetxController{
+class InjectionStatisticController extends GetxController {
   Repository repository;
+
   InjectionStatisticController({required this.repository});
+
   final List<String> orderInjection = ['Mũi tiêm thứ nhất', 'Mũi tiêm thứ hai'];
   final List<String> genders = ['Nam', 'Nữ'];
   final List<String> listSession = ['Buổi sáng', 'Buổi chiều', 'Cả ngày'];
@@ -32,26 +34,26 @@ class InjectionStatisticController extends GetxController{
     '10. Người sinh sống tại các vùng có dịch, 11. Người nghèo, các đối tượng chính sách xã hội, 12. Người công tác, học tập, lao động ở nước ngoài, 13. Người lao động, thân nhân người lao động đang',
     '14. Các chức sắc, chức việc các tôn giáo, 15. Người lao động tự do, 16. Các đối tượng khác',
   ];
-  RxBool isLoading=false.obs;
+  RxBool isLoading = false.obs;
   final listVietNam = RxList<VietNam>();
   final listProvinces = RxList<String>();
   final listDistricts = RxList<String>();
   final listWards = RxList<String>();
 
-  final listDataAge=<ByAge>[].obs;
-  final listDataArea=<ByAge>[].obs;
-  final listDataByNextShotTime=<ByAge>[].obs;
-  final listDataByNextShotType=<ByAge>[].obs;
-  final listDataPriority=<ByPriority>[].obs;
-  final listDataByProvince=<ByAge>[].obs;
-  final listDataBySex=<BySex>[].obs;
+  final listDataAge = <ByAge>[].obs;
+  final listDataArea = <ByAge>[].obs;
+  final listDataByNextShotTime = <ByAge>[].obs;
+  final listDataByNextShotType = <ByAge>[].obs;
+  final listDataPriority = <ByPriority>[].obs;
+  final listDataByProvince = <ByAge>[].obs;
+  final listDataBySex = <BySex>[].obs;
 
-  final listDataChartByAge=<SalesData>[].obs;
-  final listDataChartByArea=<SalesData>[].obs;
-  final listDataChartByNextShotType=<SalesData>[].obs;
-  final listDataChartByAreaNextShotTime=<SalesData>[].obs;
-  final listDataChartByPriority=<SalesData>[].obs;
-  final listDataChartByGender=<SalesData>[].obs;
+  final listDataChartByAge = <SalesData>[].obs;
+  final listDataChartByArea = <SalesData>[].obs;
+  final listDataChartByNextShotType = <SalesData>[].obs;
+  final listDataChartByAreaNextShotTime = <SalesData>[].obs;
+  final listDataChartByPriority = <SalesData>[].obs;
+  final listDataChartByGender = <SalesData>[].obs;
 
   final initialTinh = 'Tất cả'.obs;
   final initialHuyen = 'Tất cả'.obs;
@@ -74,89 +76,101 @@ class InjectionStatisticController extends GetxController{
 
   void findListDistricts(String data) {
     initialTinh.value = data;
-    initialHuyen.value = "Tất cả";
-    initialXa.value = "Tất cả";
     listDistricts.clear();
-    listDistricts.add("Tất cả");
-    listDistricts.addAll(listVietNam
-        .firstWhere((element) => element.name == data)
-        .districts!
-        .map((e) => e.name!)
-        .toList());
-    initialHuyen.value = listDistricts.first;
+    initialHuyen.value = "Tất cả";
+    if (initialTinh.value != "Tất cả") {
+      listDistricts.add("Tất cả");
+      listDistricts.addAll(listVietNam
+          .firstWhere((element) => element.name == data)
+          .districts!
+          .map((e) => e.name!)
+          .toList());
+      initialHuyen.value = listDistricts.first;
+    }
   }
 
   void findListWards(String data) {
     initialHuyen.value = data;
     listWards.clear();
-    listWards.add("Tất cả");
-    listWards.addAll(
-      listVietNam
-          .firstWhere((province) => province.name == initialTinh.value)
-          .districts!
-          .firstWhere((district) => district.name == data)
-          .wards!
-          .map((e) => e.name!)
-          .toList(),
-    );
-    initialXa.value = listWards.first;
+    initialXa.value = "Tất cả";
+    if (initialHuyen.value != "Tất cả") {
+      listWards.add("Tất cả");
+      listWards.addAll(
+        listVietNam
+            .firstWhere((province) => province.name == initialTinh.value)
+            .districts!
+            .firstWhere((district) => district.name == data)
+            .wards!
+            .map((e) => e.name!)
+            .toList(),
+      );
+      initialXa.value = listWards.first;
+    }
   }
 
-  Future<void> getDataSearchChartFull(String province,String district,String wards) async{
-    final data = await repository.getDataInjectionStatisticFull(province, district, wards);
-      listDataAge.value=data!.byAge!;
-      listDataArea.value=data.byArea!;
-      listDataByNextShotTime.value=data.byNextShotTime!;
-      listDataByNextShotType.value=data.byNextShotType!;
-      listDataPriority.value=data.byPriority!;
-      listDataByProvince.value=data.byProvince!;
-      listDataBySex.value=data.bySex!;
+  Future<void> getDataSearchChartFull(
+      String province, String district, String wards) async {
+    final data = await repository.getDataInjectionStatisticFull(
+        province, district, wards);
+    listDataAge.value = data!.byAge!;
+    listDataArea.value = data.byArea!;
+    listDataByNextShotTime.value = data.byNextShotTime!;
+    listDataByNextShotType.value = data.byNextShotType!;
+    listDataPriority.value = data.byPriority!;
+    listDataByProvince.value = data.byProvince!;
+    listDataBySex.value = data.bySex!;
   }
-  Future<void> getDataSearchChartProvince(String province) async{
+
+  Future<void> getDataSearchChartProvince(String province) async {
     final data = await repository.getDataInjectionStatisticProvince(province);
-      listDataAge.value=data!.byAge!;
-      listDataArea.value=data.byArea!;
-      listDataByNextShotTime.value=data.byNextShotTime!;
-      listDataByNextShotType.value=data.byNextShotType!;
-      listDataPriority.value=data.byPriority!;
-      listDataByProvince.value=data.byProvince!;
-      listDataBySex.value=data.bySex!;
+    listDataAge.value = data!.byAge!;
+    listDataArea.value = data.byArea!;
+    listDataByNextShotTime.value = data.byNextShotTime!;
+    listDataByNextShotType.value = data.byNextShotType!;
+    listDataPriority.value = data.byPriority!;
+    listDataByProvince.value = data.byProvince!;
+    listDataBySex.value = data.bySex!;
   }
-  Future<void> getDataSearchChartProvinceAndDistrict(String province,String district)async{
-    final data = await repository.getDataInjectionStatisticProvinceAnDistrict(province, district);
-      listDataAge.value=data!.byAge!;
-      listDataArea.value=data.byArea!;
-      listDataByNextShotTime.value=data.byNextShotTime!;
-      listDataByNextShotType.value=data.byNextShotType!;
-      listDataPriority.value=data.byPriority!;
-      listDataByProvince.value=data.byProvince!;
-      listDataBySex.value=data.bySex!;
+
+  Future<void> getDataSearchChartProvinceAndDistrict(
+      String province, String district) async {
+    final data = await repository.getDataInjectionStatisticProvinceAnDistrict(
+        province, district);
+    listDataAge.value = data!.byAge!;
+    listDataArea.value = data.byArea!;
+    listDataByNextShotTime.value = data.byNextShotTime!;
+    listDataByNextShotType.value = data.byNextShotType!;
+    listDataPriority.value = data.byPriority!;
+    listDataByProvince.value = data.byProvince!;
+    listDataBySex.value = data.bySex!;
   }
+
   String utf8convert(String text) {
     List<int> bytes = text.toString().codeUnits;
     return utf8.decode(bytes);
   }
-  void fillDataChartProvince(){
-    Future.delayed(const Duration(seconds: 4),() {
+
+  void fillDataChartProvince() {
+    Future.delayed(const Duration(seconds: 4), () {
       for (var data in listDataAge) {
-        listDataChartByAge.add(
-            SalesData(utf8convert(data.sId.toString()), data.count!));
+        listDataChartByAge
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
       for (var data in listDataArea) {
-        listDataChartByArea.add(
-            SalesData(utf8convert(data.sId.toString()), data.count!));
+        listDataChartByArea
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
       for (var data in listDataByNextShotTime) {
-        listDataChartByAreaNextShotTime.add(
-            SalesData(utf8convert(data.sId.toString()), data.count!));
+        listDataChartByAreaNextShotTime
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
       for (var data in listDataByNextShotType) {
-        listDataChartByNextShotType.add(
-            SalesData(utf8convert(data.sId.toString()), data.count!));
+        listDataChartByNextShotType
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
       for (var data in listDataPriority) {
-        listDataChartByPriority.add(
-            SalesData(utf8convert(data.iId.toString()), data.count!));
+        listDataChartByPriority
+            .add(SalesData(utf8convert(data.iId.toString()), data.count!));
       }
       for (var data in listDataBySex) {
         if (data.bId!) {
@@ -165,61 +179,73 @@ class InjectionStatisticController extends GetxController{
           listDataChartByGender.add(SalesData("Nữ", data.count!));
         }
       }
-      isLoading.value=false;
+      isLoading.value = false;
     });
   }
-  void fillDataChartProvinceAndDistrict(){
-    Future.delayed(const Duration(seconds: 4),() {
-      for(var data in listDataAge){
-        listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+
+  void fillDataChartProvinceAndDistrict() {
+    Future.delayed(const Duration(seconds: 4), () {
+      for (var data in listDataAge) {
+        listDataChartByAge
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataArea){
-        listDataChartByArea.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+      for (var data in listDataArea) {
+        listDataChartByArea
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataByNextShotTime){
-        listDataChartByAreaNextShotTime.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+      for (var data in listDataByNextShotTime) {
+        listDataChartByAreaNextShotTime
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataByNextShotType){
-        listDataChartByNextShotType.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+      for (var data in listDataByNextShotType) {
+        listDataChartByNextShotType
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataPriority){
-        listDataChartByPriority.add(SalesData(utf8convert(data.iId.toString()), data.count!));
+      for (var data in listDataPriority) {
+        listDataChartByPriority
+            .add(SalesData(utf8convert(data.iId.toString()), data.count!));
       }
-      for(var data in listDataBySex){
-        if(data.bId!){
-          listDataChartByGender.add(SalesData( "Nam", data.count!));
-        }else{
-          listDataChartByGender.add(SalesData( "Nữ", data.count!));
+      for (var data in listDataBySex) {
+        if (data.bId!) {
+          listDataChartByGender.add(SalesData("Nam", data.count!));
+        } else {
+          listDataChartByGender.add(SalesData("Nữ", data.count!));
         }
       }
-      isLoading.value=false;
+      isLoading.value = false;
     });
   }
-  void fillDataChartAll(){
-    Future.delayed(const Duration(seconds: 4),() {
-      for(var data in listDataAge){
-        listDataChartByAge.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+
+  void fillDataChartAll() {
+    Future.delayed(const Duration(seconds: 4), () {
+      for (var data in listDataAge) {
+        listDataChartByAge
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataArea){
-        listDataChartByArea.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+      for (var data in listDataArea) {
+        listDataChartByArea
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataByNextShotTime){
-        listDataChartByAreaNextShotTime.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+      for (var data in listDataByNextShotTime) {
+        listDataChartByAreaNextShotTime
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataByNextShotType){
-        listDataChartByNextShotType.add(SalesData(utf8convert(data.sId.toString()), data.count!));
+      for (var data in listDataByNextShotType) {
+        listDataChartByNextShotType
+            .add(SalesData(utf8convert(data.sId.toString()), data.count!));
       }
-      for(var data in listDataPriority){
-        listDataChartByPriority.add(SalesData(utf8convert(data.iId.toString()), data.count!));
+      for (var data in listDataPriority) {
+        listDataChartByPriority
+            .add(SalesData(utf8convert(data.iId.toString()), data.count!));
       }
-      for(var data in listDataBySex){
-        if(data.bId!){
-          listDataChartByGender.add(SalesData( "Nam", data.count!));
-        }else{
-          listDataChartByGender.add(SalesData( "Nữ", data.count!));
+      for (var data in listDataBySex) {
+        if (data.bId!) {
+          listDataChartByGender.add(SalesData("Nam", data.count!));
+        } else {
+          listDataChartByGender.add(SalesData("Nữ", data.count!));
         }
       }
-      isLoading.value=false;
+      isLoading.value = false;
     });
   }
 }

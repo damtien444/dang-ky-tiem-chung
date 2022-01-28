@@ -26,23 +26,29 @@ class HomeController extends GetxController {
     shapeDataField: 'name',
   ).obs;
 
-  void getDataCovidCase() async {
-    Repository.getVNCase().then((data) {
-      totalCase.value = data.cases;
-      totalDeath.value = data.deaths;
-      totalRecovered.value = data.recovered;
-    });
+  Future<void> getDataCovidCase() async {
+    final dataVn= await Repository.getVNCase();
+    totalCase.value=dataVn.cases;
+    totalDeath.value = dataVn.deaths;
+    totalRecovered.value = dataVn.recovered;
+    // Repository.getVNCase().then((data) {
+    //   totalCase.value = data.cases;
+    //   totalDeath.value = data.deaths;
+    //   totalRecovered.value = data.recovered;
+    // });
   }
 
-  void getDataCovidSevenDayCase() async {
-    Repository.getVNCaseSevenDay().then((data) {
-      listCaseSevenDay.value = data;
-    });
+  Future<void> getDataCovidSevenDayCase() async {
+    final data=await Repository.getVNCaseSevenDay();
+    listCaseSevenDay.value=data;
+    // Repository.getVNCaseSevenDay().then((data) {
+    //   listCaseSevenDay.value = data;
+    // });
   }
 
-  void getDataVaccineRate() async {
-    Repository.getVnVaccineDistribution().then((value) {
-      value.dataDistribution.map((key, value) => MapEntry(
+  Future<void> getDataVaccineRate() async {
+    final data=await Repository.getVnVaccineDistribution();
+      data.dataDistribution.map((key, value) => MapEntry(
           key,
           value.distributedRate < 50
               ? value.name == "Hồ Chí Minh"
@@ -79,11 +85,10 @@ class HomeController extends GetxController {
                                   Model("Cao Bằng", CustomeColor.rateVaccine3))
                               : dataRateVaccineDistribution.add(Model(
                                   value.name, CustomeColor.rateVaccine3))));
-    });
   }
 
-  void getDataCaseCovidProvince() async {
-    Repository.getVnCovidProvince().then((data) {
+  Future<void> getDataCaseCovidProvince() async {
+    final data= await Repository.getVnCovidProvince();
       for (var value in data) {
         value.tongCaNhiem > 100000
             ? dataRateCaseCovid
@@ -97,15 +102,14 @@ class HomeController extends GetxController {
                     : dataRateCaseCovid
                         .add(Model(value.diaDiem, CustomeColor.rateCovid4));
       }
-    });
   }
 
   @override
   void onInit() async {
     // TODO: implement onInit
-    getDataCovidSevenDayCase();
-    getDataCovidCase();
-    getDataCaseCovidProvince();
-    getDataVaccineRate();
+    await getDataCovidSevenDayCase();
+    await getDataCovidCase();
+    await getDataCaseCovidProvince();
+    await getDataVaccineRate();
   }
 }

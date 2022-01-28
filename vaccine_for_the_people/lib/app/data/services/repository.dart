@@ -6,6 +6,7 @@ import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_inj
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/report.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
+import 'package:vaccine_for_the_people/app/data/models/search_response.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_seven_day.dart';
@@ -87,6 +88,10 @@ class Repository {
 
   Future<String?> login(String username, String password) async {
     return await providerService.login(username, password);
+  }
+
+  Future<SearchResponse?> searchFeedBack(String name, String email) async {
+    return await providerService.searchFeedBack(name, email);
   }
 
   Future<InjectionRegistrant?> getListInjectionRegistrants(

@@ -112,7 +112,7 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                     child: TextFormField(
                       maxLines: 5,
                       onChanged: (text){
-                        c.feedback.value=text;
+                        c.feedback.value=c.utf8convert(text);
                       },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),

@@ -6,18 +6,18 @@ import 'dart:convert';
 
 class CreateCampaign {
   CreateCampaign({
-    required this.campaignId,
-    required this.count,
-    required this.log,
-    required this.result,
-    required this.val,
+    this.campaignId,
+    this.count,
+    this.log,
+    this.result,
+    this.val,
   });
 
-  String campaignId;
-  int count;
-  List<dynamic> log;
-  String result;
-  Val val;
+  String? campaignId;
+  int? count;
+  List<dynamic>? log;
+  String? result;
+  Val? val;
 
   factory CreateCampaign.fromRawJson(String str) =>
       CreateCampaign.fromJson(json.decode(str));
@@ -35,30 +35,30 @@ class CreateCampaign {
   Map<String, dynamic> toJson() => {
         "campaign_id": campaignId,
         "count": count,
-        "log": List<dynamic>.from(log.map((x) => x)),
+        "log": List<dynamic>.from(log!.map((x) => x)),
         "result": result,
-        "val": val.toJson(),
+        "val": val!.toJson(),
       };
 }
 
 class Val {
   Val({
-    required this.dateEnd,
-    required this.datePlace,
-    required this.dateStart,
-    required this.listOfPeople,
-    required this.name,
-    required this.status,
-    required this.typeOfPeople,
+    this.dateEnd,
+    this.datePlace,
+    this.dateStart,
+    this.listOfPeople,
+    this.name,
+    this.status,
+    this.typeOfPeople,
   });
 
-  DateTime dateEnd;
-  String datePlace;
-  DateTime dateStart;
-  List<ListOfPerson> listOfPeople;
-  String name;
-  bool status;
-  TypeOfPeople typeOfPeople;
+  DateTime? dateEnd;
+  String? datePlace;
+  DateTime? dateStart;
+  List<ListOfPerson>? listOfPeople;
+  String? name;
+  bool? status;
+  TypeOfPeople? typeOfPeople;
 
   factory Val.fromRawJson(String str) => Val.fromJson(json.decode(str));
 
@@ -76,43 +76,43 @@ class Val {
       );
 
   Map<String, dynamic> toJson() => {
-        "date_end": dateEnd.toIso8601String(),
+        "date_end": dateEnd.toString(),
         "date_place": datePlace,
-        "date_start": dateStart.toIso8601String(),
+        "date_start": dateStart.toString(),
         "list_of_people":
-            List<dynamic>.from(listOfPeople.map((x) => x.toJson())),
+            List<dynamic>.from(listOfPeople!.map((x) => x.toJson())),
         "name": name,
         "status": status,
-        "type_of_people": typeOfPeople.toJson(),
+        "type_of_people": typeOfPeople!.toJson(),
       };
 }
 
 class ListOfPerson {
   ListOfPerson({
-    required this.id,
-    required this.address,
-    required this.age,
-    required this.illnessHistory,
-    required this.lastShot,
-    required this.name,
-    required this.nextExpectedShotDate,
-    required this.nextExpectedShotType,
-    required this.priorityGroup,
-    required this.sex,
-    required this.vaccineShots,
+    this.id,
+    this.address,
+    this.age,
+    this.illnessHistory,
+    this.name,
+    this.nextExpectedShotDate,
+    this.nextExpectedShotType,
+    this.priorityGroup,
+    this.sex,
+    this.vaccineShots,
+    this.lastShot,
   });
 
-  String id;
-  ListOfPersonAddress address;
-  double age;
-  bool illnessHistory;
-  Shot lastShot;
-  String name;
-  DateTime nextExpectedShotDate;
-  String nextExpectedShotType;
-  int priorityGroup;
-  bool sex;
-  List<Shot> vaccineShots;
+  String? id;
+  Address? address;
+  double? age;
+  bool? illnessHistory;
+  String? name;
+  DateTime? nextExpectedShotDate;
+  NextVaccineType? nextExpectedShotType;
+  int? priorityGroup;
+  bool? sex;
+  List<Shot>? vaccineShots;
+  Shot? lastShot;
 
   factory ListOfPerson.fromRawJson(String str) =>
       ListOfPerson.fromJson(json.decode(str));
@@ -121,83 +121,110 @@ class ListOfPerson {
 
   factory ListOfPerson.fromJson(Map<String, dynamic> json) => ListOfPerson(
         id: json["_id"],
-        address: ListOfPersonAddress.fromJson(json["address"]),
+        address: Address.fromJson(json["address"]),
         age: json["age"].toDouble(),
         illnessHistory: json["illness_history"],
-        lastShot: Shot.fromJson(json["last_shot"]),
         name: json["name"],
         nextExpectedShotDate: DateTime.parse(json["next_expected_shot_date"]),
-        nextExpectedShotType: json["next_expected_shot_type"],
+        nextExpectedShotType:
+            nextVaccineTypeValues.map![json["next_expected_shot_type"]],
         priorityGroup: json["priority_group"],
         sex: json["sex"],
         vaccineShots:
             List<Shot>.from(json["vaccine_shots"].map((x) => Shot.fromJson(x))),
+        lastShot:
+            json["last_shot"] == null ? null : Shot.fromJson(json["last_shot"]),
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "address": address.toJson(),
+        "address": address!.toJson(),
         "age": age,
         "illness_history": illnessHistory,
-        "last_shot": lastShot.toJson(),
         "name": name,
-        "next_expected_shot_date": nextExpectedShotDate.toIso8601String(),
-        "next_expected_shot_type": nextExpectedShotType,
+        "next_expected_shot_date": nextExpectedShotDate.toString(),
+        "next_expected_shot_type":
+            nextVaccineTypeValues.reverse[nextExpectedShotType],
         "priority_group": priorityGroup,
         "sex": sex,
         "vaccine_shots":
-            List<dynamic>.from(vaccineShots.map((x) => x.toJson())),
+            List<dynamic>.from(vaccineShots!.map((x) => x.toJson())),
+        "last_shot": lastShot == null ? null : lastShot!.toJson(),
       };
 }
 
-class ListOfPersonAddress {
-  ListOfPersonAddress({
-    required this.district,
-    required this.province,
-    required this.stNo,
-    required this.ward,
+class Address {
+  Address({
+    this.district,
+    this.province,
+    this.stNo,
+    this.ward,
   });
 
-  String district;
-  String province;
-  String stNo;
-  String ward;
+  District? district;
+  Provinces? province;
+  String? stNo;
+  String? ward;
 
-  factory ListOfPersonAddress.fromRawJson(String str) =>
-      ListOfPersonAddress.fromJson(json.decode(str));
+  factory Address.fromRawJson(String str) => Address.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory ListOfPersonAddress.fromJson(Map<String, dynamic> json) =>
-      ListOfPersonAddress(
-        district: json["district"],
-        province: json["province"],
-        stNo: json["st_no"],
-        ward: json["ward"],
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+        district: json["district"] == null
+            ? null
+            : districtValues.map![json["district"]],
+        province: provinceValues.map![json["province"]],
+        stNo: json["st_no"] == null ? null : json["st_no"],
+        ward: json["ward"] == null ? null : json["ward"],
       );
 
   Map<String, dynamic> toJson() => {
-        "district": district,
-        "province": province,
-        "st_no": stNo,
-        "ward": ward,
+        "district": district == null ? null : districtValues.reverse[district],
+        "province": provinceValues.reverse[province],
+        "st_no": stNo == null ? null : stNo,
+        "ward": ward == null ? null : ward,
       };
 }
 
+enum District {
+  QUN_NG_HNH_SN,
+  QUN_CM_L,
+  QUN_LIN_CHIU,
+  QUN_HI_CHU,
+  QUN_THANH_KH,
+  QUN_SN_TR,
+  HUYN_HA_VANG
+}
+
+final districtValues = EnumValues({
+  "Huyện Hòa Vang": District.HUYN_HA_VANG,
+  "Quận Cẩm Lệ": District.QUN_CM_L,
+  "Quận Hải Châu": District.QUN_HI_CHU,
+  "Quận Liên Chiểu": District.QUN_LIN_CHIU,
+  "Quận Ngũ Hành Sơn": District.QUN_NG_HNH_SN,
+  "Quận Sơn Trà": District.QUN_SN_TR,
+  "Quận Thanh Khê": District.QUN_THANH_KH
+});
+
+enum Provinces { THNH_PH_NNG }
+
+final provinceValues = EnumValues({"Thành phố Đà Nẵng": Provinces.THNH_PH_NNG});
+
 class Shot {
   Shot({
-    required this.shotDate,
-    required this.shotNum,
-    required this.shotPlace,
-    required this.status,
-    required this.typeName,
+    this.shotDate,
+    this.shotNum,
+    this.shotPlace,
+    this.status,
+    this.typeName,
   });
 
-  DateTime shotDate;
-  int shotNum;
-  String shotPlace;
-  String status;
-  String typeName;
+  DateTime? shotDate;
+  int? shotNum;
+  String? shotPlace;
+  Status? status;
+  NextVaccineType? typeName;
 
   factory Shot.fromRawJson(String str) => Shot.fromJson(json.decode(str));
 
@@ -207,33 +234,45 @@ class Shot {
         shotDate: DateTime.parse(json["shot_date"]),
         shotNum: json["shot_num"],
         shotPlace: json["shot_place"],
-        status: json["status"],
-        typeName: json["type_name"],
+        status: statusValues.map![json["status"]],
+        typeName: nextVaccineTypeValues.map![json["type_name"]],
       );
 
   Map<String, dynamic> toJson() => {
-        "shot_date": shotDate.toIso8601String(),
+        "shot_date": shotDate.toString(),
         "shot_num": shotNum,
         "shot_place": shotPlace,
-        "status": status,
-        "type_name": typeName,
+        "status": statusValues.reverse[status],
+        "type_name": nextVaccineTypeValues.reverse[typeName],
       };
 }
 
+enum Status { NOT_TRUSTED, SHOTTED }
+
+final statusValues =
+    EnumValues({"not_trusted": Status.NOT_TRUSTED, "shotted": Status.SHOTTED});
+
+enum NextVaccineType { ASTRA_ZENECA, NO_NEXT }
+
+final nextVaccineTypeValues = EnumValues({
+  "AstraZeneca": NextVaccineType.ASTRA_ZENECA,
+  "NO_NEXT": NextVaccineType.NO_NEXT
+});
+
 class TypeOfPeople {
   TypeOfPeople({
-    required this.address,
-    required this.ageRange,
-    required this.dateOfShotExpect,
-    required this.nextVaccineType,
-    required this.priorityGroup,
+    this.address,
+    this.ageRange,
+    this.dateOfShotExpect,
+    this.nextVaccineType,
+    this.priorityGroup,
   });
 
-  TypeOfPeopleAddress address;
-  String ageRange;
-  DateOfShotExpect dateOfShotExpect;
-  String nextVaccineType;
-  int priorityGroup;
+  Address? address;
+  dynamic? ageRange;
+  DateOfShotExpect? dateOfShotExpect;
+  NextVaccineType? nextVaccineType;
+  dynamic? priorityGroup;
 
   factory TypeOfPeople.fromRawJson(String str) =>
       TypeOfPeople.fromJson(json.decode(str));
@@ -241,53 +280,31 @@ class TypeOfPeople {
   String toRawJson() => json.encode(toJson());
 
   factory TypeOfPeople.fromJson(Map<String, dynamic> json) => TypeOfPeople(
-        address: TypeOfPeopleAddress.fromJson(json["address"]),
+        address: Address.fromJson(json["address"]),
         ageRange: json["age_range"],
         dateOfShotExpect:
             DateOfShotExpect.fromJson(json["date_of_shot_expect"]),
-        nextVaccineType: json["next_vaccine_type"],
+        nextVaccineType: nextVaccineTypeValues.map![json["next_vaccine_type"]],
         priorityGroup: json["priority_group"],
       );
 
   Map<String, dynamic> toJson() => {
-        "address": address.toJson(),
+        "address": address!.toJson(),
         "age_range": ageRange,
-        "date_of_shot_expect": dateOfShotExpect.toJson(),
-        "next_vaccine_type": nextVaccineType,
+        "date_of_shot_expect": dateOfShotExpect!.toJson(),
+        "next_vaccine_type": nextVaccineTypeValues.reverse[nextVaccineType],
         "priority_group": priorityGroup,
-      };
-}
-
-class TypeOfPeopleAddress {
-  TypeOfPeopleAddress({
-    required this.province,
-  });
-
-  String province;
-
-  factory TypeOfPeopleAddress.fromRawJson(String str) =>
-      TypeOfPeopleAddress.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
-  factory TypeOfPeopleAddress.fromJson(Map<String, dynamic> json) =>
-      TypeOfPeopleAddress(
-        province: json["province"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "province": province,
       };
 }
 
 class DateOfShotExpect {
   DateOfShotExpect({
-    required this.endDate,
-    required this.startDate,
+    this.endDate,
+    this.startDate,
   });
 
-  DateTime endDate;
-  DateTime startDate;
+  DateTime? endDate;
+  DateTime? startDate;
 
   factory DateOfShotExpect.fromRawJson(String str) =>
       DateOfShotExpect.fromJson(json.decode(str));
@@ -302,8 +319,20 @@ class DateOfShotExpect {
 
   Map<String, dynamic> toJson() => {
         "end_date":
-            "${endDate.year.toString().padLeft(4, '0')}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}",
+            "${endDate!.year.toString().padLeft(4, '0')}-${endDate!.month.toString().padLeft(2, '0')}-${endDate!.day.toString().padLeft(2, '0')}",
         "start_date":
-            "${startDate.year.toString().padLeft(4, '0')}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}",
+            "${startDate!.year.toString().padLeft(4, '0')}-${startDate!.month.toString().padLeft(2, '0')}-${startDate!.day.toString().padLeft(2, '0')}",
       };
+}
+
+class EnumValues<T> {
+  Map<String, T>? map;
+  Map<T, String>? reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap ??= map!.map((k, v) => new MapEntry(v, k));
+    return reverseMap!;
+  }
 }

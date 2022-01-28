@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
+
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/binding/create_injection_campaign_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_create_injection_campain/view/create_injection_campaign_view.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/bindings/admin_feedback_bindings.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_feedback/view/admin_feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/bindings/admin_navigation_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/admin_navigation/view/navigation_view.dart';
-
 import 'package:vaccine_for_the_people/app/modules/feedback/bindings/feedback_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/feedback/views/feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/home/binding/home_binding.dart';
@@ -16,6 +16,8 @@ import 'package:vaccine_for_the_people/app/modules/navigation/bindings/navigatio
 import 'package:vaccine_for_the_people/app/modules/navigation/view/navigation_view.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/bindings/register_injection_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/views/register_injection_view.dart';
+import 'package:vaccine_for_the_people/app/modules/search_feedback/bindings/search_feedback_binding.dart';
+import 'package:vaccine_for_the_people/app/modules/search_feedback/views/search_feedback_view.dart';
 import 'package:vaccine_for_the_people/app/modules/statement_data/bindings/statement_data_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/statement_data/views/statement_data_view.dart';
 import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
@@ -66,6 +68,11 @@ class AppPages {
       name: Routes.ADMINFEEDBACK,
       page: () => AdminFeedBackView(),
       binding: AdminFeedBackBinding(),
+    ),
+    GetPage(
+      name: Routes.SEARCH_FEEDBACK,
+      page: () => SearchFeedbackView(),
+      binding: SearchFeedbackBinding(),
     ),
   ];
 }
