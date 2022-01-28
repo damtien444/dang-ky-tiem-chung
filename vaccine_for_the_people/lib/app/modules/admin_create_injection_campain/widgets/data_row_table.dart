@@ -46,7 +46,7 @@ class _DataRowTableState extends State<DataRowTable> {
             width: 200,
             height: 40,
             child:  Center(
-              child: Text(widget.dataPeople.name.toString(),textAlign: TextAlign.center),
+              child: Text(c.utf8convert(widget.dataPeople.name.toString()),textAlign: TextAlign.center),
             ),
           ),
           SizedBox(

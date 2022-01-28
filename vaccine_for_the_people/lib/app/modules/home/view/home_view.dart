@@ -48,11 +48,11 @@ class HomeScreen extends GetView<HomeController> {
             // print(c1.listCaseSevenDay);
           },
           builder: (_) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 100, right: 100, top: 20),
-              child: Column(
-                children: [
-                  Container(
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 100, right: 100, top: 20),
+                  child: Container(
                     width: size.width-200,
                     height: size.height*0.12,
                     decoration: BoxDecoration(
@@ -199,14 +199,14 @@ class HomeScreen extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ChartCovidCase(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 100, right: 100, top: 20),
+                  child: ChartCovidCase(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 100, right: 100, top: 20),
+                  child: Row(
                     // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -357,10 +357,10 @@ class HomeScreen extends GetView<HomeController> {
                           )),
                     ],
                   ),
-                  SizedBox(height: 20,),
-                  BottomSceen(),
-                ],
-              ),
+                ),
+                SizedBox(height: 20,),
+                BottomSceen(),
+              ],
             );
           },
         ),

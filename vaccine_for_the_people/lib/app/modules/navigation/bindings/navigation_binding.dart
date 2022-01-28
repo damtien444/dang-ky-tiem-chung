@@ -8,6 +8,7 @@ import 'package:vaccine_for_the_people/app/modules/navigation/controller/navigat
 import 'package:vaccine_for_the_people/app/modules/register_injection/controllers/register_injection_controller.dart';
 import 'package:vaccine_for_the_people/app/data/providers/viet_nam_provider.dart';
 import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
+import 'package:vaccine_for_the_people/app/modules/search_feedback/controllers/search_feedback_controller.dart';
 
 class NavigationBinding extends Bindings {
   @override
@@ -22,6 +23,8 @@ class NavigationBinding extends Bindings {
     Get.put(LoginController(
         repository: Repository(providerService: ProviderService())));
     Get.put(FeedbackController(
+        repository: Repository(providerService: ProviderService())));
+    Get.lazyPut<SearchFeedbackController>(() => SearchFeedbackController(
         repository: Repository(providerService: ProviderService())));
   }
 }

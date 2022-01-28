@@ -4,7 +4,6 @@ import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart
 import 'package:vaccine_for_the_people/app/data/services/repository.dart';
 import 'package:vaccine_for_the_people/app/modules/register_injection/data/models/viet_nam.dart';
 import 'package:vaccine_for_the_people/app/data/services/viet_nam_repository.dart';
-import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
 
 class StatementDataController extends GetxController {
   VietNamRepository vietNamRepository;
@@ -63,7 +62,6 @@ class StatementDataController extends GetxController {
   var illnessHistory = -1.obs;
   var nameInjection = ''.obs;
   final isExpanded = false.obs;
-  final address = Address(district: '', province: '', stNo: '', ward: '').obs;
   final RxMap dataFilter = {}.obs;
   Map<String, dynamic> injectInformation = {};
   final ready = true.obs;
@@ -97,10 +95,15 @@ class StatementDataController extends GetxController {
   void setDataFilter() {
     dataFilter.value = {
       "address": {
-        "province": province.value.isEmpty ? null : province.value,
-        "district": district.value.isEmpty ? null : district.value,
-        "ward": ward.value.isEmpty ? null : ward.value,
-        "st_no": null
+        "province": province.value.isEmpty || initialTinh.value == "Tất cả"
+            ? null
+            : province.value,
+        "district": district.value.isEmpty || initialHuyen.value == "Tất cả"
+            ? null
+            : district.value,
+        "ward": ward.value.isEmpty || initialXa.value == "Tất cả"
+            ? null
+            : ward.value,
       },
       "illness_history":
           illnessHistory == -1 ? null : (illnessHistory == 1 ? true : false),
@@ -126,9 +129,7 @@ class StatementDataController extends GetxController {
       isSuccess: isSuccess,
       title: 'Tạo đợt tiêm thành công',
       failedTitle: 'Tạo đợt tiêm thất bại, vui lòng kiểm tra lại',
-      onDismissListen: () {
-
-      },
+      onDismissListen: () {},
     ));
   }
 
@@ -136,8 +137,14 @@ class StatementDataController extends GetxController {
     injectInformation = {
       "address": {
         "province": province.value.isEmpty ? null : province.value,
+        "district": district.value.isEmpty || initialHuyen.value == "Tất cả"
+            ? null
+            : district.value,
+        "ward": ward.value.isEmpty || initialXa.value == "Tất cả"
+            ? null
+            : ward.value,
+        "st_no": null
       },
-      "age_range": "18-65",
       "name": nameInjection.value.isEmpty ? null : nameInjection.value,
       "priority_type": priorityType == -1 ? null : priorityType,
       "date_of_shot": {
@@ -162,31 +169,35 @@ class StatementDataController extends GetxController {
 
   void findListDistricts(String data) {
     initialTinh.value = data;
-    initialHuyen.value = "Tất cả";
-    initialXa.value = "Tất cả";
     listDistricts.clear();
-    listDistricts.add("Tất cả");
-    listDistricts.addAll(listVietNam
-        .firstWhere((element) => element.name == data)
-        .districts!
-        .map((e) => e.name!)
-        .toList());
-    initialHuyen.value = listDistricts.first;
+    initialHuyen.value = "Tất cả";
+    if (initialTinh.value != "Tất cả") {
+      listDistricts.add("Tất cả");
+      listDistricts.addAll(listVietNam
+          .firstWhere((element) => element.name == data)
+          .districts!
+          .map((e) => e.name!)
+          .toList());
+      initialHuyen.value = listDistricts.first;
+    }
   }
 
   void findListWards(String data) {
     initialHuyen.value = data;
     listWards.clear();
-    listWards.add("Tất cả");
-    listWards.addAll(
-      listVietNam
-          .firstWhere((province) => province.name == initialTinh.value)
-          .districts!
-          .firstWhere((district) => district.name == data)
-          .wards!
-          .map((e) => e.name!)
-          .toList(),
-    );
-    initialXa.value = listWards.first;
+    initialXa.value = "Tất cả";
+    if (initialHuyen.value != "Tất cả") {
+      listWards.add("Tất cả");
+      listWards.addAll(
+        listVietNam
+            .firstWhere((province) => province.name == initialTinh.value)
+            .districts!
+            .firstWhere((district) => district.name == data)
+            .wards!
+            .map((e) => e.name!)
+            .toList(),
+      );
+      initialXa.value = listWards.first;
+    }
   }
 }

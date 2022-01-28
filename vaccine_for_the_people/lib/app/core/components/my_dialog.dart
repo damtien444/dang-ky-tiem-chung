@@ -6,11 +6,13 @@ class MyDialog extends StatelessWidget {
       required this.isSuccess,
       required this.title,
       required this.failedTitle,
-      this.onDismissListen})
+      this.onDismissListen,
+      this.hasLongMessage = false})
       : super(key: key);
   final bool isSuccess;
   final String title;
   final String failedTitle;
+  final bool hasLongMessage;
   final Function? onDismissListen;
 
   @override
@@ -25,9 +27,11 @@ class MyDialog extends StatelessWidget {
 
   _buildChild(BuildContext context) => Container(
         width: 360,
-        height: 220,
+        height: hasLongMessage ? 410 : 225,
         decoration: BoxDecoration(
-            color: isSuccess ? Colors.green : Colors.redAccent,
+            color: isSuccess
+                ? (hasLongMessage ? Colors.white : Colors.green)
+                : Colors.redAccent,
             shape: BoxShape.rectangle,
             borderRadius: const BorderRadius.all(Radius.circular(12))),
         child: Column(
@@ -50,14 +54,29 @@ class MyDialog extends StatelessWidget {
                       topRight: Radius.circular(12))),
             ),
             const SizedBox(
+              height: 10,
+            ),
+            hasLongMessage
+                ? const Text(
+                    "Phản hồi từ ban tiêm chủng",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  )
+                : const SizedBox(),
+            const SizedBox(
               height: 24,
             ),
             Padding(
               padding: const EdgeInsets.only(right: 16, left: 16),
               child: Text(
                 isSuccess ? title : failedTitle,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: hasLongMessage ? Colors.black : Colors.white,
+                    fontSize: 16),
+                textAlign: hasLongMessage ? TextAlign.left : TextAlign.center,
               ),
             ),
             const SizedBox(
@@ -68,7 +87,9 @@ class MyDialog extends StatelessWidget {
               children: <Widget>[
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
+                      primary: hasLongMessage
+                          ? Colors.grey.withOpacity(0.4)
+                          : Colors.white,
                       onPrimary: Colors.black, // foreground
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 10),
