@@ -294,27 +294,24 @@ def sort_order(field, order):
 
 def create_list_people_in_campaign(time_range_start, time_range_finish, shot_type, city, district=None, ward=None,
                                    min_age=0, max_age=150, priority_type=None, illness_history=False):
-
-
-
     pipeline = [match_area(city, district, ward)]
 
-    filter_illness =  {
-            '$match': {
-                'illness_history': illness_history
-            }
+    filter_illness = {
+        '$match': {
+            'illness_history': illness_history
         }
+    }
 
     calculate_age = {
         '$project': {
             'priority_group': 1,
             'next_expected_shot_date': 1,
             'next_expected_shot_type': 1,
-            'vaccine_shots':1,
-            'sex':1,
-            "address":1,
-            'name':1,
-            "illness_history":1,
+            'vaccine_shots': 1,
+            'sex': 1,
+            "address": 1,
+            'name': 1,
+            "illness_history": 1,
             'age': {
                 '$divide': [
                     {
@@ -339,6 +336,8 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
                     'last_shot.status': 'shotted'
                 }, {
                     'last_shot.status': 'not_trusted'
+                }, {
+                    'last_shot': None
                 }
             ]
         }
@@ -347,8 +346,8 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
     filter_age_range = {
         '$match': {
             'age': {
-                '$gt': min_age,
-                '$lt': max_age
+                '$gte': min_age,
+                '$lte': max_age
             }
         }
     }
@@ -371,7 +370,7 @@ def create_list_people_in_campaign(time_range_start, time_range_finish, shot_typ
 
     # datetime(2015, 6, 17, 10, 3, 46, tzinfo=timezone.utc)
 
-    default_date = datetime(2000, 1, 1, 1, 0, 0, tzinfo=timezone.utc)
+    default_date = datetime(2000, 1, 1, 1, 0, 0)
     filter_shot_expect_date = {
         '$match': {
             '$or': [

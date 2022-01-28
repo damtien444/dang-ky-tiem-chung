@@ -1,4 +1,5 @@
 import datetime
+import json
 import random
 import string
 
@@ -10,6 +11,11 @@ from vietnam_provinces.enums.wards import WardEnum, WardDEnum
 doc = []
 
 list_of_vaccine = ['AstraZeneca', 'Pfizer–BioNTech', 'Janssen', 'Moderna', 'Sinopharm']
+
+with open('name.json', encoding='utf-8') as jsonfile:
+
+    name_dictionary = json.load(jsonfile)
+
 
 
 def gen_random_address():
@@ -96,9 +102,13 @@ def random_history():
 
     return vaccine_shots
 
+def random_name():
+    name = random.choice(name_dictionary)
+
+    return name['full_name']
 
 def random_sign():
-    name = random_string(10)
+    name = random_name()
     birth_day = random_date(datetime.datetime(1950, 1, 1), datetime.datetime.today())
     sex = bool(random.getrandbits(1))
     phone = random_phone()
@@ -128,11 +138,12 @@ def random_sign():
 
 
 fake_sign = []
-for i in range(40000):
+for i in range(80000):
     try:
         fake_sign.append(random_sign())
     except Exception as ignore:
         pass
+
 
 from vaccine.controller.service import db
 
