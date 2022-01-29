@@ -23,6 +23,23 @@ def get_vaccination_sign():
                 'Message': 'Can not get data'}
 
 
+@app.route('/vaccination-sign-public', methods=['GET'])
+def search_for_a_people():
+    try:
+        phone = request.args.get('phone')
+        people = sign_collection.find_one({'phone': phone})
+        if people:
+            return {'Result': 'Success',
+                    'person': people}
+        else:
+            return {'Result': 'Fail',
+                    'message': 'person not found'}
+    except Exception as e:
+        print(e)
+        return {'Result': 'Fail',
+                'Message': 'Can not get data'}
+
+
 @app.route('/vaccination-sign', methods=['POST'])
 def insert_vaccination_sign():
     data = request.get_json()
