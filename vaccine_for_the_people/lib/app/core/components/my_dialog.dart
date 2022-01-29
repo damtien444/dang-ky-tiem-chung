@@ -6,11 +6,13 @@ class MyDialog extends StatelessWidget {
       required this.isSuccess,
       required this.title,
       required this.failedTitle,
-      this.onDismissListen})
+      this.onDismissListen,
+      this.hasLongMessage = false})
       : super(key: key);
   final bool isSuccess;
   final String title;
   final String failedTitle;
+  final bool hasLongMessage;
   final Function? onDismissListen;
 
   @override
@@ -25,7 +27,7 @@ class MyDialog extends StatelessWidget {
 
   _buildChild(BuildContext context) => Container(
         width: 360,
-        height: 220,
+        height: hasLongMessage ? 370 : 220,
         decoration: BoxDecoration(
             color: isSuccess ? Colors.green : Colors.redAccent,
             shape: BoxShape.rectangle,
@@ -57,7 +59,7 @@ class MyDialog extends StatelessWidget {
               child: Text(
                 isSuccess ? title : failedTitle,
                 style: const TextStyle(color: Colors.white, fontSize: 16),
-                textAlign: TextAlign.center,
+                textAlign: hasLongMessage?TextAlign.left:TextAlign.center,
               ),
             ),
             const SizedBox(

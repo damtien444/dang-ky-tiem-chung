@@ -15,7 +15,7 @@ class NavigationScreen extends GetView<NavigationController> {
     final Size screenSize = MediaQuery.of(context).size;
     return SafeArea(
         child: DefaultTabController(
-          length: 4,
+          length: 5,
           child: GetX<NavigationController>(
             builder: (_){
               return Scaffold(
@@ -63,7 +63,7 @@ class NavigationScreen extends GetView<NavigationController> {
                               ],
                             ),
                           ),
-                          SizedBox(width: screenSize.width*0.25,),
+                          SizedBox(width: screenSize.width*0.15,),
                           Expanded(
                             child: TabBar(
                                 unselectedLabelColor: Colors.white,

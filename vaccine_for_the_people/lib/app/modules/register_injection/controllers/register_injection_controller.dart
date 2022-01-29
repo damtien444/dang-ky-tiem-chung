@@ -153,32 +153,36 @@ class RegisterInjectionController extends GetxController {
 
   void findListDistricts(String data) {
     initialTinh.value = data;
-    initialHuyen.value = "Tất cả";
-    initialXa.value = "Tất cả";
     listDistricts.clear();
-    listDistricts.add("Tất cả");
-    listDistricts.addAll(listVietNam
-        .firstWhere((element) => element.name == data)
-        .districts!
-        .map((e) => e.name!)
-        .toList());
-    initialHuyen.value = listDistricts.first;
+    initialHuyen.value = "Tất cả";
+    if (initialTinh.value != "Tất cả") {
+      listDistricts.add("Tất cả");
+      listDistricts.addAll(listVietNam
+          .firstWhere((element) => element.name == data)
+          .districts!
+          .map((e) => e.name!)
+          .toList());
+      initialHuyen.value = listDistricts.first;
+    }
   }
 
   void findListWards(String data) {
     initialHuyen.value = data;
     listWards.clear();
-    listWards.add("Tất cả");
-    listWards.addAll(
-      listVietNam
-          .firstWhere((province) => province.name == initialTinh.value)
-          .districts!
-          .firstWhere((district) => district.name == data)
-          .wards!
-          .map((e) => e.name!)
-          .toList(),
-    );
-    initialXa.value = listWards.first;
+    initialXa.value = "Tất cả";
+    if (initialHuyen.value != "Tất cả") {
+      listWards.add("Tất cả");
+      listWards.addAll(
+        listVietNam
+            .firstWhere((province) => province.name == initialTinh.value)
+            .districts!
+            .firstWhere((district) => district.name == data)
+            .wards!
+            .map((e) => e.name!)
+            .toList(),
+      );
+      initialXa.value = listWards.first;
+    }
   }
 
   void _showDialog(bool isSuccess) {
