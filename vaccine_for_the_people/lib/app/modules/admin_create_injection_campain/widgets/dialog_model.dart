@@ -473,7 +473,8 @@ Future<dynamic> updateDialogConfirm0(BuildContext context, CreateInjectionCampai
                           onPress: (value1) {
                             c.nameCp.value = value1;
                           },
-                          mode: FormBuilderMode.DEFAULT1),
+                          mode: FormBuilderMode.DEFAULT1
+                      ),
                     ),
                   ),
                   const SizedBox(

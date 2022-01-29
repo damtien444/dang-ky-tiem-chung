@@ -105,7 +105,7 @@ class ListOfPeople {
   String? nextExpectedShotType;
   int? priorityGroup;
   bool? sex;
-  List<LastShot>? vaccineShots;
+  // List<LastShot>? vaccineShots;
 
   ListOfPeople(
       {this.sId,
@@ -118,7 +118,8 @@ class ListOfPeople {
         this.nextExpectedShotType,
         this.priorityGroup,
         this.sex,
-        this.vaccineShots});
+        // this.vaccineShots
+      });
 
   ListOfPeople.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -134,12 +135,12 @@ class ListOfPeople {
     nextExpectedShotType = json['next_expected_shot_type'];
     priorityGroup = json['priority_group'];
     sex = json['sex'];
-    if (json['vaccine_shots'] != null) {
-      vaccineShots = <LastShot>[];
-      json['vaccine_shots'].forEach((v) {
-        vaccineShots!.add(new LastShot.fromJson(v));
-      });
-    }
+    // if (json['vaccine_shots'] != null) {
+    //   vaccineShots = <LastShot>[];
+    //   json['vaccine_shots'].forEach((v) {
+    //     vaccineShots!.add(new LastShot.fromJson(v));
+    //   });
+    // }
   }
 
   Map<String, dynamic> toJson() {
@@ -158,10 +159,10 @@ class ListOfPeople {
     data['next_expected_shot_type'] = this.nextExpectedShotType;
     data['priority_group'] = this.priorityGroup;
     data['sex'] = this.sex;
-    if (this.vaccineShots != null) {
-      data['vaccine_shots'] =
-          this.vaccineShots!.map((v) => v.toJson()).toList();
-    }
+    // if (this.vaccineShots != null) {
+    //   data['vaccine_shots'] =
+    //       this.vaccineShots!.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 }
