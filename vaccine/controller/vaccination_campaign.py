@@ -102,6 +102,10 @@ def create_campaign_preview():
                                                                       district, ward,
                                                                       priority_type=priority_type,
                                                                       illness_history=illness_history))
+                print(create_list_people_in_campaign(start_date, end_date, vaccine_type, city,
+                                                     district, ward,
+                                                     priority_type=priority_type,
+                                                     illness_history=illness_history))
 
             # DONE: đăng ký đợt tiêm nháp lên campaign collection
 
@@ -255,7 +259,8 @@ def get_all_campaign():
             dict_shots_campaign_id = {'_id_confirmed': [],
                                       '_id_not_confirm': []}
             for shot_campaign in shots_campaign:
-
+                for people in shot_campaign['list_of_people']:
+                    people.pop('vaccine_shots')
                 if shot_campaign['status']:
                     dict_shots_campaign_id['_id_confirmed'].append(shot_campaign)
                 else:
