@@ -270,7 +270,7 @@ def get_all_campaign():
             return {'Status': 'Warning', 'Message': 'Do not hve any shot campaign! Please create shots campaign'}
     except Exception as e:
         print(e)
-        return {'Status': 'Fail', 'Message': str(e)}
+        return {'Status': 'Fail', 'Message': str(e)}, 400
 
 
 # Thịnh
@@ -292,7 +292,7 @@ def get_a_campaign(campaign_id):
                     'Message': f'Can not find campaign from {campaign_id}! Please check again'}
     except Exception as e:
         return {'Status': 'Error!',
-                'Message': e}
+                'Message': e},400
 
 
 # Tiến
@@ -317,8 +317,8 @@ def update_and_promote_campaign(campaign_id):
                 return {'result': 'fail', 'message': 'unable to update or find the designated campaign'}, 400
 
             response = campaign.find_one_and_update({'_id': ObjectId(campaign_id)}, {"$set": {'status': True}})
-            # log_email = send_email_confirm_vaccination_campaign(response)
-            log_email = "send _email"
+            log_email = send_email_confirm_vaccination_campaign(response)
+            # log_email = "send _email"
 
             if response:
                 list_of_update = []
@@ -413,10 +413,10 @@ def delete_a_campaign(campaign_id):
                     'Message': f'Deleted {shot_campaign["_id"]}'}
         else:
             return {'Status': 'Fail',
-                    'Message': f'Can not find campaign from {campaign_id}! Please check again'}
+                    'Message': f'Can not find campaign from {campaign_id}! Please check again'},  400
     except Exception as e:
         return {'Status': 'Error!',
-                'Message': e}
+                'Message': e},  400
 
 
 # Huyền
@@ -437,11 +437,11 @@ def get_a_person_in_campaign(campaign_id, user_id):
                         'User Information': person}
             else:
                 return {'Result': 'Fail',
-                        'Message': f'Can not find user from {campaign_id}! Please check again'}
+                        'Message': f'Can not find user from {campaign_id}! Please check again'},  400
     except Exception as e:
         print(e)
         return {'Result': 'Error!',
-                'Message': 'Error!'}
+                'Message': 'Error!'},  400
 
 
 # Huyền
@@ -479,17 +479,17 @@ def add_a_person_to_campaign(campaign_id, user_id):
                     except Exception as e:
                         print(e)
                         return {'Result': 'Fail!',
-                                'Message': 'Can not add'}
+                                'Message': 'Can not add'},  400
                 else:
                     return {'Result': 'Fail!',
-                            'Message': f'Can not find user having id {user_id}! Please check again'}
+                            'Message': f'Can not find user having id {user_id}! Please check again'},  400
             except Exception as e:
                 print(e)
                 return {'Result': 'Fail!',
-                        'Message': f'Can not find user having id {user_id}! Please check again'}
+                        'Message': f'Can not find user having id {user_id}! Please check again'},  400
     except Exception as e:
         print(e)
-        return {'Result': 'Error!'}
+        return {'Result': 'Error!'},  400
 
 
 # Huyền
@@ -511,12 +511,12 @@ def delete_a_person_from_campaign(campaign_id, user_id):
                             'Message': f'Deleted {person}'}
 
             return {'Result': 'Fail',
-                    'Message': f'Can not find user from {campaign_id}! Please check again'}
+                    'Message': f'Can not find user from {campaign_id}! Please check again'},  400
         else:
             return {'Result': 'Fail',
-                    'Message': f'Campaign {campaign_id} was promoted'}
+                    'Message': f'Campaign {campaign_id} was promoted'},  400
     except Exception as e:
-        return {'Result': 'Error!'}
+        return {'Result': 'Error!'},  400
 
 
 # Huyền
@@ -544,7 +544,7 @@ def update_a_person_in_campaign(campaign_id, user_id):
         return {'Result': 'Success'}
     except Exception as e:
         print(e)
-        return {'Result': 'Error'}
+        return {'Result': 'Error'},  400
 
 
 def parse_to_date(date_json):
