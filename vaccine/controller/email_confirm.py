@@ -91,18 +91,39 @@ def send_email_vaccination_campaign(person: dict,
                                     date_end: str,
                                     place: str,
                                     vaccine_type: str):
+    province, district, ward, st_no = None, None, None, None
+
     try:
         to_email = person['email']
         name = person['name']
         cccd = person['CCCD']
         address = person['address']
+        try:
+            province = address['province']
+        except:
+            pass
+        try:
+            district = address['district']
+        except:
+            pass
+        try:
+            ward = address['ward']
+        except:
+            pass
+
+        try:
+            st_no = address['st_no']
+        except:
+            pass
+
     except Exception as e:
         return str(e)
 
     subject = f'Thư mời tiêm vaccine '
     content = f''' Kính mời {"ông" if person["sex"] else "bà"} {name}\n
                     - CCCD: {cccd}\n
-                    - Địa chỉ: {address}\n
+                    - Địa chỉ: '''f'{st_no if st_no is not None else ""}, ' + f'{ward if ward is not None else ""}, ' \
+              + f'{district if district is not None else ""}, ' + f'{province if province is not None else ""}' + '''\n 
                     Vào lúc {date_start} đến {date_end} tại {place} để tham gia tiêm vaccine {vaccine_type}'''
     msg = Message(subject, recipients=[to_email])
     msg.body = content
