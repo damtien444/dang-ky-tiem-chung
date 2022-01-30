@@ -15,7 +15,7 @@ class NavigationScreen extends GetView<NavigationController> {
     final Size screenSize = MediaQuery.of(context).size;
     return SafeArea(
         child: DefaultTabController(
-          length: 5,
+          length: 6,
           child: GetX<NavigationController>(
             builder: (_){
               return Scaffold(
@@ -36,7 +36,7 @@ class NavigationScreen extends GetView<NavigationController> {
                             ])
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 100),
+                      padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 50),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -63,7 +63,7 @@ class NavigationScreen extends GetView<NavigationController> {
                               ],
                             ),
                           ),
-                          SizedBox(width: screenSize.width*0.15,),
+                          SizedBox(width: screenSize.width*0.02,),
                           Expanded(
                             child: TabBar(
                                 unselectedLabelColor: Colors.white,
@@ -73,7 +73,7 @@ class NavigationScreen extends GetView<NavigationController> {
                                 controller.icons.asMap().map((i, e) =>
                                     MapEntry(i, Tab(
                                       child: Container(
-                                        width: screenSize.width*0.07,
+                                        width: screenSize.width*0.1,
                                         child: AutoSizeText(
                                           e,
                                           textAlign: TextAlign.center,

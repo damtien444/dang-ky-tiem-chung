@@ -425,120 +425,228 @@ Future<dynamic> updateDialogConfirm0(BuildContext context, CreateInjectionCampai
   String startDay =  DateFormat('yyyy-MM-dd').format(DateTime.parse(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateStartCampaign.toString()));
   String endDay =  DateFormat('yyyy-MM-dd').format(DateTime.parse(c.listBtnNotConfirm[c.selectedIndexNotConfirm.value].dateEndCampaign.toString()));
 
-  c.nameCp.value=c.utf8convert(nameCampaign);
-  c.startCp.value=c.utf8convert(startDay);
-  c.endCp.value=c.utf8convert(endDay);
-  c.placeCp.value=c.utf8convert(place);
+  c.nameCp.value=(nameCampaign);
+  c.startCp.value=(startDay);
+  c.endCp.value=(endDay);
+  c.placeCp.value=(place);
 
   return showDialog(
       context: context,
       builder: (context) {
         return Dialog(
-          child: Container(
+          child: SizedBox(
             width: 500,
-            height: 610,
+            height: 580,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Center(
-                    child: Image.asset(
-                      "assets/images/icon_heart.png",
-                      fit: BoxFit.contain,
-                      height: 70,
-                      width: 70,
-                      color: CustomeColor.colorAppBar,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Center(
-                      child: Text("Chỉnh sửa thông tin chiến dịch",style: TextStyle(fontSize: 20),)
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: FormBuilderOptions(
-                          title: "Tên chiến dịch",
-                          value: c.utf8convert(nameCampaign),
-                          onPress: (value1) {
-                            c.nameCp.value = value1;
-                          },
-                          mode: FormBuilderMode.DEFAULT1
+                    Center(
+                      child: Image.asset(
+                        "assets/images/icon_heart.png",
+                        fit: BoxFit.contain,
+                        height: 70,
+                        width: 70,
+                        color: CustomeColor.colorAppBar,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: FormBuilderOptions(
-                          title: "Địa điểm",
-                          value: c.utf8convert(place),
-                          onPress: (value2) {
-                            c.placeCp.value = value2;
-                          },
-                          mode: FormBuilderMode.DEFAULT1
-                      ),
+                    const SizedBox(
+                      height: 15,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: FormBuilderOptions(
-                          title: "Bắt đầu",
-                          value: c.utf8convert(startDay),
-                          onPress: (value3) {
-                            c.startCp.value = value3;
-                          },
-                          mode: FormBuilderMode.DEFAULT1),
+                    Center(
+                        child: Text("Chỉnh sửa thông tin chiến dịch",style: TextStyle(fontSize: 20),)
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: 400,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: FormBuilderOptions(
-                          title: "Kết thúc",
-                          value: c.utf8convert(endDay),
-                          onPress: (value4) {
-                            c.endCp.value = value4;
-                          },
-                          mode: FormBuilderMode.DEFAULT1),
+                    FormBuilder(
+                      key: c.globalKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text("Tên chiến dịch",textAlign: TextAlign.start,),
+                          ),
+                          SizedBox(
+                            width: 400,
+                            child: FormBuilderTextField(
+                              initialValue: c.utf8convert(nameCampaign),
+                              onChanged: (text){
+                                c.nameCp.value = text!;
+                              },
+                              name: 'Tên chiến dịch',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text("Địa điểm"),
+                          ),
+                          SizedBox(
+                            width: 400,
+                            child: FormBuilderTextField(
+                              initialValue: c.utf8convert(place),
+                              onChanged: (text){
+                                c.placeCp.value = text!;
+                              }, name: 'Địa điểm',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text("Ngày bắt đầu"),
+                          ),
+                          SizedBox(
+                            width: 400,
+                            child: TextFormField(
+                              initialValue: startDay,
+                              onChanged: (text){
+                                c.startCp.value = text;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Text("Ngày kết thúc"),
+                          ),
+                          SizedBox(
+                            width: 400,
+                            child: TextFormField(
+                              initialValue: endDay,
+                              onChanged: (text){
+                                c.endCp.value = text;
+                              },
+                            ),
+                          ),
+                        ],
+                    )
                     ),
-                  ),
-                  const SizedBox(height: 30,),
-                  Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        height: 35,
-                        child: ElevatedButton(
+
+                    // SizedBox(
+                    //   width: 400,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(right: 20),
+                    //     child: FormBuilderOptions(
+                    //         title: "Tên chiến dịch",
+                    //         value: c.utf8convert(nameCampaign),
+                    //         onPress: (value1) {
+                    //           c.nameCp.value = value1;
+                    //         },
+                    //         mode: FormBuilderMode.DEFAULT1
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // SizedBox(
+                    //   width: 400,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(right: 20),
+                    //     child: FormBuilderOptions(
+                    //         title: "Địa điểm",
+                    //         value: c.utf8convert(place),
+                    //         onPress: (value2) {
+                    //           c.placeCp.value = value2;
+                    //         },
+                    //         mode: FormBuilderMode.DEFAULT1
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // SizedBox(
+                    //   width: 400,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(right: 20),
+                    //     child: FormBuilderOptions(
+                    //         title: "Bắt đầu",
+                    //         value: c.utf8convert(startDay),
+                    //         onPress: (value3) {
+                    //           c.startCp.value = value3;
+                    //         },
+                    //         mode: FormBuilderMode.DEFAULT1),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 15,
+                    // ),
+                    // SizedBox(
+                    //   width: 400,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.only(right: 20),
+                    //     child: FormBuilderOptions(
+                    //         title: "Kết thúc",
+                    //         value: c.utf8convert(endDay),
+                    //         onPress: (value4) {
+                    //           c.endCp.value = value4;
+                    //         },
+                    //         mode: FormBuilderMode.DEFAULT1),
+                    //   ),
+                    // ),
+                    const SizedBox(height: 30,),
+                    Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 120,
+                          height: 35,
+                          child: ElevatedButton(
+                              style: ElevatedButton
+                                  .styleFrom(
+                                primary: CustomeColor
+                                    .colorAppBar,
+                                //background color of button
+                                // side: const BorderSide(width:1, color:Colors.grey), //border width and color//elevation of button
+                                shape:
+                                RoundedRectangleBorder(
+                                  //to set border radius to button
+                                    borderRadius:
+                                    BorderRadius
+                                        .circular(
+                                        10)),
+                              ),
+                              child: const Text("Chỉnh Sửa",
+                                  style: TextStyle(
+                                      color:
+                                      Colors.white,
+                                      fontSize: 15,
+                                      fontWeight:
+                                      FontWeight
+                                          .normal,
+                                      fontFamily:
+                                      "impact")),
+                              onPressed: (){
+                                print("ten: "+c.nameCp.value);
+                                print("dia diem: "+c.placeCp.value);
+                                dialogLoading(context);
+                                c.updateCampaignInjection(
+                                    c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString(),
+                                    c.nameCp.toString(),
+                                    c.startCp.toString(),
+                                    c.endCp.toString(),
+                                    c.placeCp.toString()
+                                );
+                              }),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        SizedBox(
+                          width: 120,
+                          height: 35,
+                          child: ElevatedButton(
                             style: ElevatedButton
                                 .styleFrom(
-                              primary: CustomeColor
-                                  .colorAppBar,
+                              primary: Colors.red,
                               //background color of button
                               // side: const BorderSide(width:1, color:Colors.grey), //border width and color//elevation of button
                               shape:
@@ -549,67 +657,27 @@ Future<dynamic> updateDialogConfirm0(BuildContext context, CreateInjectionCampai
                                       .circular(
                                       10)),
                             ),
-                            child: const Text("Chỉnh Sửa",
+                            child: const Text("Hủy bỏ",
                                 style: TextStyle(
-                                    color:
-                                    Colors.white,
+                                    color: Colors.white,
                                     fontSize: 15,
+                                    fontFamily:
+                                    "impact",
                                     fontWeight:
                                     FontWeight
-                                        .normal,
-                                    fontFamily:
-                                    "impact")),
-                            onPressed: (){
-                              dialogLoading(context);
-                              c.updateCampaignInjection(
-                                  c.listCampaignNotConfirm[c.selectedIndexNotConfirm.value].sId.toString(),
-                                  c.utf8convert(c.nameCp.toString()),
-                                  c.startCp.toString(),
-                                  c.endCp.toString(),
-                                  c.utf8convert(c.placeCp.toString())
-                              );
-                            }),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      SizedBox(
-                        width: 120,
-                        height: 35,
-                        child: ElevatedButton(
-                          style: ElevatedButton
-                              .styleFrom(
-                            primary: Colors.red,
-                            //background color of button
-                            // side: const BorderSide(width:1, color:Colors.grey), //border width and color//elevation of button
-                            shape:
-                            RoundedRectangleBorder(
-                              //to set border radius to button
-                                borderRadius:
-                                BorderRadius
-                                    .circular(
-                                    10)),
+                                        .normal)),
+                            onPressed: () async {
+                              Get.back();
+                            },
                           ),
-                          child: const Text("Hủy bỏ",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontFamily:
-                                  "impact",
-                                  fontWeight:
-                                  FontWeight
-                                      .normal)),
-                          onPressed: () async {
-                            Get.back();
-                          },
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                ],
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

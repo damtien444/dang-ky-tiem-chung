@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:dartz/dartz_streaming.dart';
 import 'package:http/http.dart' as http;
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
@@ -12,6 +13,8 @@ import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_inj
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/report.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
+import 'package:vaccine_for_the_people/app/data/models/search_injection_model.dart';
+import 'package:vaccine_for_the_people/app/data/models/search_injection_model_fail.dart';
 import 'package:vaccine_for_the_people/app/data/models/search_response.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
@@ -182,6 +185,19 @@ class ProviderService {
       return data;
     } else {
       return throw ("error");
+    }
+  }
+
+  static Future<Either<SearchInjection,SearchInjectionFail>> getDataSearchInjection(String email) async {
+    final baseUrl = "https://vaccine-for-the-people.herokuapp.com/vaccination-sign-public?email=${email.toString()}";
+    final url = Uri.parse(baseUrl);
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = searchInjectionFromJson(response.body);
+      return Left(data);
+    } else {
+      final dataFail=searchInjectionFailFromJson(response.body);
+      return Right(dataFail);
     }
   }
 

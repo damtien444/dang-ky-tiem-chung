@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
@@ -17,11 +18,13 @@ class CreateInjectionCampaignController extends GetxController  {
   final listBtnConfirm = <ModelDropdownBtn>[].obs;
   final listBtnNotConfirm = <ModelDropdownBtn>[].obs;
   final listPeopleInCampaign = <ListOfPeopleDetail>[].obs;
+  final globalKey=GlobalKey<FormBuilderState>();
   final RxString idCampaignClick="".obs;
   final RxBool isClickListConfirm=false.obs;
   final RxBool isClickListNotConfirm=false.obs;
   final RxBool isHaveBtnConfirm=false.obs;
   final RxBool isLoadingWidget=false.obs;
+  final RxBool isUpdateData=false.obs;
   final RxBool isLoadingUpdate=false.obs;
   final RxBool isLoadingClick=false.obs;
   final RxInt selectedIndexConfirm=1000.obs;

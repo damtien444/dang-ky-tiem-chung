@@ -7,10 +7,7 @@ import '../controllers/search_feedback_controller.dart';
 class SearchFeedbackBinding extends Bindings {
   @override
   void dependencies() {
-    @override
-    void dependencies() {
       Get.lazyPut<SearchFeedbackController>(() => SearchFeedbackController(
           repository: Repository(providerService: ProviderService())));
-    }
   }
 }
