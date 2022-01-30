@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:vaccine_for_the_people/app/data/models/create_campaign.dart';
 import 'package:vaccine_for_the_people/app/data/models/feed_back_model.dart';
 import 'package:vaccine_for_the_people/app/data/models/injection_registrant.dart';
@@ -6,6 +7,8 @@ import 'package:vaccine_for_the_people/app/data/models/model_create_campaign_inj
 import 'package:vaccine_for_the_people/app/data/models/model_detail_one_campaign_injection.dart';
 import 'package:vaccine_for_the_people/app/data/models/report.dart';
 import 'package:vaccine_for_the_people/app/data/models/response_sign.dart';
+import 'package:vaccine_for_the_people/app/data/models/search_injection_model.dart';
+import 'package:vaccine_for_the_people/app/data/models/search_injection_model_fail.dart';
 import 'package:vaccine_for_the_people/app/data/models/search_response.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid.dart';
 import 'package:vaccine_for_the_people/app/data/models/vn_case_covid_province.dart';
@@ -56,6 +59,10 @@ class Repository {
 
   static Future<AllFeedback> getDataFeedback() {
     return ProviderService.getDataFeedback();
+  }
+
+  static Future<Either<SearchInjection,SearchInjectionFail>> getDataSearchInjection(String email) {
+    return ProviderService.getDataSearchInjection(email);
   }
 
   static Future<DetailCampaignInjection> getDetailOneDataCampaignInjection(String id) {

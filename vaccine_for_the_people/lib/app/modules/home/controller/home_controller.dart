@@ -109,7 +109,7 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     await getDataCovidSevenDayCase();
     await getDataCovidCase();
-    await getDataCaseCovidProvince();
+    // await getDataCaseCovidProvince();
     await getDataVaccineRate();
   }
 }

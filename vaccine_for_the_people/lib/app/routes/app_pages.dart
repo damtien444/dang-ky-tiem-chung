@@ -18,6 +18,8 @@ import 'package:vaccine_for_the_people/app/modules/register_injection/bindings/r
 import 'package:vaccine_for_the_people/app/modules/register_injection/views/register_injection_view.dart';
 import 'package:vaccine_for_the_people/app/modules/search_feedback/bindings/search_feedback_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/search_feedback/views/search_feedback_view.dart';
+import 'package:vaccine_for_the_people/app/modules/search_injection/binding/search_injection_binding.dart';
+import 'package:vaccine_for_the_people/app/modules/search_injection/view/search_injection_view.dart';
 import 'package:vaccine_for_the_people/app/modules/statement_data/bindings/statement_data_binding.dart';
 import 'package:vaccine_for_the_people/app/modules/statement_data/views/statement_data_view.dart';
 import 'package:vaccine_for_the_people/app/routes/app_routes.dart';
@@ -73,6 +75,11 @@ class AppPages {
       name: Routes.SEARCH_FEEDBACK,
       page: () => SearchFeedbackView(),
       binding: SearchFeedbackBinding(),
+    ),
+    GetPage(
+      name: Routes.SEARCH_INJECTION,
+      page: () => SearchInjectionView(),
+      binding: SearchInjectionBinding(),
     ),
   ];
 }

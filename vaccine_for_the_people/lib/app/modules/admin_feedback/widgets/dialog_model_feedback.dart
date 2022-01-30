@@ -22,6 +22,7 @@ Future<dynamic> dialogLoading(BuildContext context) {
         );
       });
 }
+
 Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackController c, int index) {
   String name=c.utf8convert(c.listFeedbackNotSolve[index].name.toString());
   String email=c.utf8convert(c.listFeedbackNotSolve[index].email.toString());
@@ -112,7 +113,7 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                     child: TextFormField(
                       maxLines: 5,
                       onChanged: (text){
-                        c.feedback.value=c.utf8convert(text);
+                        c.feedback.value=text;
                       },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -150,6 +151,7 @@ Future<dynamic> confirmReplyFeedback(BuildContext context, AdminFeedBackControll
                                     "impact")),
                             onPressed: (){
                               dialogLoading(context);
+                              print(c.feedback.value);
                               c.replyFeedback(c.listFeedbackNotSolve[index].sId.toString(), c.feedback.value, index);
                             }),
                       ),

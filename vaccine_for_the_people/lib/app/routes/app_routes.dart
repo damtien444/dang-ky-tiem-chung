@@ -9,4 +9,5 @@ abstract class Routes {
   static const CREATEINJECTIONCAMPAIGN = '/admin_create_injection_campaign';
   static const ADMINFEEDBACK = '/admin_feedback';
   static const SEARCH_FEEDBACK = '/search-feedback';
+  static const SEARCH_INJECTION = '/search-injection';
 }
