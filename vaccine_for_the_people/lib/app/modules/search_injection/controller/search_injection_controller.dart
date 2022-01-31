@@ -281,6 +281,7 @@ class SearchInjectionController extends GetxController{
             );
           });
     }, (right){
+      isLoading.value=false;
       showDialog(
           context: Get.overlayContext!,
           builder: (context) {

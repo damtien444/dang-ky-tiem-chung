@@ -87,7 +87,10 @@ class DataInjection extends StatelessWidget {
             width: (size.width - 330) / 5,
             height: 40,
             child: Center(
-              child: Text(formatterDateVi(element.nextExpectedShotDate),
+              child: Text(
+                  formatterDateVi(element.nextExpectedShotDate) != "01/01/1900"
+                      ? formatterDateVi(element.nextExpectedShotDate)
+                      : "Chưa xác định",
                   textAlign: TextAlign.center),
             ),
           ),
