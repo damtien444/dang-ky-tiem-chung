@@ -123,7 +123,7 @@ def send_email_vaccination_campaign(person: dict,
     content = f''' Kính mời {"ông" if person["sex"] else "bà"} {name}\n
                     - CCCD: {cccd}\n
                     - Địa chỉ: '''f'{st_no if st_no is not None else ""}, ' + f'{ward if ward is not None else ""}, ' \
-              + f'{district if district is not None else ""}, ' + f'{province if province is not None else ""}' + '''\n 
+              + f'{district if district is not None else ""}, ' + f'{province if province is not None else ""}' + f'''\n 
                     Vào lúc {date_start} đến {date_end} tại {place} để tham gia tiêm vaccine {vaccine_type}'''
     msg = Message(subject, recipients=[to_email])
     msg.body = content
