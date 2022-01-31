@@ -27,7 +27,7 @@ class MyDialog extends StatelessWidget {
 
   _buildChild(BuildContext context) => Container(
         width: 360,
-        height: hasLongMessage ? 410 : 225,
+        height: hasLongMessage ? 430 : 225,
         decoration: BoxDecoration(
             color: isSuccess
                 ? (hasLongMessage ? Colors.white : Colors.green)
@@ -38,7 +38,7 @@ class MyDialog extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
                 child: Image.asset(
                   'assets/images/logo.png',
                   height: 60,
