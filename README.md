@@ -1,4 +1,4 @@
-## Trang dang ky tiem vaccine Covid019
+## Trang dang ky tiem vaccine Covid-19
 
 [//]: # (Mô tả giao diện hệ thống)
 [//]: # (![New Wireframe 1]&#40;https://user-images.githubusercontent.com/49011740/147520008-6100930b-da43-48e5-8cc5-f87220cb344e.png&#41;)
@@ -54,6 +54,6 @@ Lâm viết
 * [Nguyễn Nghĩa Thịnh](https://github.com/thinhnguyen112000) <br>
 * [Lê Văn Anh Lâm](https://github.com/lelam2808) <br>
 * [Lê Phương Hùng](https://github.com/hunglpleon) <br>
-* [Lê Thị Thanh Huyền]() <br>
+* [Lê Thị Thanh Huyền](https://github.com/huyenpoo)
 
 
