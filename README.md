@@ -9,10 +9,9 @@
 ###  Main tools (currently)
 
 * [Flask](https://flask.palletsprojects.com/en/2.0.x/) <br>
-* [Mongodb](https://www.mongodb.com/) <br>
 * [Mongodb Atlas](https://www.mongodb.com/atlas/database) <br>
 * [Flutter](https://flutter.dev/?gclid=Cj0KCQiAjJOQBhCkARIsAEKMtO2wvOVZU_UoH0S4bhyuFvGBjn4c2ddSVmU-67aghJuDWp-XRylmjSUaAjvpEALw_wcB&gclsrc=aw.ds) <br>
-* [Firebase](https://firebase.google.com/?gclid=Cj0KCQiAjJOQBhCkARIsAEKMtO2RXflKIWbqkznyRZQz-bOwi1VSXJU2QNSsXHLEk74Af0Eb-Eugf7caAm8eEALw_wcB&gclsrc=aw.ds) <br>
+* [Firebase Hosting](https://firebase.google.com/?gclid=Cj0KCQiAjJOQBhCkARIsAEKMtO2RXflKIWbqkznyRZQz-bOwi1VSXJU2QNSsXHLEk74Af0Eb-Eugf7caAm8eEALw_wcB&gclsrc=aw.ds) <br>
 * [Heroku](https://www.heroku.com/)
 
 ###  Current structure API
@@ -45,10 +44,10 @@
 
 
 ### Features
-Tiến viết
+Nó cho phép người dân đăng ký nhu cầu tiêm chủng của mình, cho phép chính quyền tổ chức các đợt tiêm chủng dựa trên các thông tin đó.
 
 ### Running
-Lâm viết
+Hệ thống được deploy trên google cloud cho mongodb atlas, trên heroku cho máy chủ API, trên firebase hosting cho ứng dụng flutter web.
 
 ### Contributors
 * [Đàm Quang Tiến](https://github.com/damtien444) <br>
